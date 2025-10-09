@@ -30,10 +30,17 @@ document.addEventListener('DOMContentLoaded', async () => {
             } else if (data.user.role === 'jemaat') {
                 body.classList.add('role-jemaat');
             }
-            if(userNameSpan) userNameSpan.textContent = data.user.nama_lengkap;
-        } else {
-            body.classList.remove('logged-in', 'role-admin', 'role-jemaat');
-        }
+            if(userNameSpan) userNameSpan.textContent ='';
+            const jemaatContent = document.getElementById('jemaat-content');
+            if (jemaatContent) {
+                jemaatContent.style.display = 'none';
+            }
+    } else if (data.user.role === 'jemaat') {
+        body.classList.add('role-jemaat');
+        if(userNameSpan) userNameSpan.textContent = data.user.nama_lengkap; // Tampilkan nama untuk Jemaat
+    }else {
+        body.classList.remove('logged-in', 'role-admin', 'role-jemaat');
+    }
     } catch (error) {
         body.classList.remove('logged-in', 'role-admin', 'role-jemaat');
     }

@@ -15,8 +15,8 @@ nav { display: flex; align-items: center; min-height: 60px; }
 
 /* Forms */
 input, select, textarea { width: 100%; padding: 12px; margin-bottom: 1rem; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-button { padding: 10px 15px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem; margin-right: 5px; }
-button:hover { background-color: #0056b3; }
+button { padding: 10px 15px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem; margin-right: 5px; }
+button:hover { background-color: #c82333; }
 button[type="submit"] { width: 100%; font-size: 1rem; }
 .error { color: #d93025; text-align: center; margin-top: 1rem; }
 
@@ -26,8 +26,42 @@ th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
 th { background-color: #f8f9fa; }
 
 /* Visibilitas Berdasarkan Peran */
-.admin-only, .jemaat-only, #user-info { display: none !important; }
-body.logged-in.role-admin .admin-only { display: inline-block; }
-body.logged-in.role-jemaat .jemaat-only { display: inline-block; }
-body.logged-in #login-link, body.logged-in #register-link { display: none !important; }
-body.logged-in #user-info { display: flex; align-items: center; }
+
+/* 🚨 PERBAIKAN: Menghapus display: none !important; yang agresif */
+.admin-only, .jemaat-only, #user-info, #login-link, #register-link { 
+    display: none; 
+}
+
+/* Tampilkan default login/register */
+.nav-user #login-link, .nav-user #register-link {
+    display: block; /* Menampilkan link Login/Daftar secara default */
+}
+
+
+/* KONDISI SETELAH LOGIN */
+body.logged-in .admin-only, 
+body.logged-in .jemaat-only { 
+    display: inline-block; 
+}
+
+/* Sembunyikan link Login/Daftar setelah login */
+body.logged-in #login-link, 
+body.logged-in #register-link { 
+    display: none; 
+}
+
+/* Tampilkan user info (Logout/Nama) setelah login */
+body.logged-in #user-info { 
+    display: flex; 
+    align-items: center;
+}
+
+/* KODE MERAH KHUSUS LOGOUT */
+#logout-btn {
+    background-color: #dc3545; /* Merah */
+    border: 1px solid #dc3545;
+    padding: 8px 15px; 
+}
+#logout-btn:hover {
+    background-color: #c82333; /* Merah lebih gelap saat hover */
+}
