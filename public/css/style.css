@@ -1,0 +1,33 @@
+/* General Styling */
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 0; background-color: #f0f2f5; color: #333; }
+.container { max-width: 960px; margin: 2rem auto; padding: 2rem; background-color: #fff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+.form-container { max-width: 400px; margin: 5rem auto; padding: 2rem; background-color: #fff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+
+/* Header & Navigation */
+header { background-color: #333; color: white; padding: 0 2rem; }
+nav { display: flex; align-items: center; min-height: 60px; }
+.nav-brand { font-weight: bold; font-size: 1.5rem; margin-right: auto; }
+.nav-links a { color: white; text-decoration: none; padding: 1rem; }
+.nav-links a:hover { background-color: #555; }
+.nav-user { display: flex; align-items: center; }
+.nav-user a, .nav-user button { color: white; text-decoration: none; background: none; border: none; font-size: 1rem; cursor: pointer; padding: 1rem; }
+.nav-user a:hover, .nav-user button:hover { background-color: #555; }
+
+/* Forms */
+input, select, textarea { width: 100%; padding: 12px; margin-bottom: 1rem; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+button { padding: 10px 15px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem; margin-right: 5px; }
+button:hover { background-color: #0056b3; }
+button[type="submit"] { width: 100%; font-size: 1rem; }
+.error { color: #d93025; text-align: center; margin-top: 1rem; }
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; }
+th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
+th { background-color: #f8f9fa; }
+
+/* Visibilitas Berdasarkan Peran */
+.admin-only, .jemaat-only, #user-info { display: none !important; }
+body.logged-in.role-admin .admin-only { display: inline-block; }
+body.logged-in.role-jemaat .jemaat-only { display: inline-block; }
+body.logged-in #login-link, body.logged-in #register-link { display: none !important; }
+body.logged-in #user-info { display: flex; align-items: center; }

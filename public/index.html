@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Selamat Datang di SIM Gereja</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-brand">SIM GEREJA</div>
+            <div class="nav-links">
+                <a href="/index.html">Home</a>
+                <a href="/jemaat.html" class="admin-only">Manajemen Jemaat</a>
+                <a href="/profil.html" class="jemaat-only">Profil Saya</a>
+            </div>
+            <div class="nav-user">
+                <a href="/login.html" id="login-link">Login</a>
+                <a href="/register.html" id="register-link">Daftar</a>
+                <div id="user-info">
+                    <span id="user-name"></span>
+                    <button id="logout-btn">Logout</button>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main class="container">
+        <div id="public-content">
+            <h2>Selamat Datang</h2>
+            <p>Silakan login atau daftar untuk melanjutkan.</p>
+        </div>
+        <div id="admin-content" class="admin-only">
+            <h2>Panel Administratif</h2>
+            <p>Selamat datang, Admin. Pilih menu di atas untuk mengelola data jemaat.</p>
+        </div>
+        <div id="jemaat-content" class="jemaat-only">
+            <h2>Selamat Datang, Jemaat</h2>
+            <p>Ini adalah halaman utama untuk Anda. Anda dapat melihat profil Anda pada menu di atas.</p>
+        </div>
+    </main>
+    <script src="/js/main.js"></script>
+</body>
+</html>

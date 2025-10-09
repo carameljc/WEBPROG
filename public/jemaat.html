@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Manajemen Jemaat - SIM Gereja</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/authCheck.js"></script>
+</head>
+<body>
+    <header>
+        </header>
+    <main class="container">
+        <h2>Manajemen Data Jemaat</h2>
+        <button id="show-add-form-btn">Tambah Jemaat Baru</button>
+        
+        <div id="form-jemaat-container" style="display:none; margin-top: 1.5rem;">
+            <h3 id="form-title">Tambah Jemaat Baru</h3>
+            <form id="jemaat-form">
+                <input type="hidden" name="id" id="jemaat-id">
+                <input type="text" name="nama_lengkap" placeholder="Nama Lengkap" required>
+                <textarea name="alamat" placeholder="Alamat"></textarea>
+                <input type="text" name="nomor_telepon" placeholder="Nomor Telepon">
+                <input type="date" name="tanggal_lahir">
+                <select name="jenis_kelamin">
+                    <option value="" disabled selected>Pilih Jenis Kelamin</option>
+                    <option value="Laki-laki">Laki-laki</option>
+                    <option value="Perempuan">Perempuan</option>
+                </select>
+                <button type="submit">Simpan</button>
+                <button type="button" id="cancel-edit-btn">Batal</button>
+            </form>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Nama Lengkap</th>
+                    <th>Alamat</th>
+                    <th>No. Telepon</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody id="jemaat-table-body">
+            </tbody>
+        </table>
+    </main>
+    <script src="/js/main.js"></script> 
+    <script src="/js/jemaat.js"></script>
+</body>
+</html>
