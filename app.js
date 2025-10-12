@@ -27,8 +27,10 @@ app.use('/api/event', eventRoutes);
 
 const authRoutes = require('./routes/auth');
 const jemaatRoutes = require('./routes/jemaat');
+const galleryRoutes = require('./routes/gallery');
 app.use('/api/auth', authRoutes);
 app.use('/api/jemaat', jemaatRoutes);
+app.use('/api/gallery', galleryRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`🚀 Server API berjalan di http://localhost:${PORT}`));

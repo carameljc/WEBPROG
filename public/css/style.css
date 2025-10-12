@@ -46,12 +46,10 @@ nav {
     font-weight: bold;
     font-size: 1.5rem;
     margin-right: auto;
-    /* Mendorong semua item lain ke kanan */
 }
 
 .nav-links {
     display: flex;
-    /* Membuat link (Home, dll) berjajar ke samping */
 }
 
 .nav-links a {
@@ -139,7 +137,6 @@ th {
 /* =========================
    Visibility / Login State
 ========================= */
-/* Default: sembunyikan semua role-specific & user-info */
 .admin-only,
 .jemaat-only,
 #user-info,
@@ -148,18 +145,15 @@ th {
     display: none;
 }
 
-/* Menyembunyikan nama pengguna di navbar */
 #user-name {
     display: none;
 }
 
-/* Tampilkan default login/register saat belum login */
 body:not(.logged-in) #login-link,
 body:not(.logged-in) #register-link {
     display: block;
 }
 
-/* Tampilkan user info (Logout) setelah login */
 body.logged-in #user-info {
     display: flex;
     align-items: center;
@@ -187,14 +181,12 @@ button[type="submit"] {
     width: 100%;
     font-size: 1rem;
     background-color: #007bff;
-    /* Warna biru untuk tombol simpan */
 }
 
 button[type="submit"]:hover {
     background-color: #0069d9;
 }
 
-/* Tombol Logout (Merah) */
 #logout-btn {
     background-color: #dc3545;
     border: 1px solid #dc3545;
@@ -204,7 +196,6 @@ button[type="submit"]:hover {
     background-color: #c82333;
 }
 
-/* Tombol Lainnya (Abu-abu) */
 button:not(#logout-btn):not([type="submit"]) {
     background-color: #ff0000;
 }
@@ -249,4 +240,91 @@ button:not(#logout-btn):not([type="submit"]):hover {
 
 .btn-tambah:hover {
     background-color: #4338ca;
+}
+
+/* =========================
+   Gallery Section (tambahan baru)
+========================= */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.gallery-item,
+.gallery-item-admin {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.media-wrapper {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-color: #eee;
+}
+
+.gallery-item img,
+.gallery-item video,
+.gallery-item-admin img,
+.gallery-item-admin video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.caption-wrapper {
+    padding: 1rem;
+}
+
+.caption-wrapper h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+}
+
+.caption-wrapper p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.deleteGalleryBtn {
+    background-color: #dc3545;
+    margin-top: 0.5rem;
+}
+
+.deleteGalleryBtn:hover {
+    background-color: #c82333;
+}
+
+.title-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.title-container h2 {
+    margin: 0;
+}
+
+.btn-kembali {
+    display: inline-block;
+    margin-left: auto;
+    background-color: #6c757d;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: background-color 0.3s;
+}
+
+.btn-kembali:hover {
+    background-color: #5a6268;
 }
