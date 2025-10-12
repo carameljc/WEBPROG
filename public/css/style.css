@@ -88,6 +88,17 @@ nav {
     background-color: #555;
 }
 
+/* Styling untuk Foto Profil di Navbar */
+.nav-profile-pic {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+
 /* =========================
    Forms
 ========================= */
@@ -114,6 +125,7 @@ textarea {
     margin-top: 1rem;
 }
 
+
 /* =========================
    Tables
 ========================= */
@@ -137,6 +149,7 @@ th {
 /* =========================
    Visibility / Login State
 ========================= */
+/* Default: sembunyikan semua role-specific & user-info */
 .admin-only,
 .jemaat-only,
 #user-info,
@@ -145,19 +158,32 @@ th {
     display: none;
 }
 
-#user-name {
-    display: none;
-}
-
+/* Tampilkan default login/register saat belum login */
 body:not(.logged-in) #login-link,
 body:not(.logged-in) #register-link {
     display: block;
 }
 
+/* KONDISI SETELAH LOGIN */
+body.logged-in .admin-only { 
+    display: inline-block; 
+}
+body.logged-in .jemaat-only { 
+    display: inline-block; 
+}
+
+/* Sembunyikan link Login/Daftar setelah login */
+body.logged-in #login-link, 
+body.logged-in #register-link { 
+    display: none; 
+}
+
+/* Tampilkan user info (Logout/Nama) setelah login */
 body.logged-in #user-info {
     display: flex;
     align-items: center;
 }
+
 
 /* =========================
    Buttons
@@ -196,6 +222,7 @@ button[type="submit"]:hover {
     background-color: #c82333;
 }
 
+/* Tombol Lainnya (Merah default) */
 button:not(#logout-btn):not([type="submit"]) {
     background-color: #ff0000;
 }
@@ -203,6 +230,7 @@ button:not(#logout-btn):not([type="submit"]) {
 button:not(#logout-btn):not([type="submit"]):hover {
     background-color: #850000;
 }
+
 
 /* =========================
    Event Section
