@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Manajemen Galeri - SIM Gereja</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/authCheck.js"></script>
+</head>
+<body>
+    <header></header>
+    <main class="container">
+        <div class="title-container">
+            <h2>Galeri Gereja</h2>
+            <a href="/index.html" class="btn-kembali">← Kembali ke Beranda</a>
+        </div>
+        
+        <div class="form-container" style="max-width: none; margin: 1rem 0;">
+            <h3>Unggah Foto/Video Baru</h3>
+            <form id="upload-form" enctype="multipart/form-data">
+                <div>
+                    <label for="mediaFile">Pilih File (Gambar atau Video):</label>
+                    <input type="file" id="mediaFile" name="mediaFile" accept="image/*,video/*" required>
+                </div>
+                <div>
+                    <label for="event_name">Nama Acara:</label>
+                    <input type="text" id="event_name" name="event_name" placeholder="Contoh: Natal 2024">
+                </div>
+                <div>
+                    <label for="caption">Keterangan/Caption:</label>
+                    <textarea id="caption" name="caption" placeholder="Deskripsi singkat..."></textarea>
+                </div>
+                <button type="submit">Unggah Media</button>
+            </form>
+            <p id="upload-status"></p>
+        </div>
+
+        <hr>
+
+        <h3>Galeri Saat Ini</h3>
+        <div id="admin-gallery-container" class="gallery-grid">
+            </div>
+    </main>
+    <script src="/js/main.js"></script>
+    <script src="/js/galleryAdmin.js"></script>
+</body>
+</html>

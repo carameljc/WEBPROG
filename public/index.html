@@ -12,6 +12,7 @@
             <div class="nav-links">
                 <a href="/index.html">Home</a>
                 <a href="/jemaat.html" class="admin-only">Manajemen Jemaat</a>
+                <a href="/galleryAdmin.html" class="admin-only">Manajemen Galeri</a>
                 <a href="/profil.html" class="jemaat-only">Profil Saya</a> 
             </div>
             <div class="nav-user">
@@ -33,13 +34,23 @@
 
         <div id="admin-content" class="admin-only">
             <h2>Panel Administratif</h2>
-            <p>Selamat datang, Admin. Pilih menu di atas untuk mengelola data jemaat.</p>
+            <p>Selamat datang, Admin. Pilih menu di atas untuk mengelola data.</p>
         </div>
 
         <div id="jemaat-content" class="jemaat-only">
             <h2>Selamat Datang, <span id="welcome-user-name">Jemaat</span></h2>
             <p>Ini adalah halaman utama untuk Anda. Anda dapat melihat profil Anda pada menu di atas.</p>
         </div>
+
+        <hr style="margin: 2rem 0;">
+
+        <section id="galeri-section">
+            <h3>Galeri Acara Terbaru</h3>
+            <div id="gallery-container" class="gallery-grid">
+                </div>
+        </section>
+
+        <hr style="margin: 2rem 0;">
 
         <section id="daftar-event" class="event-section">
             <div class="event-header">
@@ -50,13 +61,13 @@
                 </div>
 
             <div class="event-actions admin-only">
-                 <a href="/event.html" class="btn-tambah">+ Tambah Event Baru</a>
+                <a href="/event.html" class="btn-tambah">+ Tambah Event Baru</a>
             </div>
         </section>
+        
     </main>
 
     <script>
-        // Script untuk mengambil data event
         document.addEventListener("DOMContentLoaded", () => {
             const eventList = document.getElementById("eventList");
 

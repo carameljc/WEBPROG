@@ -250,3 +250,83 @@ button:not(#logout-btn):not([type="submit"]):hover {
 .btn-tambah:hover {
     background-color: #4338ca;
 }
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.gallery-item, .gallery-item-admin {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.media-wrapper {
+    width: 100%;
+    aspect-ratio: 16 / 9; 
+    background-color: #eee;
+}
+
+.gallery-item img, .gallery-item video,
+.gallery-item-admin img, .gallery-item-admin video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.caption-wrapper {
+    padding: 1rem;
+}
+
+.caption-wrapper h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+}
+
+.caption-wrapper p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* Tombol hapus khusus untuk galeri admin */
+.deleteGalleryBtn {
+    background-color: #dc3545;
+    margin-top: 0.5rem;
+}
+.deleteGalleryBtn:hover {
+    background-color: #c82333;
+}
+
+.title-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem; 
+
+.title-container h2 {
+    margin: 0;
+}
+
+.btn-kembali {
+    display: inline-block; 
+    margin-left: auto;
+    background-color: #6c757d;
+    color: white;
+    padding: 8px 15px; 
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: background-color 0.3s;
+}
+
+.btn-kembali:hover {
+    background-color: #5a6268;
+}

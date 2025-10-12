@@ -1,11 +1,49 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    // Ambil elemen-elemen dari halaman
-    const body = document.body;
-    const userNameSpan = document.getElementById('user-name');
-    const welcomeUserName = document.getElementById('welcome-user-name');
+    // =================================================================
+    // --- 1. DEFINISI FUNGSI ---
+    // =================================================================
+
+    async function muatGaleriPublik() {
+        const galleryContainer = document.getElementById('gallery-container');
+        if (!galleryContainer) return; 
+
+        try {
+            const response = await fetch('http://localhost:3000/api/gallery');
+            const items = await response.json();
+
+            galleryContainer.innerHTML = ''; 
+
+            if (items.length === 0) {
+                galleryContainer.innerHTML = '<p>Belum ada foto/video yang diunggah.</p>';
+                return;
+            }
+
+            items.forEach(item => {
+                const galleryItem = document.createElement('div');
+                galleryItem.className = 'gallery-item';
+
+                let mediaElement = '';
+                if (item.file_type === 'image') {
+                    mediaElement = `<img src="${item.file_path}" alt="${item.caption || 'Galeri Gereja'}">`;
+                } else if (item.file_type === 'video') {
+                    mediaElement = `<video controls><source src="${item.file_path}"></video>`;
+                }
+
+                galleryItem.innerHTML = `
+                    <div class="media-wrapper">
+                        ${mediaElement}
+                    </div>
+                `;
+                galleryContainer.appendChild(galleryItem);
+            });
+        } catch (error) {
+            console.error("Gagal memuat galeri:", error);
+            galleryContainer.innerHTML = '<p>Gagal memuat galeri. Silakan coba lagi nanti.</p>';
+        }
+    }
 
     /**
-     * Fungsi untuk mengatur elemen apa saja yang boleh terlihat berdasarkan peran pengguna.
+     * Mengatur elemen apa saja yang boleh terlihat berdasarkan peran pengguna.
      * @param {string} role Peran pengguna ('admin' atau 'jemaat').
      */
     function handleRoleVisibility(role) {
@@ -14,46 +52,41 @@ document.addEventListener('DOMContentLoaded', async () => {
         const publicContent = document.getElementById('public-content');
 
         if (role === 'admin') {
-            // Jika admin, tampilkan elemen admin dan sembunyikan elemen jemaat
             adminOnlyElements.forEach(el => el.style.display = 'block');
             jemaatOnlyElements.forEach(el => el.style.display = 'none');
         } else if (role === 'jemaat') {
-            // Jika jemaat, sembunyikan elemen admin dan tampilkan elemen jemaat
             adminOnlyElements.forEach(el => el.style.display = 'none');
             jemaatOnlyElements.forEach(el => el.style.display = 'block');
         }
 
-        // Sembunyikan konten publik (Selamat Datang, Silakan login...) jika sudah login
+        // Sembunyikan pesan "Selamat Datang, silakan login" jika sudah login
         if (publicContent) {
             publicContent.style.display = 'none';
         }
     }
 
-    // Blok utama untuk memeriksa status otentikasi
+    // =================================================================
+    // --- 2. LOGIKA UTAMA & PENGECEKAN STATUS LOGIN ---
+    // =================================================================
+    
+    const body = document.body;
+    const userNameSpan = document.getElementById('user-name');
+    const welcomeUserName = document.getElementById('welcome-user-name');
+
     try {
-        // Hubungi API untuk memeriksa status login
         const response = await fetch('http://localhost:3000/api/auth/status');
         const data = await response.json();
 
         if (data.success) {
             // --- KONDISI JIKA PENGGUNA BERHASIL LOGIN ---
-
-            // 1. Tambahkan kelas 'logged-in' ke body
             body.classList.add('logged-in');
-
-            // 2. Ubah nama di Navbar
             if (userNameSpan) {
                 userNameSpan.textContent = data.user.nama_lengkap;
             }
-
-            // 3. Ubah nama di pesan selamat datang di halaman utama
             if (welcomeUserName) {
                 welcomeUserName.textContent = data.user.nama_lengkap;
             }
-
-            // 4. Panggil fungsi untuk mengatur tampilan menu berdasarkan peran
             handleRoleVisibility(data.user.role);
-
         } else {
             // --- KONDISI JIKA PENGGUNA TIDAK LOGIN ---
             body.classList.remove('logged-in');
@@ -67,12 +100,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         body.classList.remove('logged-in');
     }
 
+    // =================================================================
+    // --- 3. PEMANGGILAN FUNGSI & EVENT LISTENERS ---
+    // =================================================================
+
+    // Panggil fungsi untuk memuat galeri setelah pengecekan login selesai.
+    // Ini berjalan untuk semua pengunjung.
+    muatGaleriPublik();
+
     // Tambahkan event listener untuk tombol logout
     document.addEventListener('click', async (event) => {
         if (event.target && event.target.id === 'logout-btn') {
             await fetch('http://localhost:3000/api/auth/logout', { method: 'POST' });
-            // Arahkan kembali ke halaman login setelah logout berhasil
-            window.location.href = '/login.html';
+            window.location.href = '/index.html';
         }
     });
 });
