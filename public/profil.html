@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Profil Saya - SIM Gereja</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/main.js"></script> 
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-brand">SIM GEREJA</div>
+            <div class="nav-links">
+                <a href="/index.html">Home</a>
+                <a href="/jemaat.html" class="admin-only">Manajemen Jemaat</a>
+                <a href="/profil.html" class="jemaat-only">Profil Saya</a>
+            </div>
+            <div class="nav-user">
+                <a href="/login.html" id="login-link">Login</a>
+                <a href="/register.html" id="register-link">Daftar</a>
+                <div id="user-info">
+                    <span id="user-name"></span>
+                    <button id="logout-btn">Logout</button>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <main class="container">
+        <a href="/index.html" style="text-decoration: none;">
+            <button style="background-color: #6c757d; margin-bottom: 15px;">
+                < Kembali ke Home
+            </button>
+        </a>
+        
+        <h2>Profil Saya</h2>
+        
+        <div id="loading-profile" style="text-align: center; margin: 3rem;">
+            Memuat data profil...
+        </div>
+
+        <form id="profile-form" style="display: none;">
+            <div style="display: flex; gap: 2rem; align-items: flex-start;">
+                
+                <div style="flex: 0 0 200px; text-align: center; padding-right: 20px;">
+                    <img id="profile-picture" src="https://via.placeholder.com/150?text=Foto+Profil" alt="Foto Profil" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem;">
+                    
+                    <label style="display: block; font-size: 0.9em; margin-top: 10px;">Link URL Foto Profil:</label>
+                    
+                    <input type="url" id="visible_url_input" placeholder="Paste URL di sini" 
+                           oninput="document.getElementById('profile-picture').src = this.value || 'https://via.placeholder.com/150?text=Foto+Profil'; 
+                                   document.getElementById('foto_profile_url').value = this.value;"
+                           style="margin-bottom: 0.5rem; font-size: 0.9em;">
+
+                    <input type="hidden" name="foto_profile_url" id="foto_profile_url">
+                </div>
+                
+                <div style="flex: 1;">
+                    <label for="nama_lengkap">Nama Lengkap:</label>
+                    <input type="text" name="nama_lengkap" required>
+                    
+                    <label for="email">Email Address:</label>
+                    <input type="email" name="email" required>
+                    
+                    <label for="nomor_telepon">Nomor Telepon:</label>
+                    <input type="text" name="nomor_telepon">
+                    
+                    <label for="alamat">Alamat:</label>
+                    <textarea name="alamat"></textarea>
+                    
+                    <label for="tempat_lahir">Tempat Lahir:</label>
+                    <input type="text" name="tempat_lahir">
+                    
+                    <label for="tanggal_lahir">Tanggal Lahir:</label>
+                    <input type="date" name="tanggal_lahir">
+                    
+                    <label for="jenis_kelamin">Jenis Kelamin:</label>
+                    <select name="jenis_kelamin">
+                        <option value="Laki-laki">Laki-laki</option>
+                        <option value="Perempuan">Perempuan</option>
+                    </select>
+
+                    <button type="submit" style="margin-top: 1.5rem;">Update Profil</button>
+                </div>
+            </div>
+        </form>
+    </main>
+    <script src="/js/profil.js"></script>
+</body>
+</html>
