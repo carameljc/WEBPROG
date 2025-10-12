@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Kritik & Saran - SIM Gereja</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        </header>
+    <main class="container">
+
+        <a href="/index.html" class="btn-kembali" style="text-decoration: none; margin-bottom: 2rem;">‹ Kembali ke Beranda</a>
+
+        <div id="jemaat-view" style="display: none;">
+            <h2>Sampaikan Kritik & Saran Anda</h2>
+            <p>Masukan Anda sangat berharga bagi kami untuk menjadi lebih baik. Masukan yang Anda kirim bersifat anonim.</p>
+            <form id="form-kritik">
+                <textarea name="isi_saran" rows="8" placeholder="Tuliskan masukan Anda di sini..." required></textarea>
+                <button type="submit">Kirim Masukan</button>
+            </form>
+            <div id="pesan-sukses" style="color: green; margin-top: 1rem;"></div>
+        </div>
+
+        <div id="admin-view" style="display: none;">
+            <h2>Daftar Masukan dari Jemaat</h2>
+            <div id="list-kritik">
+                <p>Memuat data...</p>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="/js/kritik.js"></script>
+</body>
+</html>

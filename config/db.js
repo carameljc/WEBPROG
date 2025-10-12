@@ -1,18 +1,15 @@
+// File: config/db.js
 const mysql = require('mysql2');
 
-const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',        // sesuaikan
-  password: '',        // sesuaikan
-  database: 'gereja_db_uts' // sesuaikan
+// 1. Ganti 'createConnection' menjadi 'createPool'
+const pool = mysql.createPool({
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASSWORD || '',
+  database: process.env.DB_NAME || 'gereja_db_uts'
 });
 
-db.connect(err => {
-  if (err) {
-    console.error('❌ Gagal konek ke database:', err);
-  } else {
-    console.log('✅ Koneksi ke database MySQL berhasil!');
-  }
-});
+// 2. Hapus blok 'db.connect' yang lama
 
-module.exports = db;
+// 3. Ekspor koneksi yang sudah diubah menjadi promise
+module.exports = pool.promise();
