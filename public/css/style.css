@@ -1,200 +1,216 @@
 /* =========================
    General Styling
 ========================= */
-body { 
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-    margin: 0; 
-    background-color: #f0f2f5; 
-    color: #333; 
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    background-color: #f0f2f5;
+    color: #333;
 }
 
-.container { 
-    max-width: 960px; 
-    margin: 2rem auto; 
-    padding: 2rem; 
-    background-color: #fff; 
-    border-radius: 8px; 
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+.container {
+    max-width: 960px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.form-container { 
-    max-width: 400px; 
-    margin: 5rem auto; 
-    padding: 2rem; 
-    background-color: #fff; 
-    border-radius: 8px; 
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+.form-container {
+    max-width: 400px;
+    margin: 5rem auto;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* =========================
    Header & Navigation
 ========================= */
-header { 
-    background-color: #333; 
-    color: white; 
-    padding: 0 2rem; 
+header {
+    background-color: #333;
+    color: white;
+    padding: 0 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-nav { 
-    display: flex; 
-    align-items: center; 
-    min-height: 60px; 
+nav {
+    display: flex;
+    align-items: center;
+    min-height: 60px;
 }
 
-.nav-brand { 
-    font-weight: bold; 
-    font-size: 1.5rem; 
-    margin-right: auto; 
+.nav-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-right: auto;
+    /* Mendorong semua item lain ke kanan */
 }
 
-.nav-links a { 
-    color: white; 
-    text-decoration: none; 
-    padding: 1rem; 
+.nav-links {
+    display: flex;
+    /* Membuat link (Home, dll) berjajar ke samping */
 }
 
-.nav-links a:hover { 
-    background-color: #555; 
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    padding: 1rem;
+    transition: background-color 0.2s ease-in-out;
 }
 
-.nav-user { 
-    display: flex; 
-    align-items: center; 
+.nav-links a:hover {
+    background-color: #555;
+    border-radius: 4px;
 }
 
-.nav-user a, .nav-user button { 
-    color: white; 
-    text-decoration: none; 
-    background: none; 
-    border: none; 
-    font-size: 1rem; 
-    cursor: pointer; 
-    padding: 1rem; 
+.nav-user {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
-.nav-user a:hover, .nav-user button:hover { 
-    background-color: #555; 
+.nav-user a,
+.nav-user button {
+    color: white;
+    text-decoration: none;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.nav-user a:hover,
+.nav-user button:hover {
+    background-color: #555;
 }
 
 /* =========================
    Forms
 ========================= */
-input, select, textarea { 
-    width: 100%; 
-    padding: 12px; 
-    margin-bottom: 1rem; 
-    border: 1px solid #ccc; 
-    border-radius: 4px; 
-    box-sizing: border-box; 
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
 
-button { 
-    padding: 10px 15px; 
-    background-color: #dc3545; 
-    color: white; 
-    border: none; 
-    border-radius: 4px; 
-    cursor: pointer; 
-    font-size: 0.9rem; 
-    margin-right: 5px; 
-}
-
-button:hover { 
-    background-color: #c82333; 
-}
-
-button[type="submit"] { 
-    width: 100%; 
-    font-size: 1rem; 
-}
-
-.error, .error-message { 
-    color: #b91c1c; 
-    background: #fee2e2; 
-    border: 1px solid #fecaca; 
-    border-radius: 8px; 
-    padding: 10px; 
-    display: inline-block; 
-    text-align: center; 
-    margin-top: 1rem; 
+.error,
+.error-message {
+    color: #b91c1c;
+    background: #fee2e2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    padding: 10px;
+    display: inline-block;
+    text-align: center;
+    margin-top: 1rem;
 }
 
 /* =========================
    Tables
 ========================= */
-table { 
-    width: 100%; 
-    border-collapse: collapse; 
-    margin-top: 1.5rem; 
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
 }
 
-th, td { 
-    padding: 12px; 
-    border: 1px solid #ddd; 
-    text-align: left; 
+th,
+td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
 }
 
-th { 
-    background-color: #f8f9fa; 
+th {
+    background-color: #f8f9fa;
 }
 
 /* =========================
    Visibility / Login State
 ========================= */
 /* Default: sembunyikan semua role-specific & user-info */
-.admin-only, .jemaat-only, #user-info, #login-link, #register-link { 
-    display: none; 
+.admin-only,
+.jemaat-only,
+#user-info,
+#login-link,
+#register-link {
+    display: none;
 }
 
-/* Default login/register visible */
-.nav-user #login-link, .nav-user #register-link {
-    display: block; 
+/* Menyembunyikan nama pengguna di navbar */
+#user-name {
+    display: none;
 }
 
-/* Setelah login */
-body.logged-in .admin-only, 
-body.logged-in .jemaat-only { 
-    display: inline-block; 
+/* Tampilkan default login/register saat belum login */
+body:not(.logged-in) #login-link,
+body:not(.logged-in) #register-link {
+    display: block;
 }
 
-body.logged-in #login-link, 
-body.logged-in #register-link { 
-    display: none; 
-}
-
-body.logged-in #user-info { 
-    display: flex; 
-    align-items: center; 
+/* Tampilkan user info (Logout) setelah login */
+body.logged-in #user-info {
+    display: flex;
+    align-items: center;
 }
 
 /* =========================
-   Special Buttons
+   Buttons
 ========================= */
-/* Logout */
-#logout-btn {
-    background-color: #dc3545; 
-    border: 1px solid #dc3545;
-    padding: 8px 15px; 
-}
-
-#logout-btn:hover {
-    background-color: #c82333; 
-}
-
-/* Tombol Kembali (abu-abu) */
-.container a button {
-    background-color: #6c757d;
+button {
+    padding: 10px 15px;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    padding: 10px 15px;
     font-size: 0.9rem;
     margin-right: 5px;
+    transition: background-color 0.2s;
 }
 
-.container a button:hover {
-    background-color: #5a6268;
+button:hover {
+    opacity: 0.9;
+}
+
+button[type="submit"] {
+    width: 100%;
+    font-size: 1rem;
+    background-color: #007bff;
+    /* Warna biru untuk tombol simpan */
+}
+
+button[type="submit"]:hover {
+    background-color: #0069d9;
+}
+
+/* Tombol Logout (Merah) */
+#logout-btn {
+    background-color: #dc3545;
+    border: 1px solid #dc3545;
+}
+
+#logout-btn:hover {
+    background-color: #c82333;
+}
+
+/* Tombol Lainnya (Abu-abu) */
+button:not(#logout-btn):not([type="submit"]) {
+    background-color: #ff0000;
+}
+
+button:not(#logout-btn):not([type="submit"]):hover {
+    background-color: #850000;
 }
 
 /* =========================
@@ -203,7 +219,7 @@ body.logged-in #user-info {
 .event-section {
     background: white;
     border-radius: 16px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     padding: 30px;
     max-width: 700px;
     margin: 40px auto;
