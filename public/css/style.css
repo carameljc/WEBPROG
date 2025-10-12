@@ -65,3 +65,19 @@ body.logged-in #user-info {
 #logout-btn:hover {
     background-color: #c82333; /* Merah lebih gelap saat hover */
 }
+/* Styling Tombol Kembali (Abu-abu) */
+.container a button {
+    /* Mengambil style button default tapi mengubah warna */
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 10px 15px; /* Sesuaikan padding */
+    font-size: 0.9rem;
+    margin-right: 5px;
+}
+
+.container a button:hover {
+    background-color: #5a6268;
+}
