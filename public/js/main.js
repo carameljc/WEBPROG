@@ -1,55 +1,60 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const body = document.body;
     const userNameSpan = document.getElementById('user-name');
-    const logoutBtn = document.getElementById('logout-btn');
 
-    // Cek jika elemen header di halaman ini kosong, dan salin navigasi dari index.html jika ada
-    const currentHeader = document.querySelector('header');
-    if (currentHeader && !currentHeader.hasChildNodes() && window.location.pathname !== '/index.html') {
-        // Ini adalah trik untuk tidak menulis ulang navigasi di setiap file HTML.
-        // Cukup salin dari index.html.
-        fetch('/index.html')
-            .then(res => res.text())
-            .then(htmlString => {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(htmlString, 'text/html');
-                const nav = doc.querySelector('nav');
-                if (nav) {
-                    currentHeader.appendChild(nav);
-                }
-            });
+    // Fungsi untuk mengelola elemen apa saja yang boleh terlihat berdasarkan peran
+    function handleRoleVisibility(role) {
+        const adminOnlyElements = document.querySelectorAll('.admin-only');
+        const jemaatOnlyElements = document.querySelectorAll('.jemaat-only');
+        const publicContent = document.getElementById('public-content');
+
+        if (role === 'admin') {
+            // Jika admin, tampilkan elemen admin dan sembunyikan elemen jemaat
+            adminOnlyElements.forEach(el => el.style.display = 'block');
+            jemaatOnlyElements.forEach(el => el.style.display = 'none');
+        } else if (role === 'jemaat') {
+            // Jika jemaat, sembunyikan elemen admin dan tampilkan elemen jemaat
+            adminOnlyElements.forEach(el => el.style.display = 'none');
+            jemaatOnlyElements.forEach(el => el.style.display = 'block');
+        }
+
+        // Sembunyikan konten publik (Selamat Datang, Silakan login...) jika sudah login
+        if (publicContent) {
+            publicContent.style.display = 'none';
+        }
     }
 
     try {
+        // Cek status login ke API
         const response = await fetch('http://localhost:3000/api/auth/status');
         const data = await response.json();
+
         if (data.success) {
+            // Jika user berhasil login
             body.classList.add('logged-in');
-            if (data.user.role === 'admin') {
-                body.classList.add('role-admin');
-            } else if (data.user.role === 'jemaat') {
-                body.classList.add('role-jemaat');
+            if (userNameSpan) {
+                userNameSpan.textContent = data.user.nama_lengkap;
             }
-            if(userNameSpan) userNameSpan.textContent ='';
-            const jemaatContent = document.getElementById('jemaat-content');
-            if (jemaatContent) {
-                jemaatContent.style.display = 'none';
-            }
-    } else if (data.user.role === 'jemaat') {
-        body.classList.add('role-jemaat');
-        if(userNameSpan) userNameSpan.textContent = data.user.nama_lengkap; // Tampilkan nama untuk Jemaat
-    }else {
-        body.classList.remove('logged-in', 'role-admin', 'role-jemaat');
-    }
+
+            // Panggil fungsi untuk mengatur tampilan berdasarkan peran user
+            handleRoleVisibility(data.user.role);
+
+        } else {
+            // Jika user tidak login
+            body.classList.remove('logged-in');
+            const publicContent = document.getElementById('public-content');
+            if(publicContent) publicContent.style.display = 'block';
+        }
     } catch (error) {
-        body.classList.remove('logged-in', 'role-admin', 'role-jemaat');
+        console.error("Gagal memeriksa status login:", error);
+        body.classList.remove('logged-in');
     }
 
-    // Event listener untuk logout perlu delegasi karena header bisa jadi di-load secara dinamis
+    // Event listener untuk tombol logout
     document.addEventListener('click', async (event) => {
         if (event.target && event.target.id === 'logout-btn') {
             await fetch('http://localhost:3000/api/auth/logout', { method: 'POST' });
-            window.location.href = '/index.html';
+            window.location.href = '/login.html'; // Arahkan ke halaman login
         }
     });
 });
