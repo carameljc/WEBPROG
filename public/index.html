@@ -29,15 +29,63 @@
             <h2>Selamat Datang</h2>
             <p>Silakan login atau daftar untuk melanjutkan.</p>
         </div>
+
         <div id="admin-content" class="admin-only">
             <h2>Panel Administratif</h2>
             <p>Selamat datang, Admin. Pilih menu di atas untuk mengelola data jemaat.</p>
         </div>
+
         <div id="jemaat-content" class="jemaat-only">
             <h2>Selamat Datang, Jemaat</h2>
             <p>Ini adalah halaman utama untuk Anda. Anda dapat melihat profil Anda pada menu di atas.</p>
         </div>
+
+<section id="daftar-event" class="event-section">
+    <div class="event-header">
+        <h2>📅 Daftar Event Gereja</h2>
+    </div>
+
+    <div id="eventList" class="event-list"></div>
+
+    <div class="event-actions">
+        <a href="/event.html" class="btn-tambah">+ Tambah Event Baru</a>
+    </div>
+</section>
+
+        <!-- Script untuk ambil data event dari backend -->
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const eventList = document.getElementById("eventList");
+
+                fetch("/event/daftar")
+                    .then((res) => res.json())
+                    .then((data) => {
+                        if (data.length === 0) {
+                            eventList.innerHTML = "<p>Belum ada event yang ditambahkan.</p>";
+                            return;
+                        }
+
+                        data.forEach((event) => {
+                            const div = document.createElement("div");
+                            div.classList.add("event-card");
+                            div.innerHTML = `
+                                <h3>${event.nama_event}</h3>
+                                <img src="/uploads/${event.poster}" alt="${event.nama_event}" style="max-width:100%; border-radius:10px; margin-top:10px;">
+                                <p><a href="${event.link_gform}" target="_blank">📝 Daftar Event</a></p>
+                            `;
+                            eventList.appendChild(div);
+                        });
+                    })
+                    .catch((err) => {
+                        console.error("Gagal memuat data event:", err);
+                        eventList.innerHTML = "<p>Masukkan Event.</p>";
+                    });
+            });
+        </script>
+        <!-- ==================== AKHIR TAMBAHAN: Daftar Event Gereja ==================== -->
+
     </main>
+
     <script src="/js/main.js"></script>
 </body>
 </html>

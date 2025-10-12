@@ -6,6 +6,7 @@ require('dotenv').config();
 
 const app = express();
 
+// Middleware dasar
 app.use(cors({ origin: 'null', credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -17,13 +18,17 @@ app.use(session({
     cookie: { secure: false }
 }));
 
-// Mengimpor file Rute yang dibutuhkan
+// === Koneksi Database (dari folder config)
+const db = require('./config/db');
+
+// === Import routes ===
+const eventRoutes = require('./routes/event');
+app.use('/api/event', eventRoutes);
+
 const authRoutes = require('./routes/auth');
 const jemaatRoutes = require('./routes/jemaat');
-
-// Menggunakan Rute dengan prefix
 app.use('/api/auth', authRoutes);
 app.use('/api/jemaat', jemaatRoutes);
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server API berjalan di http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Server API berjalan di http://localhost:${PORT}`));

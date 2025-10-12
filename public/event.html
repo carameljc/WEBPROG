@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tambah Event Gereja</title>
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>🕊️ Tambah Event Gereja</h1>
+
+    <form id="eventForm" action="/api/event/tambah" method="POST" enctype="multipart/form-data">
+      <label>Nama Event:</label>
+      <input type="text" name="nama_event" required />
+
+      <label>Poster Event:</label>
+      <input type="file" name="poster" accept="image/*" required />
+
+      <label>Link Google Form:</label>
+      <input type="url" name="link_gform" required />
+
+      <button type="submit">Tambah Event</button>
+    </form>
+
+    <p><a href="/index.html">← Kembali ke Beranda</a></p>
+  </div>
+</body>
+</html>
