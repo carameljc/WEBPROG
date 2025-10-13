@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Hanya muat jika header belum punya isi
         if (currentHeader && !currentHeader.querySelector('nav')) { 
             try {
-                const response = await fetch('/index.html');
+                const response = await fetch('/index.html', { credentials: 'omit' }); 
                 const htmlString = await response.text();
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(htmlString, 'text/html');
