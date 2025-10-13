@@ -9,7 +9,7 @@
     <header>
         <nav>
             <div class="nav-brand">
-                SIM GEREJA 
+                SIM GEREJA
             </div>
 
             <div class="nav-links">
@@ -19,19 +19,22 @@
                 <a href="/galeri.html">Galeri</a>
                 <a href="/persembahan.html">Persembahan</a>
                 <a href="/kontak.html">Kontak</a>
-
+                
                 <a href="/eventAdmin.html" class="admin-only">Manajemen Event</a>
                 <a href="/jemaat.html" class="admin-only">Manajemen Jemaat</a>
                 <a href="/galleryAdmin.html" class="admin-only">Manajemen Galeri</a>
 
                 <a href="/event.html" class="jemaat-only">Event</a>
+                <a href="/kritik.html" class="admin-only jemaat-only">Kritik & Saran</a>
+                <a href="/profil.html" class="jemaat-only">Profil Saya</a> 
             </div>
 
             <div class="nav-user">
                 <a href="/login.html" id="login-link" class="nav-button">Login</a>
+                <a href="/register.html" id="register-link">Daftar</a>
                 
                 <div id="user-info">
-                    <button id="logout-btn" class="nav-button">Logout</button>
+                    <button id="logout-btn">Logout</button>
                 </div>
             </div>
         </nav>
@@ -62,6 +65,38 @@
         </section>
 
         </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const eventList = document.getElementById("eventList");
+
+            fetch("/event/daftar")
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data.length === 0) {
+                        eventList.innerHTML = "<p>Belum ada event yang ditambahkan.</p>";
+                        return;
+                    }
+
+                    let eventHTML = '';
+                    data.forEach((event) => {
+                        eventHTML += `
+                            <div class="event-card">
+                                <h3>${event.nama_event}</h3>
+                                <img src="/uploads/${event.poster}" alt="${event.nama_event}" style="max-width:100%; border-radius:10px; margin-top:10px;">
+                                <p><a href="${event.link_gform}" target="_blank">📝 Daftar Event</a></p>
+                            </div>
+                        `;
+                    });
+                    eventList.innerHTML = eventHTML;
+                })
+                .catch((err) => {
+                    console.error("Gagal memuat data event:", err);
+                    eventList.innerHTML = "<p>Gagal memuat event. Silakan coba lagi nanti.</p>";
+                });
+        });
+    </script>
+    
 
     <script src="/js/main.js"></script>
 </body>

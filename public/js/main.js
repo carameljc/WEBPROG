@@ -1,88 +1,94 @@
-// File: public/js/main.js (VERSI PERBAIKAN)
-
+// File: public/js/main.js
 document.addEventListener('DOMContentLoaded', async () => {
-    
-    // --- Bagian 1: Inisialisasi dan Logika Visibilitas ---
-    
-    // Sembunyikan semua elemen admin-only dan jemaat-only secara default
-    const adminOnlyElements = document.querySelectorAll('.admin-only');
-    const jemaatOnlyElements = document.querySelectorAll('.jemaat-only');
-    
-    // **PENTING: Pastikan semua menu Admin Sembunyi DULU**
-    adminOnlyElements.forEach(el => el.style.display = 'none');
-    jemaatOnlyElements.forEach(el => el.style.display = 'none');
-
-
+    // Definisi fungsi
     function handleRoleVisibility(role) {
-        // Tampilkan semua menu non-role spesifik secara default
-        
-        if (role === 'admin') {
-            // Jika Admin, tampilkan menu Admin
-            adminOnlyElements.forEach(el => el.style.display = 'inline-block');
-            // Sembunyikan menu Jemaat-only jika ada (kecuali di halaman non-admin)
-            jemaatOnlyElements.forEach(el => el.style.display = 'none');
-            
-        } else if (role === 'jemaat') {
-            // Jika Jemaat, tampilkan menu Jemaat
-            jemaatOnlyElements.forEach(el => el.style.display = 'inline-block');
-            // Sembunyikan menu Admin-only
-            adminOnlyElements.forEach(el => el.style.display = 'none'); 
+        const adminOnlyElements = document.querySelectorAll('.admin-only');
+        const jemaatOnlyElements = document.querySelectorAll('.jemaat-only');
+        const publicContent = document.getElementById('public-content');
+        const adminContent = document.getElementById('admin-content');
+        const jemaatContent = document.getElementById('jemaat-content');
 
-        } else {
-            // Jika Publik/Belum Login
-            adminOnlyElements.forEach(el => el.style.display = 'none');
-            jemaatOnlyElements.forEach(el => el.style.display = 'none');
+        // Sembunyikan semua konten spesifik terlebih dahulu
+        adminContent.style.display = 'none';
+        jemaatContent.style.display = 'none';
+        publicContent.style.display = 'none';
+
+        if (role === 'admin') {
+            adminOnlyElements.forEach(el => el.style.display = 'inline-block');
+            jemaatOnlyElements.forEach(el => {
+                if (!el.classList.contains('admin-only')) {
+                    el.style.display = 'none';
+                }
+            });
+            adminContent.style.display = 'block';
+        } else if (role === 'jemaat') {
+            jemaatOnlyElements.forEach(el => el.style.display = 'inline-block');
+            adminOnlyElements.forEach(el => {
+                if (!el.classList.contains('jemaat-only')) {
+                    el.style.display = 'none';
+                }
+            });
+            jemaatContent.style.display = 'block';
         }
     }
 
+    async function muatGaleriPublik() {
+        const galleryContainer = document.getElementById('gallery-container');
+        if (!galleryContainer) return;
 
-    // --- Bagian 2: Logika Pengecekan Status Login ---
+        try {
+            const response = await fetch('/api/gallery'); // Pastikan path API benar
+            const items = await response.json();
+            galleryContainer.innerHTML = '';
+            if (items.length === 0) {
+                galleryContainer.innerHTML = '<p>Belum ada foto/video yang diunggah.</p>';
+                return;
+            }
+            items.forEach(item => {
+                // ... (logika galeri Anda)
+            });
+        } catch (error) {
+            console.error("Gagal memuat galeri:", error);
+            galleryContainer.innerHTML = '<p>Gagal memuat galeri. Silakan coba lagi nanti.</p>';
+        }
+    }
 
+    // Logika Utama
     const body = document.body;
-    const loginLink = document.getElementById('login-link');
-    const userInfoDiv = document.getElementById('user-info');
+    const welcomeUserName = document.getElementById('welcome-user-name');
 
     try {
         const response = await fetch('/api/auth/status');
         const data = await response.json();
 
-        if (data.success && data.user) {
-            // Jika Berhasil Login
+        if (data.success) {
             body.classList.add('logged-in');
-            loginLink.style.display = 'none';
-            userInfoDiv.style.display = 'block';
-
-            // Panggil fungsi visibilitas role
-            handleRoleVisibility(data.user.role); 
-            
+            if (welcomeUserName) {
+                welcomeUserName.textContent = data.user.nama_lengkap;
+            }
+            handleRoleVisibility(data.user.role);
         } else {
-            // Jika Belum Login / Gagal
             body.classList.remove('logged-in');
-            loginLink.style.display = 'inline-block';
-            userInfoDiv.style.display = 'none';
-            
-            // Sembunyikan semua menu spesifik
-            handleRoleVisibility('public');
+            const publicContent = document.getElementById('public-content');
+            if (publicContent) publicContent.style.display = 'block';
         }
     } catch (error) {
         console.error("Gagal memeriksa status login:", error);
-        // Tetap sembunyikan semua menu admin jika ada error
-        handleRoleVisibility('public'); 
     }
 
-    // --- Bagian 3: Event Listeners dan Panggilan Lain ---
-
-    // Panggil fungsi lain seperti muatGaleriPublik()
-    // Anda bisa memindahkan logika muatGaleriPublik() dari main.js ke galeri.html jika itu hanya untuk galeri
-    if (typeof muatGaleriPublik === 'function') {
-        muatGaleriPublik();
-    }
-
+    // Panggil fungsi lain & event listeners
+    muatGaleriPublik();
 
     document.addEventListener('click', async (event) => {
         if (event.target && event.target.id === 'logout-btn') {
-            await fetch('/api/auth/logout', { method: 'POST' });
-            window.location.href = '/login.html';
+            await fetch('http://localhost:3000/api/auth/logout', { method: 'POST' });
+            window.location.href = '/index.html'; 
         }
     });
+
+    if (document.getElementById('gallery-container')) {
+        muatGaleriPublik();
+    }
+    
+    document.body.classList.add('ready');
 });
