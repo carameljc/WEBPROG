@@ -48,6 +48,11 @@ nav {
     margin-right: auto;
 }
 
+.nav-brand a {
+    color: white;
+    text-decoration: none;
+}
+
 .nav-links {
     display: flex;
 }
@@ -152,6 +157,7 @@ th {
 /* Default: sembunyikan semua role-specific & user-info */
 .admin-only,
 .jemaat-only,
+.auth-only,
 #user-info,
 #login-link,
 #register-link {
@@ -355,4 +361,32 @@ button:not(#logout-btn):not([type="submit"]):hover {
 
 .btn-kembali:hover {
     background-color: #5a6268;
+}
+
+/* Styling untuk Form Filter & Tombol di Halaman Jemaat */
+.filter-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+}
+.filter-form input, .filter-form select {
+    margin-bottom: 0;
+    flex-grow: 1;
+}
+.filter-form button {
+    white-space: nowrap;
+}
+
+.btn-tambah-jemaat {
+    background-color: #dc3545; /* Warna merah */
+    margin-bottom: 1rem;
+}
+.btn-tambah-jemaat:hover {
+    background-color: #c82333;
 }

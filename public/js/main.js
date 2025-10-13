@@ -86,9 +86,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (loginLink) loginLink.style.display = 'inline-block';
                 if (userInfoDiv) userInfoDiv.style.display = 'none';
             }
-
-            // Catatan: Anda bisa menghapus kode pembaruan public/admin/jemaat content, 
-            // karena visibilitas konten sekarang diatur oleh CSS berdasarkan body.classList
             
         } catch (error) {
             console.error("Gagal memeriksa status login:", error);
@@ -96,21 +93,75 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // --- 4. FUNGSI MUAT GALERI PUBLIK (Fitur Lama Anda) ---
     async function muatGaleriPublik() {
         const galleryContainer = document.getElementById('gallery-container');
         if (!galleryContainer) return;
-
         try {
             const response = await fetch('/api/gallery'); 
             const items = await response.json();
-            galleryContainer.innerHTML = ''; 
+            galleryContainer.innerHTML = '';
+        } catch (error) {
+            console.error("Gagal memuat galeri:", error);
+            if (galleryContainer) {
+                galleryContainer.innerHTML = '<p>Gagal memuat galeri. Silakan coba lagi nanti.</p>';
+            }
+        }
+    }
 
+    /**
+     * @param {object | null} user - Objek user jika login, atau null jika tidak.
+     */
+    function updateUIVisibility(user) {
+        const body = document.body;
+        const loginLink = document.getElementById('login-link');
+        const registerLink = document.getElementById('register-link');
+        const userInfo = document.getElementById('user-info');
+        const adminElements = document.querySelectorAll('.admin-only');
+        const jemaatElements = document.querySelectorAll('.jemaat-only');
+        const authElements = document.querySelectorAll('.auth-only');
+
+        if (user) { // Jika user terdeteksi (sudah login)
+            body.classList.add('logged-in');
+            if (loginLink) loginLink.style.display = 'none';
+            if (registerLink) registerLink.style.display = 'none';
+            if (userInfo) userInfo.style.display = 'flex';
+
+            const userNameSpan = document.getElementById('user-name');
+            if (userNameSpan) userNameSpan.textContent = user.nama_lengkap;
+
+            authElements.forEach(el => el.style.display = 'inline-block');
+
+            if (user.role === 'admin') {
+                body.classList.add('role-admin');
+                adminElements.forEach(el => el.style.display = 'inline-block');
+                jemaatElements.forEach(el => el.style.display = 'none');
+            } else if (user.role === 'jemaat') {
+                body.classList.add('role-jemaat');
+                adminElements.forEach(el => el.style.display = 'none');
+                jemaatElements.forEach(el => el.style.display = 'inline-block');
+            }
+        } else { // Jika user tidak terdeteksi (belum login)
+            body.classList.remove('logged-in', 'role-admin', 'role-jemaat');
+            if (loginLink) loginLink.style.display = 'inline-block';
+            if (registerLink) registerLink.style.display = 'inline-block';
+            if (userInfo) userInfo.style.display = 'none';
+            adminElements.forEach(el => el.style.display = 'none');
+            jemaatElements.forEach(el => el.style.display = 'none');
+            authElements.forEach(el => el.style.display = 'none');
+        }
+    }
+
+    async function muatGaleriPublik() {
+        const galleryContainer = document.getElementById('gallery-container');
+        if (!galleryContainer) return;
+        try {
+            const response = await fetch('http://localhost:3000/api/gallery', { credentials: 'omit' });
+            const items = await response.json();
+            galleryContainer.innerHTML = '';
             if (items.length === 0) {
                 galleryContainer.innerHTML = '<p>Belum ada foto/video yang diunggah.</p>';
                 return;
             }
-
             items.forEach(item => {
                 const galleryItem = document.createElement('div');
                 galleryItem.className = 'gallery-item';
@@ -133,6 +184,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+    // --- PROSES UTAMA ---
+    
+    await loadHeader(); // 1. Tunggu header selesai di-copy
 
     // --- 5. ALUR EKSEKUSI UTAMA ---
     // Pastikan loadHeader berjalan duluan
@@ -150,9 +204,34 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     // Panggil Galeri jika elemennya ada di halaman
+    try {
+        const response = await fetch('http://localhost:3000/api/auth/status', { credentials: 'include' });
+        const data = await response.json();
+        
+        // 2. Perbarui UI berdasarkan hasil status
+        if (data.success) {
+            updateUIVisibility(data.user);
+        } else {
+            updateUIVisibility(null);
+        }
+    } catch (error) {
+        console.error("Gagal memeriksa status login:", error);
+        updateUIVisibility(null); // Jika error, anggap tidak login
+    }
+
+    // 3. Pasang event listener untuk logout
+    document.addEventListener('click', async (event) => {
+        if (event.target && event.target.id === 'logout-btn') {
+            await fetch('http://localhost:3000/api/auth/logout', { method: 'POST', credentials: 'include' });
+            window.location.href = '/index.html';
+        }
+    });
+
+    // 4. Muat konten dinamis lainnya
     if (document.getElementById('gallery-container')) {
         muatGaleriPublik();
     }
     
+    // 5. Akhirnya, tampilkan halaman
     document.body.classList.add('ready');
 });

@@ -4,39 +4,19 @@
     <meta charset="UTF-8">
     <title>Manajemen Jemaat - SIM Gereja</title>
     <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/authCheck.js"></script>
 </head>
 <body>
     <header>
         </header>
     <main class="container">
+        <div class="title-container">
+            <h2>Manajemen Data Jemaat</h2>
+            <a href="/index.html" class="btn-kembali">← Kembali ke Home</a>
+        </div>
         
-        <a href="/index.html" style="text-decoration: none;">
-            <button style="background-color: #6c757d; margin-bottom: 15px;">
-                < Kembali ke Home
-            </button>
-        </a>
+        <button id="show-add-form-btn" class="btn-tambah-jemaat">Tambah Jemaat Baru</button>
         
-        <h2>Manajemen Data Jemaat</h2>
-        
-        <button id="show-add-form-btn" style="margin-bottom: 15px;">Tambah Jemaat Baru</button>
-        
-        <form id="search-sort-form" style="display: flex; gap: 10px; margin-bottom: 20px; align-items: center;">
-            
-            <input type="text" name="search" id="search-input" placeholder="Cari Nama/Email..." style="flex: 2; margin-bottom: 0;">
-
-            <select name="sort_by" id="sort-by" style="flex: 1; margin-bottom: 0;">
-                <option value="nama_lengkap">Urutkan Berdasarkan Nama</option>
-                <option value="id">Urutkan Berdasarkan ID (Terbaru/Terlama)</option>
-                <option value="tanggal_lahir">Urutkan Berdasarkan Tanggal Lahir</option>
-            </select>
-            <select name="sort_order" id="sort-order" style="flex: 1; margin-bottom: 0;">
-                <option value="ASC">A -> Z (Ascending)</option>
-                <option value="DESC">Z -> A (Descending)</option>
-            </select>
-            
-            <button type="submit" style="width: 100px; background-color: #007bff; margin-right: 0;">Cari / Filter</button>
-            
-        </form>
         <div id="form-jemaat-container" style="display:none; margin-top: 1.5rem;">
             <h3 id="form-title">Tambah Jemaat Baru</h3>
             <form id="jemaat-form">
@@ -54,6 +34,20 @@
                 <button type="button" id="cancel-edit-btn">Batal</button>
             </form>
         </div>
+        
+        <form id="search-sort-form" class="filter-form">
+            <input type="text" id="search-input" name="search" placeholder="Cari Nama/Email...">
+            <select id="sort-by" name="sort_by">
+                <option value="nama_lengkap">Urutkan Berdasarkan Nama</option>
+                <option value="id">Urutkan Berdasarkan ID</option>
+                <option value="tanggal_lahir">Urutkan Berdasarkan Tanggal Lahir</option>
+            </select>
+            <select id="sort-order" name="sort_order">
+                <option value="ASC">A -> Z (Ascending)</option>
+                <option value="DESC">Z -> A (Descending)</option>
+            </select>
+            <button type="submit">Cari / Filter</button>
+        </form>
 
         <table>
             <thead>
@@ -65,7 +59,7 @@
                 </tr>
             </thead>
             <tbody id="jemaat-table-body">
-            </tbody>
+                </tbody>
         </table>
     </main>
     <script src="/js/main.js"></script> 

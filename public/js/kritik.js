@@ -1,4 +1,3 @@
-// File: public/js/kritik.js
 document.addEventListener('DOMContentLoaded', async () => {
     const jemaatView = document.getElementById('jemaat-view');
     const adminView = document.getElementById('admin-view');
