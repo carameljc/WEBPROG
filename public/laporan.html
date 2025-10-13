@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Laporan Jemaat - SIM Gereja</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        @media print {
+            /* Sembunyikan navigasi, tombol filter, dan tombol cetak saat mencetak */
+            header, form, #cetak-btn, .btn-kembali {
+                display: none;
+            }
+            /* Pastikan tabel terlihat rapi saat dicetak */
+            table, th, td {
+                border: 1px solid #000;
+                border-collapse: collapse;
+            }
+            .container {
+                box-shadow: none;
+                margin: 0;
+                padding: 0;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-brand">SIM GEREJA</div>
+            <div class="nav-links">
+                <a href="/index.html">Home</a>
+                <a href="/jemaat.html" class="admin-only">Manajemen Jemaat</a>
+                <a href="/laporan.html" class="admin-only">Laporan Jemaat</a> 
+                <a href="/profil.html" class="jemaat-only">Profil Saya</a>
+            </div>
+            <div class="nav-user">
+                <a href="/login.html" id="login-link">Login</a>
+                <a href="/register.html" id="register-link">Daftar</a>
+                <div id="user-info">
+                    <span id="user-name"></span>
+                    <button id="logout-btn">Logout</button>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <main class="container">
+        <a href="/index.html" style="text-decoration: none;">
+            <button style="background-color: #6c757d; margin-bottom: 15px;">
+                < Kembali ke Home
+            </button>
+        </a>
+        
+        <h2>Laporan Data Jemaat</h2>
+
+        <form id="filter-form" style="display: flex; gap: 10px; margin-bottom: 20px;">
+            <input type="text" name="nama" id="search-nama" placeholder="Cari Nama Jemaat..." style="flex: 2;">
+            <select name="jenis_kelamin" id="filter-jenis-kelamin" style="flex: 1; width: auto;">
+                <option value="">Semua Jenis Kelamin</option>
+                <option value="Laki-laki">Laki-laki</option>
+                <option value="Perempuan">Perempuan</option>
+            </select>
+            <button type="submit" style="width: 100px; background-color: #007bff;">Filter</button>
+            
+            <button type="button" id="cetak-btn" onclick="window.print()" style="width: 100px; background-color: #28a745;">Cetak Laporan</button>
+        </form>
+
+        <table id="laporan-table">
+            <thead>
+                <tr>
+                    <th>Nama Lengkap</th>
+                    <th>Alamat</th>
+                    <th>No. Telepon</th>
+                    <th>Jenis Kelamin</th>
+                    <th>Tgl. Lahir</th>
+                </tr>
+            </thead>
+            <tbody id="laporan-table-body">
+                </tbody>
+        </table>
+    </main>
+    <script src="/js/main.js"></script> 
+    <script src="/js/laporan.js"></script>
+</body>
+</html>

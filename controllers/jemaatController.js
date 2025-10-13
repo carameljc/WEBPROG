@@ -1,15 +1,40 @@
 const db = require('../config/database');
 
 // ==========================================================
-// FUNGSI ADMIN (CRUD)
+// FUNGSI ADMIN (CRUD dan FILTER/SORT)
 // ==========================================================
 
 exports.getAllJemaat = async (req, res) => {
+    // Ambil parameter pencarian dan sorting dari URL query
+    const { search, sort_by = 'nama_lengkap', sort_order = 'ASC' } = req.query; 
+
+    let query = 'SELECT * FROM master_jemaat WHERE 1=1'; 
+    const params = [];
+
+    // 🚨 Logika PENCARIAN (berdasarkan nama_lengkap ATAU email)
+    if (search) {
+        query += ' AND (nama_lengkap LIKE ? OR email LIKE ?)';
+        // Menambahkan parameter pencarian dua kali
+        params.push('%' + search + '%'); 
+        params.push('%' + search + '%'); 
+    }
+
+    // 🚨 Logika SORTING
+    const validSortColumns = ['nama_lengkap', 'id', 'tanggal_lahir'];
+    const column = validSortColumns.includes(sort_by) ? sort_by : 'nama_lengkap';
+    const order = (sort_order.toUpperCase() === 'DESC') ? 'DESC' : 'ASC';
+
+    query += ` ORDER BY ${column} ${order}`;
+    
     try {
-        const [jemaat] = await db.query('SELECT * FROM master_jemaat ORDER BY nama_lengkap ASC');
+        const [jemaat] = await db.query(query, params);
         res.json(jemaat);
-    } catch (error) { res.status(500).json({ message: 'Server Error' }); }
+    } catch (error) { 
+        console.error('Error fetching jemaat data:', error);
+        res.status(500).json({ message: 'Server Error saat memuat data jemaat.' }); 
+    }
 };
+
 
 exports.createJemaat = async (req, res) => {
     const { nama_lengkap, alamat, nomor_telepon, tanggal_lahir, jenis_kelamin } = req.body;
@@ -49,7 +74,6 @@ exports.deleteJemaat = async (req, res) => {
 exports.getJemaatProfile = async (req, res) => {
     const userId = req.session.user.id;
     try {
-        // Mencari data di master_jemaat berdasarkan user_id dari sesi
         const [jemaat] = await db.query('SELECT * FROM master_jemaat WHERE user_id = ?', [userId]);
         if (jemaat.length === 0) {
             return res.status(404).json({ message: 'Data profil tidak ditemukan.' });
@@ -86,7 +110,7 @@ exports.updateJemaatProfile = async (req, res) => {
             userId
         ]);
         
-        // Memperbarui sesi agar nama di navigasi ikut terupdate (Opsional, tapi direkomendasikan)
+        // Memperbarui sesi agar nama di navigasi ikut terupdate
         if (req.session.user) {
              req.session.user.nama_lengkap = nama_lengkap;
         }
