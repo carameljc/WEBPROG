@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manajemen Event - Tambah</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+    <header> 
+        <nav>
+            <div class="nav-brand">LOGO</div>
+            <div class="nav-links">
+                <a href="/index.html">Beranda</a>
+                <a href="/tentang.html">Tentang Kami</a>
+                <a href="/jadwal.html">Jadwal & Kegiatan</a>
+                <a href="/galeri.html">Galeri</a>
+                <a href="/persembahan.html">Persembahan</a>
+                <a href="/kontak.html">Kontak</a>
+
+                <a href="/eventAdmin.html" class="admin-only">Manajemen Event</a>
+                <a href="/jemaat.html" class="admin-only">Manajemen Jemaat</a>
+                <a href="/galleryAdmin.html" class="admin-only">Manajemen Galeri</a>
+            </div>
+            <div class="nav-user">
+                <a href="/login.html" id="login-link" class="nav-button">Login</a>
+                <div id="user-info"><button id="logout-btn" class="nav-button">Logout</button></div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>🕊️ Tambah Event Gereja</h1>
+
+        <div id="statusMessage" style="padding: 15px; margin-bottom: 20px; border-radius: 5px; display: none;"></div>
+        
+        <form id="eventForm" action="/api/event/tambah" method="POST" enctype="multipart/form-data">
+            <label>Nama Event:</label>
+            <input type="text" name="nama_event" required />
+
+            <label>Poster Event:</label>
+            <input type="file" name="poster" accept="image/*" required />
+
+            <label>Link Google Form:</label>
+            <input type="url" name="link_gform" required />
+
+            <button type="submit">Tambah Event</button>
+        </form>
+    </main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('eventForm');
+        const statusMessage = document.getElementById('statusMessage');
+
+        // Fungsi untuk menampilkan pesan status
+        const showStatus = (message, type) => {
+            let bgColor, color;
+            if (type === 'success') {
+                bgColor = '#d4edda'; // Hijau muda
+                color = '#155724';   // Hijau tua
+            } else if (type === 'error') {
+                bgColor = '#f8d7da'; // Merah muda
+                color = '#721c24';   // Merah tua
+            } else { // Loading (kuning)
+                bgColor = '#fff3cd'; // Kuning
+                color = '#856404';   // Coklat
+            }
+            statusMessage.style.backgroundColor = bgColor;
+            statusMessage.style.color = color;
+            statusMessage.innerHTML = message;
+            statusMessage.style.display = 'block';
+
+            // Hilangkan pesan setelah 5 detik
+            if (type === 'success' || type === 'error') {
+                setTimeout(() => {
+                    statusMessage.style.display = 'none';
+                }, 5000);
+            }
+        };
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault(); 
+            showStatus('⏳ Sedang memproses... Tunggu sebentar.', 'loading');
+
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                });
+                
+                // Coba parse body respons, tapi pastikan tidak kosong
+                const contentType = response.headers.get("content-type");
+                let result = {};
+                
+                if (contentType && contentType.includes("application/json")) {
+                    result = await response.json();
+                } else if (!response.ok) {
+                    // Jika gagal tapi respons bukan JSON (misal HTML error page)
+                    result.message = `Gagal: Server merespons Status ${response.status}.`;
+                }
+
+                if (response.ok) {
+                    // Jika Status 2xx (Sukses)
+                    const eventName = result.nama_event || result.message || 'Event Baru';
+                    showStatus(`✅ Event **${eventName}** berhasil ditambahkan!`, 'success');
+                    form.reset();
+                } else {
+                    // Jika Status 4xx atau 5xx (Error dari Server)
+                    const errorMessage = result.message || `ERROR: Gagal menambahkan event. Status ${response.status}.`;
+                    showStatus(`❌ ${errorMessage}`, 'error');
+                }
+
+            } catch (error) {
+                // Error Jaringan/Koneksi/Fetch Gagal Total
+                console.error('Error saat submit (Network/Parse):', error);
+                showStatus('❌ ERROR JARINGAN: Gagal terhubung atau terjadi kesalahan pemrosesan.', 'error');
+            }
+        });
+    });
+</script>
+    
+    <script src="/js/main.js"></script> 
+</body>
+</html>
