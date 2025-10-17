@@ -166,7 +166,8 @@ th {
 }
 
 body.logged-in #login-link,
-body.logged-in #register-link {
+body.logged-in #register-link,
+body.logged-in #public-content {
     display: none;
 }
 
