@@ -30,23 +30,30 @@ body {
    Header & Navigation
 ========================= */
 header {
-    background-color: #333;
+    background-color: #45097c;
     color: white;
     padding: 0 2rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px 38006d(0, 0, 0, 0.1);
 }
 
 nav {
     display: flex;
     align-items: center;
-    min-height: 60px;
+    min-height: 80px;
 }
 
 .nav-brand {
-    font-weight: bold;
-    font-size: 1.5rem;
     margin-right: auto;
+    font-size: 0; /* Menghilangkan spasi ekstra di sekitar gambar */
 }
+
+/* --- KODE BARU UNTUK LOGO --- */
+.nav-logo {
+    height: 90px; /* Atur tinggi logo sesuai keinginan */
+    width: auto;  /* Lebar akan menyesuaikan secara otomatis */
+    vertical-align: middle; /* Memastikan logo sejajar dengan item lain */
+}
+/* --- AKHIR KODE BARU --- */
 
 .nav-brand a {
     color: white;
@@ -65,7 +72,7 @@ nav {
 }
 
 .nav-links a:hover {
-    background-color: #555;
+    background-color: #20003e;
     border-radius: 4px;
 }
 
@@ -90,10 +97,9 @@ nav {
 
 .nav-user a:hover,
 .nav-user button:hover {
-    background-color: #555;
+    background-color: #20003e;
 }
 
-/* Styling untuk Foto Profil di Navbar */
 .nav-profile-pic {
     width: 30px;
     height: 30px;
@@ -102,7 +108,6 @@ nav {
     margin-right: 8px;
     vertical-align: middle;
 }
-
 
 /* =========================
    Forms
@@ -130,7 +135,6 @@ textarea {
     margin-top: 1rem;
 }
 
-
 /* =========================
    Tables
 ========================= */
@@ -152,11 +156,8 @@ th {
 }
 
 /* ===================================================
-   Visibility / Login State (Versi Final & Benar)
+   Visibility / Login State
 =================================================== */
-
-/* --- 1. Aturan Default (Saat Belum Login) --- */
-/* Sembunyikan semua elemen yang butuh login atau peran spesifik. */
 .admin-only,
 .jemaat-only,
 .auth-only,
@@ -164,15 +165,11 @@ th {
     display: none;
 }
 
-/* --- 2. Aturan Umum Saat Sudah Login --- */
-
-/* Sembunyikan tombol Login & Daftar jika ada user yang login. */
 body.logged-in #login-link,
 body.logged-in #register-link {
     display: none;
 }
 
-/* Tampilkan info user (nama & logout) dan link 'auth-only' untuk SEMUA user yang login. */
 body.logged-in #user-info {
     display: flex;
     align-items: center;
@@ -181,23 +178,19 @@ body.logged-in .auth-only {
     display: inline-block;
 }
 
-/* --- 3. Aturan Spesifik Berdasarkan Peran (Role) --- */
-
-/* Jika yang login adalah JEMAAT: */
 body.role-jemaat .jemaat-only {
-    display: inline-block; /* Tampilkan menu jemaat */
+    display: inline-block;
 }
 body.role-jemaat .admin-only {
-    display: none; /* Sembunyikan menu admin */
+    display: none;
 }
 
-/* Jika yang login adalah ADMIN: */
 body.role-admin .admin-only {
-    display: inline-block; /* Tampilkan menu admin */
+    display: inline-block;
 }
 body.role-admin .jemaat-only,
 body.role-admin .public-only {
-    display: none; /* Sembunyikan menu jemaat DAN menu publik */
+    display: none;
 }
 
 /* =========================
@@ -237,7 +230,6 @@ button[type="submit"]:hover {
     background-color: #c82333;
 }
 
-/* Tombol Lainnya (Merah default) */
 button:not(#logout-btn):not([type="submit"]) {
     background-color: #ff0000;
 }
@@ -245,7 +237,6 @@ button:not(#logout-btn):not([type="submit"]) {
 button:not(#logout-btn):not([type="submit"]):hover {
     background-color: #850000;
 }
-
 
 /* =========================
    Event Section
@@ -286,7 +277,7 @@ button:not(#logout-btn):not([type="submit"]):hover {
 }
 
 /* =========================
-   Gallery Section (tambahan baru)
+   Gallery Section
 ========================= */
 .gallery-grid {
     display: grid;
@@ -335,130 +326,34 @@ button:not(#logout-btn):not([type="submit"]):hover {
     color: #666;
 }
 
-.deleteGalleryBtn {
-    background-color: #dc3545;
-    margin-top: 0.5rem;
-}
-
-.deleteGalleryBtn:hover {
-    background-color: #c82333;
-}
-
-.title-container {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-}
-
-.title-container h2 {
-    margin: 0;
-}
-
-.btn-kembali {
-    display: inline-block;
-    margin-left: auto;
-    background-color: #6c757d;
-    color: white;
-    padding: 8px 15px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 500;
-    white-space: nowrap;
-    transition: background-color 0.3s;
-}
-
-.btn-kembali:hover {
-    background-color: #5a6268;
-}
-
-
-.filter-form {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    align-items: center;
-    margin-top: 1.5rem;
-    padding: 1rem;
-    background-color: #f8f9fa;
-    border: 1px solid #dee2e6;
-    border-radius: 8px;
-}
-.filter-form input, .filter-form select {
-    margin-bottom: 0;
-    flex-grow: 1;
-}
-.filter-form button {
-    white-space: nowrap;
-}
-
-.btn-tambah-jemaat {
-    background-color: #dc3545; /* Warna merah */
-    margin-bottom: 1rem;
-}
-.btn-tambah-jemaat:hover {
-    background-color: #c82333;
-}
-
-.event-card {
-    display: flex; 
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    overflow: hidden; 
-}
-
-.event-poster {
-    width: 300px; /
-    flex-shrink: 0; 
-    height: auto;
-}
-
-.event-poster img {
-    width: 100%;
-    height: 100%; 
-    object-fit: cover; 
-
-/* === CSS UNTUK POP-UP & HOVER GALERI (REVISI FINAL) === */
-
-/* 1. Aturan untuk item galeri (Publik & Admin) */
+/* === CSS UNTUK POP-UP & HOVER GALERI === */
 .gallery-item,
 .gallery-item-admin .media-wrapper {
-    position: relative; /* Penting agar overlay bisa diposisikan di dalamnya */
+    position: relative;
     cursor: pointer;
-    overflow: hidden; /* Memastikan overlay tidak keluar dari bingkai */
-    display: block; /* Pastikan elemen punya dimensi yang jelas */
+    overflow: hidden;
+    display: block;
 }
 
-/* 2. LAPISAN OVERLAY (inti dari efek "menghitam") */
 .gallery-item::before,
 .gallery-item-admin .media-wrapper::before {
-    content: ''; /* Wajib ada untuk pseudo-element */
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Warna hitam dengan 50% transparansi */
-    
-    /* Sembunyikan overlay secara default */
+    background-color: rgba(0, 0, 0, 0.5);
     opacity: 0;
-    
-    /* Efek transisi saat muncul dan hilang */
     transition: opacity 0.3s ease-in-out;
-
-    /* INI SOLUSINYA: Membuat overlay tidak bisa diklik */
-    pointer-events: none; 
+    pointer-events: none;
 }
 
-/* 3. Aturan saat di-HOVER */
 .gallery-item:hover::before,
 .gallery-item-admin .media-wrapper:hover::before {
-    /* Tampilkan overlay saat di-hover */
     opacity: 1;
 }
 
-/* 4. Aturan untuk Pop-Up/Modal (Tidak Berubah) */
 .modal-overlay {
     position: fixed !important;
     top: 0 !important;
