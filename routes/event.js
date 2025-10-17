@@ -59,7 +59,7 @@ router.post("/tambah", upload.single("poster"), async (req, res) => {
 router.get("/daftar", async (req, res) => {
     try {
         // PERUBAHAN: Menggunakan await dan array destructuring
-        const [results] = await db.query("SELECT * FROM events ORDER BY id DESC"); 
+        const [results] = await db.query("SELECT * FROM events ORDER BY id_event DESC"); 
         
         // KIRIM RESPON SUKSES DALAM BENTUK JSON
         return res.json({
