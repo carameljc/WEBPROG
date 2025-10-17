@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const jemaatController = require('../controllers/jemaatController');
-// 🚨 PERBAIKAN: Wajib mengimpor isLoggedIn dan isAdmin dari authMiddleware.js
 const { isAdmin, isLoggedIn } = require('../middleware/authMiddleware'); 
 
 // ==========================================================

@@ -19,7 +19,7 @@ app.use(session({
 }));
 
 // === Koneksi Database (dari folder config)
-const db = require('./config/db');
+const db = require('./config/database');
 
 // === Import routes ===
 const eventRoutes = require('./routes/event');

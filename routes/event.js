@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
-// Pastikan ini di-import sebagai promise pool
-const db = require("../config/db"); 
+const db = require("../config/database"); 
 const multer = require("multer");
 const path = require("path");
 

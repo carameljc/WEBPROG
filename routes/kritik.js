@@ -15,4 +15,4 @@ router.post('/', isLoggedIn, kritikController.createKritik);
 // Alur: Cek login -> Cek admin -> Jalankan controller
 router.get('/', isLoggedIn, isAdmin, kritikController.getAllKritik);
 
-module.exports = router; // <-- BENAR, 'module.' hanya satu
+module.exports = router; 

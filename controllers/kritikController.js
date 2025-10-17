@@ -1,5 +1,5 @@
 // File: controllers/kritikController.js
-const db = require('../config/db');
+const db = require('../config/database');
 
 /**
  * Menyimpan kritik dan saran (ANONIM) ke database.
