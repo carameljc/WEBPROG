@@ -1,4 +1,4 @@
-// File: public/js/main.js (Gabungan Final untuk Fix Role Visibility)
+// File: public/js/main.js (Kode Asli Anda + Penambahan Fitur Pop-up)
 
 document.addEventListener('DOMContentLoaded', async () => {
 
@@ -93,20 +93,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    async function muatGaleriPublik() {
-        const galleryContainer = document.getElementById('gallery-container');
-        if (!galleryContainer) return;
-        try {
-            const response = await fetch('/api/gallery'); 
-            const items = await response.json();
-            galleryContainer.innerHTML = '';
-        } catch (error) {
-            console.error("Gagal memuat galeri:", error);
-            if (galleryContainer) {
-                galleryContainer.innerHTML = '<p>Gagal memuat galeri. Silakan coba lagi nanti.</p>';
-            }
-        }
-    }
+    // Ini adalah fungsi duplikat yang tidak lengkap dari kode Anda, kita abaikan saja.
+    // async function muatGaleriPublik() { ... }
 
     /**
      * @param {object | null} user - Objek user jika login, atau null jika tidak.
@@ -151,6 +139,45 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+    // --- TAMBAHAN BARU ---
+    // Fungsi khusus untuk membuat dan menampilkan pop-up
+    function createAndShowModal(contentHTML) {
+        // Buat elemen overlay
+        const modal = document.createElement('div');
+        modal.className = 'modal-overlay';
+        modal.innerHTML = `
+            <div class="modal-content">
+                <span class="modal-close">&times;</span>
+                ${contentHTML}
+            </div>
+        `;
+
+        // Tambahkan modal ke body
+        document.body.appendChild(modal);
+
+        modal.classList.add('visible');
+
+        // Fungsi untuk menutup modal
+        const closeModal = () => {
+            modal.classList.remove('visible');
+            // Hapus elemen dari HTML setelah transisi selesai agar rapi
+            setTimeout(() => {
+                if (document.body.contains(modal)) {
+                    document.body.removeChild(modal);
+                }
+            }, 300); // Waktu harus cocok dengan transisi di CSS (0.3s)
+        };
+
+        // Tambahkan event listener untuk tombol close dan klik di luar konten
+        modal.querySelector('.modal-close').addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) { // Jika yang diklik adalah area overlay gelap
+                closeModal();
+            }
+        });
+    }
+    // --- AKHIR TAMBAHAN BARU ---
+
     async function muatGaleriPublik() {
         const galleryContainer = document.getElementById('gallery-container');
         if (!galleryContainer) return;
@@ -167,7 +194,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 galleryItem.className = 'gallery-item';
                 let mediaElement = '';
                 
-                // Asumsi item.file_path sudah menunjuk ke /uploads/
                 if (item.file_type === 'image') {
                     mediaElement = `<img src="${item.file_path}" alt="${item.caption || 'Galeri Gereja'}">`;
                 } else if (item.file_type === 'video') {
@@ -176,6 +202,25 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 galleryItem.innerHTML = `<div class="media-wrapper">${mediaElement}</div>`;
                 galleryContainer.appendChild(galleryItem);
+                
+                // --- TAMBAHAN BARU ---
+                // Tambahkan event listener ke setiap item galeri yang baru dibuat
+                galleryItem.addEventListener('click', (e) => {
+                    e.preventDefault(); // Mencegah perilaku default
+                    let modalContent = '';
+                    if (item.file_type === 'image') {
+                        // Untuk pop-up, kita pakai tag img biasa
+                        modalContent = `<img src="${item.file_path}" alt="${item.caption || 'Galeri Gereja'}">`;
+                    } else if (item.file_type === 'video') {
+                        // Untuk video, kita tambahkan autoplay agar langsung main saat pop-up
+                        modalContent = `<video controls autoplay><source src="${item.file_path}"></video>`;
+                    }
+                    
+                    if (modalContent) {
+                        createAndShowModal(modalContent); // Panggil fungsi pembuat pop-up
+                    }
+                });
+                // --- AKHIR TAMBAHAN BARU ---
             });
             
         } catch (error) {
@@ -185,14 +230,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // --- PROSES UTAMA ---
-    
-    await loadHeader(); // 1. Tunggu header selesai di-copy
+    await loadHeader();
 
     // --- 5. ALUR EKSEKUSI UTAMA ---
-    // Pastikan loadHeader berjalan duluan
-    await loadHeader();
-    
-    // Lalu update status autentikasi dan visibilitas
+    await loadHeader(); // Anda memanggil ini 2x, saya biarkan sesuai kode asli Anda
     await updateAuthStatus();
 
     // Event Listener untuk Logout
@@ -208,7 +249,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         const response = await fetch('http://localhost:3000/api/auth/status', { credentials: 'include' });
         const data = await response.json();
         
-        // 2. Perbarui UI berdasarkan hasil status
         if (data.success) {
             updateUIVisibility(data.user);
         } else {
@@ -216,7 +256,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     } catch (error) {
         console.error("Gagal memeriksa status login:", error);
-        updateUIVisibility(null); // Jika error, anggap tidak login
+        updateUIVisibility(null);
     }
 
     // 3. Pasang event listener untuk logout
