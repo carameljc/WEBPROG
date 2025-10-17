@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <title>Manajemen Galeri - SIM Gereja</title>
     <link rel="stylesheet" href="/css/style.css">
-    <script src="/js/authCheck.js"></script>
-</head>
+    </head>
 <body>
     <header></header>
     <main class="container">
@@ -38,9 +37,15 @@
 
         <h3>Galeri Saat Ini</h3>
         <div id="admin-gallery-container" class="gallery-grid">
-        </div>
+            </div>
     </main>
-    <script src="/js/main.js"></script>
+
+    <div id="gallery-modal" class="modal-overlay">
+        <span class="modal-close" id="modal-close-btn">&times;</span>
+        <div class="modal-content" id="modal-content"></div>
+    </div>
+
+    <script src="/js/authCheck.js"></script>
     <script src="/js/galleryAdmin.js"></script>
 </body>
 </html>

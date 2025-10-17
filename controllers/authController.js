@@ -41,7 +41,7 @@ exports.login = async (req, res) => {
         req.session.user = { id: user.id, username: user.username, role: user.role, nama_lengkap: user.nama_lengkap };
         res.json({ success: true, user: req.session.user });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Server error' });
+        res.status(500).json({ success: false, message: 'Server error : ' + error.message });
     }
 };
 
