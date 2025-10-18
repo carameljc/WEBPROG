@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Manajemen Event - Tambah</title>
+    <title>GPdI Bethlehem</title>
     <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
@@ -33,7 +33,6 @@
         const form = document.getElementById('eventForm');
         const statusMessage = document.getElementById('statusMessage');
 
-        // Fungsi untuk menampilkan pesan status
         const showStatus = (message, type) => {
             let bgColor, color;
             if (type === 'success') {
@@ -51,7 +50,6 @@
             statusMessage.innerHTML = message;
             statusMessage.style.display = 'block';
 
-            // Hilangkan pesan setelah 5 detik
             if (type === 'success' || type === 'error') {
                 setTimeout(() => {
                     statusMessage.style.display = 'none';
