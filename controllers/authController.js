@@ -1,3 +1,4 @@
+// File: controllers/authController.js (Versi PostgreSQL)
 const db = require('../config/database');
 const bcrypt = require('bcryptjs');
 
@@ -8,15 +9,16 @@ exports.register = async (req, res) => {
     }
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
-        const query = 'INSERT INTO users (nama_lengkap, username, password, role) VALUES (?, ?, ?, ?)';
-        const [result] = await db.query(query, [nama_lengkap, username, hashedPassword, role]);
-        const newUserId = result.insertId;
+        
+        const query = 'INSERT INTO users (nama_lengkap, username, password, role) VALUES ($1, $2, $3, $4) RETURNING id';
+        const result = await db.query(query, [nama_lengkap, username, hashedPassword, role]);
+        const newUserId = result.rows[0].id; 
 
-        await db.query('INSERT INTO master_jemaat (nama_lengkap, user_id) VALUES (?, ?)', [nama_lengkap, newUserId]);
+        await db.query('INSERT INTO master_jemaat (nama_lengkap, user_id) VALUES ($1, $2)', [nama_lengkap, newUserId]);
 
         res.status(201).json({ message: 'Registrasi berhasil! Silakan login.' });
     } catch (error) {
-        if (error.code === 'ER_DUP_ENTRY') {
+        if (error.code === '23505') {
             return res.status(409).json({ message: 'Username sudah digunakan.' });
         }
         res.status(500).json({ message: 'Server error saat registrasi.' });
@@ -29,7 +31,9 @@ exports.login = async (req, res) => {
         return res.status(400).json({ success: false, message: 'Username dan password wajib diisi' });
     }
     try {
-        const [users] = await db.query('SELECT * FROM users WHERE username = ?', [username]);
+        const result = await db.query('SELECT * FROM users WHERE username = $1', [username]);
+        const users = result.rows;
+
         if (users.length === 0) {
             return res.status(401).json({ success: false, message: 'Username atau password salah' });
         }
