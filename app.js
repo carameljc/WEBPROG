@@ -18,8 +18,23 @@ app.use(session({
     cookie: { secure: false }
 }));
 
+// ******************************************************
+// === HEALTH CHECK ENDPOINT (DITAMBAHKAN DI SINI) ===
+// ******************************************************
+app.get('/health', (req, res) => {
+    // Mengirim respons 200 OK secara instan untuk menandakan server aktif
+    res.status(200).json({
+        status: 'OK',
+        message: 'Aplikasi backend berjalan dengan baik.',
+        timestamp: new Date().toISOString()
+    });
+});
+// ******************************************************
+
 // === Koneksi Database (dari folder config)
-const db = require('./config/db');
+// Catatan: Jika koneksi DB Anda bersifat sinkron dan menyebabkan penundaan,
+// health check di atas akan tetap merespons cepat.
+const db = require('./config/db'); 
 
 // === Import routes ===
 const eventRoutes = require('./routes/event');
