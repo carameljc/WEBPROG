@@ -8,11 +8,9 @@ const kritikController = require('../controllers/kritikController');
 const { isLoggedIn, isAdmin } = require('../middleware/authMiddleware');
 
 // Rute untuk Jemaat (cukup login)
-// Alur: Cek login -> Jalankan controller
 router.post('/', isLoggedIn, kritikController.createKritik);
 
 // Rute untuk Admin (harus login DAN admin)
-// Alur: Cek login -> Cek admin -> Jalankan controller
 router.get('/', isLoggedIn, isAdmin, kritikController.getAllKritik);
 
 module.exports = router; 
