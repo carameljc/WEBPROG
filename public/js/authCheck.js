@@ -1,4 +1,4 @@
-fetch('http://localhost:3000/api/auth/status')
+fetch('/api/auth/status')
     .then(response => response.json())
     .then(data => {
         if (!data.success) {

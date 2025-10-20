@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function muatProfile() {
         try {
             // 1. Mengambil data profil dari server
-            const response = await fetch('http://localhost:3000/api/jemaat/me');
+            const response = await fetch('/api/jemaat/me');
             
             // Redirect ke login jika sesi berakhir (ditangani oleh authMiddleware/401)
             if (!response.ok) {
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = Object.fromEntries(formData.entries());
 
             try {
-                const response = await fetch('http://localhost:3000/api/jemaat/me', {
+                const response = await fetch('/api/jemaat/me', {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     muatProfile(); // Muat ulang data untuk verifikasi
                     
                     // Muat ulang status untuk memastikan nama di navbar terupdate
-                    fetch('http://localhost:3000/api/auth/status'); 
+                    fetch('/api/auth/status'); 
                     
                 } else {
                     alert('Gagal memperbarui: ' + result.message);

@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const sortOrder = document.getElementById('sort-order');
 
     async function muatDataJemaat(params = {}) { 
-        let url = 'http://localhost:3000/api/jemaat';
+        let url = '/api/jemaat';
         const queryString = new URLSearchParams(params).toString();
         if (queryString) {
             url += '?' + queryString;
@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = Object.fromEntries(new FormData(form).entries());
         if (!id) { delete data.id; }
         
-        const url = id ? `http://localhost:3000/api/jemaat/${id}` : 'http://localhost:3000/api/jemaat';
+        const url = id ? `/api/jemaat/${id}` : '/api/jemaat';
         const method = id ? 'PUT' : 'POST';
         
         try {
@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (event.target.classList.contains('delete-btn')) {
             const id = event.target.dataset.id;
             if (confirm(`Yakin ingin menghapus data ini?`)) {
-                await fetch(`http://localhost:3000/api/jemaat/${id}`, { method: 'DELETE', credentials: 'include' });
+                await fetch(`/api/jemaat/${id}`, { method: 'DELETE', credentials: 'include' });
                 triggerLoad();
             }
         }

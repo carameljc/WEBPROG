@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 2. FUNGSI UTAMA UNTUK MEMUAT GALERI ---
     async function loadAdminGallery() {
         try {
-            const response = await fetch('http://localhost:3000/api/gallery', { credentials: 'include' });
+            const response = await fetch('/api/gallery', { credentials: 'include' });
             const items = await response.json();
             adminGalleryContainer.innerHTML = '';
 
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const id = event.target.dataset.id;
             if (confirm('Apakah Anda yakin ingin menghapus media ini?')) {
                 try {
-                    const response = await fetch(`http://localhost:3000/api/gallery/${id}`, {
+                    const response = await fetch(`/api/gallery/${id}`, {
                         method: 'DELETE',
                         credentials: 'include'
                     });
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const formData = new FormData(uploadForm);
         uploadStatus.textContent = 'Mengunggah...';
         try {
-            const response = await fetch('http://localhost:3000/api/gallery/upload', {
+            const response = await fetch('/api/gallery/upload', {
                 method: 'POST',
                 body: formData,
                 credentials: 'include'

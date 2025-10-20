@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const galleryContainer = document.getElementById('gallery-container');
         if (!galleryContainer) return;
         try {
-            const response = await fetch('http://localhost:3000/api/gallery', { credentials: 'omit' });
+            const response = await fetch('/api/gallery', { credentials: 'omit' });
             const items = await response.json();
             galleryContainer.innerHTML = '';
             if (items.length === 0) {
@@ -246,7 +246,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Panggil Galeri jika elemennya ada di halaman
     try {
-        const response = await fetch('http://localhost:3000/api/auth/status', { credentials: 'include' });
+        const response = await fetch('/api/auth/status', { credentials: 'include' });
         const data = await response.json();
         
         if (data.success) {
@@ -262,7 +262,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 3. Pasang event listener untuk logout
     document.addEventListener('click', async (event) => {
         if (event.target && event.target.id === 'logout-btn') {
-            await fetch('http://localhost:3000/api/auth/logout', { method: 'POST', credentials: 'include' });
+            await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
             window.location.href = '/index.html';
         }
     });

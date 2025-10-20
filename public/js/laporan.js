@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fungsi utama untuk memuat data (dengan parameter filter)
     async function muatDataLaporan(params = {}) {
-        let url = 'http://localhost:3000/api/jemaat';
+        let url = '/api/jemaat';
         
         // Konversi objek params menjadi URL query string (misal: ?jenis_kelamin=Laki-laki)
         const queryString = new URLSearchParams(params).toString();
