@@ -36,5 +36,5 @@ app.use('/api/jemaat', jemaatRoutes);
 app.use('/api/gallery', galleryRoutes);
 app.use('/api/kritik', kritikRoutes);
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`🚀 Server API berjalan di http://localhost:${PORT}`));
+const PORT = process.env.PORT || 30297;
+app.listen(PORT, () => console.log(`🚀 Server API berjalan di ${PORT}`));
