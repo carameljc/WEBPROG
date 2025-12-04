@@ -1,25 +1,66 @@
 const db = require('../config/database');
 const bcrypt = require('bcryptjs');
 
+// =========================================================
+// FUNGSI VALIDASI PASSWORD KOMPLEKS (UNTUK KRITERIA UAS)
+// =========================================================
+function validatePassword(password) {
+    const minLength = 8;
+    // Regex: Minimal 8 karakter, 1 huruf besar, 1 huruf kecil, 1 angka, dan 1 simbol underscore (_)
+    const regex = new RegExp(
+        `^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*_).{${minLength},}$`
+    );
+    return regex.test(password);
+}
+// =========================================================
+
+
 exports.register = async (req, res) => {
-    const { nama_lengkap, username, password, role = 'jemaat' } = req.body;
-    if (!nama_lengkap || !username || !password) {
-        return res.status(400).json({ message: 'Semua field wajib diisi.' });
+    // Tambahkan retype_password dari body request
+    const { nama_lengkap, username, password, retype_password, role = 'jemaat' } = req.body; 
+    
+    if (!nama_lengkap || !username || !password || !retype_password) {
+        return res.status(400).json({ success: false, message: 'Semua field wajib diisi, termasuk Ulangi Password.' });
     }
+
+    // 1. Validasi Retype Password
+    if (password !== retype_password) {
+        return res.status(400).json({ success: false, message: 'Password dan Ulangi Password tidak cocok.' });
+    }
+
+    // 2. Validasi Kompleksitas Password (KRITERIA UAS)
+    if (!validatePassword(password)) {
+        return res.status(400).json({ 
+            success: false, 
+            message: `Password harus minimal 8 karakter, mengandung setidaknya 1 huruf besar, 1 huruf kecil, 1 angka, dan 1 simbol underscore (_).` 
+        });
+    }
+
     try {
+        // Cek duplikasi username (tetap dipertahankan)
+        const [existing] = await db.query('SELECT username FROM users WHERE username = ?', [username]);
+        if (existing.length > 0) {
+            return res.status(409).json({ success: false, message: 'Username sudah digunakan.' });
+        }
+
         const hashedPassword = await bcrypt.hash(password, 10);
         const query = 'INSERT INTO users (nama_lengkap, username, password, role) VALUES (?, ?, ?, ?)';
         const [result] = await db.query(query, [nama_lengkap, username, hashedPassword, role]);
         const newUserId = result.insertId;
 
+        // Integrasi dengan master_jemaat (sesuai logika asli Anda)
         await db.query('INSERT INTO master_jemaat (nama_lengkap, user_id) VALUES (?, ?)', [nama_lengkap, newUserId]);
 
-        res.status(201).json({ message: 'Registrasi berhasil! Silakan login.' });
+        // Informasi berhasil (KRITERIA UAS: Signup berhasil)
+        res.status(201).json({ success: true, message: 'Registrasi berhasil! Silakan login.' });
+        
     } catch (error) {
+        // Tangani ER_DUP_ENTRY secara spesifik jika terjadi di luar pengecekan awal
         if (error.code === 'ER_DUP_ENTRY') {
-            return res.status(409).json({ message: 'Username sudah digunakan.' });
+            return res.status(409).json({ success: false, message: 'Username sudah digunakan.' });
         }
-        res.status(500).json({ message: 'Server error saat registrasi.' });
+        console.error("Server error saat registrasi:", error);
+        res.status(500).json({ success: false, message: 'Server error saat registrasi.' });
     }
 };
 
@@ -62,4 +103,3 @@ exports.logout = (req, res) => {
         res.json({ success: true, message: 'Anda berhasil logout' });
     });
 };
- 
