@@ -7,7 +7,7 @@ const path = require("path");
 // Setup tempat simpan poster (TETAP SAMA)
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, "public/uploads/");
+        cb(null, "public/galleryMedia/");
     },
     filename: function (req, file, cb) {
         cb(null, Date.now() + path.extname(file.originalname));

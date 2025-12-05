@@ -1,3 +1,5 @@
+// app.js (MODIFIKASI KRITIS UNTUK PATH FILE)
+
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
@@ -10,7 +12,15 @@ const app = express();
 app.use(cors({ origin: 'null', credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Menyajikan file statis dari folder 'public' (misal: CSS, JS, HTML)
 app.use(express.static(path.join(__dirname, 'public')));
+
+// ✅ BARIS TAMBAHAN KRITIS UNTUK GALERI MEDIA:
+// Menyajikan folder 'public/galleryMedia' agar bisa diakses browser melalui URL /galleryMedia/
+app.use('/galleryMedia', express.static(path.join(__dirname, 'public', 'galleryMedia')));
+
+// Middleware Session
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
@@ -19,10 +29,9 @@ app.use(session({
 }));
 
 // ******************************************************
-// === HEALTH CHECK ENDPOINT (DITAMBAHKAN DI SINI) ===
+// === HEALTH CHECK ENDPOINT ===
 // ******************************************************
 app.get('/health', (req, res) => {
-    // Mengirim respons 200 OK secara instan untuk menandakan server aktif
     res.status(200).json({
         status: 'OK',
         message: 'Aplikasi backend berjalan dengan baik.',
@@ -32,8 +41,6 @@ app.get('/health', (req, res) => {
 // ******************************************************
 
 // === Koneksi Database (dari folder config)
-// Catatan: Jika koneksi DB Anda bersifat sinkron dan menyebabkan penundaan,
-// health check di atas akan tetap merespons cepat.
 const db = require('./config/db'); 
 
 // === Import routes ===

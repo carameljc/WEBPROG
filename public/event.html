@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
-  <head>
+    <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GPdI Bethlehem</title>
@@ -14,11 +14,11 @@
   </head>
   <body>
     <header>
-    </header>
+      </header>
 
-    <main class="container">
-        <div class="page-header">
-            <h1>📅 Daftar Event Gereja</h1>
+    <main class="container py-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h1>📅 Daftar Event Gereja</h1>
         </div>
 
         <form id="searchForm" class="d-flex mb-4" onsubmit="event.preventDefault(); searchEvents();">
@@ -28,18 +28,19 @@
                 type="search" 
                 placeholder="Cari Event Berdasarkan Judul..." 
                 aria-label="Search"
-            >
+                 >
             <button class="btn btn-outline-success" type="submit">Cari</button>
-        </form>
-        <div class="event-actions admin-only" style="margin-bottom: 2rem;">
-            <a href="/eventAdmin.html" class="btn-tambah">+ Tambah Event Baru</a>
-        </div>
+          </form>
+        
+              <div class="event-actions admin-only mb-4">
+            <a href="/eventAdmin.html" class="btn btn-success">+ Tambah Event Baru</a>
+          </div>
 
-        <section id="daftar-event-container">
-            <div id="eventList" class="event-list">
-                <p>Sedang memuat event...</p>
-            </div>
-        </section>
+          <section id="daftar-event-container">
+             <div id="eventList" class="row">
+              <p>Sedang memuat event...</p>
+          </div>
+      </section>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
@@ -48,5 +49,5 @@
 
     <script src="/js/main.js"></script>
     <script src="/js/event.js"></script> 
-  </body>
+    </body>
 </html>
