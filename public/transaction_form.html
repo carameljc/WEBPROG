@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Input Transaksi Baru</title>
+</head>
+<body>
+    <main class="container py-4">
+        <h2 class="mb-4">Input Transaksi Persembahan</h2>
+
+        <div id="statusMessage" class="alert d-none" role="alert"></div>
+
+        <form id="transactionForm">
+            <div class="table-responsive mb-3">
+                <table id="itemTable" class="table table-bordered table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th style="width: 70%;">Keterangan Item</th>
+                            <th style="width: 20%;">Jumlah (Rp)</th>
+                            <th style="width: 10%;">Hapus</th>
+                        </tr>
+                    </thead>
+                    <tbody id="itemTableBody">
+                        </tbody>
+                </table>
+            </div>
+
+            <button type="button" id="addRowBtn" class="btn btn-secondary mb-3">
+                + Tambah Baris Item
+            </button>
+            
+            <button type="submit" id="saveTransactionBtn" class="btn btn-primary w-100">
+                Simpan Transaksi (1 Klik)
+            </button>
+        </form>
+    </main>
+    <script src="/js/transaction.js"></script>
+</body>
+</html>
