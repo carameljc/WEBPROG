@@ -1,186 +1,240 @@
 // public/js/merchAdmin.js
 
 document.addEventListener('DOMContentLoaded', () => {
-    const tbody = document.getElementById('merch-table-body');
-    const formContainer = document.getElementById('form-merch-container');
-    const form = document.getElementById('merch-form');
-    const formTitle = document.getElementById('form-title');
-    const merchIdInput = document.getElementById('merch-id');
-    const showAddFormBtn = document.getElementById('show-add-form-btn');
-    const cancelEditBtn = document.getElementById('cancel-edit-btn');
-    const imageFile = document.getElementById('imageFile');
-    const imageHelp = document.getElementById('imageHelp');
-    const statusMessage = document.getElementById('merchStatusMessage'); 
+    // Panggil loadAdminMerchandise untuk memuat data awal dan setupEventListeners
+    loadAdminMerchandise(true); // Kirim flag untuk setup listener hanya di awal
+});
 
-    let isEditMode = false;
+// Fungsi untuk membersihkan backdrop/overlay modal secara agresif
+const cleanUpModal = () => {
+    document.body.classList.remove('modal-open');
+    document.body.style.removeProperty('overflow'); 
+    document.body.style.removeProperty('padding-right'); 
+    document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+};
 
-    // ===============================================
-    // FUNGSI UTILITY: NOTIFIKASI & FORM
-    // ===============================================
-    const showStatus = (message, isSuccess = false) => {
-        statusMessage.textContent = message;
-        statusMessage.classList.remove('d-none', 'alert-success', 'alert-danger', 'alert-warning');
-        statusMessage.classList.add(isSuccess ? 'alert-success' : 'alert-danger');
-        statusMessage.classList.remove('d-none');
-        setTimeout(() => statusMessage.classList.add('d-none'), 5000);
+
+async function loadAdminMerchandise(initialLoad = false) {
+    // Panggil cleanup di awal (hanya sekali)
+    cleanUpModal(); 
+    
+    const tableBody = document.getElementById('adminMerchTableBody');
+    tableBody.innerHTML = '<tr><td colspan="6" class="text-center">Memuat produk...</td></tr>';
+    
+    const apiUrl = '/api/merch/products'; 
+
+    try {
+        const response = await fetch(apiUrl);
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+            throw new Error(result.message || 'Gagal mengambil data admin merchandise.');
+        }
+
+        const items = result.data;
+        tableBody.innerHTML = '';
+
+        if (items.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="6" class="text-center">Belum ada produk untuk dikelola.</td></tr>';
+        } else {
+            items.forEach(item => {
+                const price = parseFloat(item.price).toLocaleString('id-ID');
+                const imagePath = item.imageUrl 
+                    ? `/images/merch/${item.imageUrl}` 
+                    : '/images/default_merch.jpg'; 
+                
+                const row = `
+                    <tr>
+                        <td>${item.id}</td>
+                        <td><img src="${imagePath}" style="width: 50px; height: 50px; object-fit: cover;"></td>
+                        <td>${item.name}</td>
+                        <td>Rp ${price}</td>
+                        <td>${item.stock}</td>
+                        <td>
+                            <button class="btn btn-sm btn-warning edit-btn" data-id="${item.id}">Edit</button>
+                            <button class="btn btn-sm btn-danger delete-btn" data-id="${item.id}">Hapus</button>
+                        </td>
+                    </tr>
+                `;
+                tableBody.insertAdjacentHTML('beforeend', row);
+            });
+        }
+        
+        // ⭐ PERBAIKAN: setupEventListeners hanya dipanggil sekali saat initialLoad
+        if (initialLoad) {
+            setupEventListeners(); 
+        }
+
+    } catch (error) {
+        console.error("Error loading admin merchandise:", error);
+        tableBody.innerHTML = `<tr><td colspan="6" class="text-center text-danger">Gagal memuat data: ${error.message}</td></tr>`;
+    }
+}
+
+function setupEventListeners() {
+    const tableBody = document.getElementById('adminMerchTableBody');
+    
+    // FUNGSI UNTUK MENGATUR RELOAD SETELAH MODAL TERTUTUP (Digunakan di Submit)
+    const setupModalReload = (modalElement) => {
+        // Hapus event listener lama sebelum menambahkan yang baru
+        modalElement.removeEventListener('hidden.bs.modal', modalReloadHandler); 
+
+        // Tambahkan handler baru
+        modalElement.addEventListener('hidden.bs.modal', modalReloadHandler);
     };
 
-    function hideForm() {
-        formContainer.style.display = 'none';
-        form.reset();
-        merchIdInput.value = '';
-        isEditMode = false;
-        imageHelp.textContent = '';
-        formTitle.textContent = 'Tambah Produk Baru';
-        imageFile.required = true; // Set required kembali untuk Tambah
-    }
+    const modalReloadHandler = function () {
+        cleanUpModal(); 
+        loadAdminMerchandise(); 
+        // Event listener akan dihapus sendiri oleh Modal Bootstrap setelah hide
+    };
 
-    // ===============================================
-    // CRUD - READ: Memuat Data Produk
-    // ===============================================
-    async function loadProducts() {
-        tbody.innerHTML = '<tr><td colspan="5" class="text-center">Memuat data produk...</td></tr>';
-        try {
-            const response = await fetch('/api/merch/products', { credentials: 'include' });
-            const products = await response.json();
-            
-            tbody.innerHTML = '';
-            if (products.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" class="text-center">Tidak ada produk tersedia.</td></tr>';
-                return;
+
+    // 1. LISTENER UNTUK TOMBOL EDIT/HAPUS (Delegation)
+    tableBody.addEventListener('click', async (e) => {
+        const id = e.target.dataset.id;
+        if (!id) return;
+
+        if (e.target.classList.contains('delete-btn')) {
+            if (confirm(`Yakin ingin menghapus produk ID ${id}?`)) {
+                await deleteProduct(id);
             }
-            
-            products.forEach(p => {
-                const tr = document.createElement('tr');
-                const imageSrc = p.image_url ? p.image_url : '/Foto/logo/default_merch.png';
-                
-                tr.innerHTML = `
-                    <td><img src="${imageSrc}" style="width: 50px; height: 50px; object-fit: cover;" class="rounded"></td>
-                    <td>${p.name}</td>
-                    <td>Rp ${parseFloat(p.price).toLocaleString('id-ID')}</td>
-                    <td><span class="badge ${p.stock > 0 ? 'bg-success' : 'bg-danger'}">${p.stock}</span></td>
-                    <td>
-                        <button class="btn btn-sm btn-warning edit-btn" 
-                            data-id="${p.id}" data-name="${p.name}" data-price="${p.price}" data-stock="${p.stock}" data-url="${imageSrc}">
-                            Edit
-                        </button>
-                        <button class="btn btn-sm btn-danger delete-btn" data-id="${p.id}" data-name="${p.name}">Hapus</button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        } catch (error) {
-            tbody.innerHTML = `<tr><td colspan="5" class="text-center text-danger">Gagal memuat data: ${error.message}</td></tr>`;
+        } else if (e.target.classList.contains('edit-btn')) {
+            await openEditModal(id); 
         }
+    });
+
+    // 2. LISTENER UNTUK TOMBOL TAMBAH PRODUK BARU
+    const addBtn = document.querySelector('.btn-success'); 
+    if (addBtn) {
+        addBtn.addEventListener('click', (e) => {
+            e.preventDefault(); 
+            
+            const modalElement = document.getElementById('addProductModal');
+            const myModal = new bootstrap.Modal(modalElement);
+            myModal.show();
+            
+            document.getElementById('addProductForm').reset();
+        });
     }
 
-    // ===============================================
-    // CRUD - CREATE/UPDATE (SAVE)
-    // ===============================================
-    form.addEventListener('submit', async (e) => {
+    // 3. LISTENER UNTUK SUBMIT FORM TAMBAH PRODUK BARU (Perbaikan Modal)
+    document.getElementById('addProductForm').addEventListener('submit', async (e) => {
         e.preventDefault();
-        const id = merchIdInput.value;
-        const actionText = id ? 'diperbarui' : 'disimpan';
         
-        // (a) Konfirmasi sebelum save/update (Kriteria UAS)
-        if (!confirm(`Yakin ingin ${actionText} produk ${document.getElementById('name').value}?`)) {
-            return;
-        }
-
-        const formData = new FormData(form);
-        const url = id ? `/api/merch/product/${id}` : '/api/merch/product';
-        const method = id ? 'PUT' : 'POST';
-
-        showStatus(`⏳ Sedang ${actionText} produk...`, false);
+        const formData = new FormData(e.target); 
 
         try {
-            // (c) Melakukan CRUD (POST/PUT)
-            const response = await fetch(url, { method: method, body: formData, credentials: 'include' });
+            const response = await fetch('/api/merch/product', {
+                method: 'POST',
+                body: formData, 
+            });
+
             const result = await response.json();
             
             if (response.ok) {
-                // (b) Notifikasi berhasil
-                showStatus(`✅ Produk ${result.name || ''} berhasil ${actionText}!`, true);
-                hideForm();
-                loadProducts();
+                alert(`✅ Sukses: ${result.message}`);
+                
+                const modalElement = document.getElementById('addProductModal');
+                
+                // ⭐ GANTI SETTIMEOUT dengan Event Bootstrap
+                setupModalReload(modalElement); 
+                bootstrap.Modal.getInstance(modalElement).hide();
+
             } else {
-                // (b) Notifikasi gagal
-                throw new Error(result.message || `Gagal ${actionText}. Status: ${response.status}`);
+                alert(`❌ Gagal menambahkan produk: ${result.message}`);
             }
         } catch (error) {
-            showStatus(`❌ Gagal ${actionText}: ${error.message}`, false);
-        }
-    });
-
-    // ===============================================
-    // CRUD - DELETE (HAPUS)
-    // ===============================================
-    tbody.addEventListener('click', async (event) => {
-        const target = event.target;
-        
-        if (target.classList.contains('delete-btn')) {
-            const id = target.dataset.id;
-            const name = target.dataset.name;
-
-            // (a) Konfirmasi sebelum delete (Kriteria UAS)
-            if (!confirm(`Yakin ingin menghapus produk "${name}"? Aksi ini tidak dapat dibatalkan.`)) {
-                return;
-            }
-
-            try {
-                // (c) Melakukan CRUD (DELETE)
-                const response = await fetch(`/api/merch/product/${id}`, { method: 'DELETE', credentials: 'include' });
-                const result = await response.json();
-                
-                if (response.ok) {
-                    // (b) Notifikasi berhasil
-                    showStatus(`🗑️ Produk "${name}" berhasil dihapus.`, true);
-                    loadProducts();
-                } else {
-                    // (b) Notifikasi gagal
-                    throw new Error(result.message || 'Gagal menghapus produk.');
-                }
-            } catch (error) {
-                showStatus(`❌ Gagal menghapus: ${error.message}`, false);
-            }
+            console.error("Error submit form:", error);
+            alert('Terjadi error saat terhubung ke server.');
         }
     });
     
-    // ===============================================
-    // HANDLER TAMBAH/EDIT FORM
-    // ===============================================
-    showAddFormBtn.addEventListener('click', () => hideForm() || showForm(null)); // Toggle
-    cancelEditBtn.addEventListener('click', hideForm);
+    // 4. LISTENER UNTUK SUBMIT FORM EDIT (Perbaikan Modal)
+    document.getElementById('editProductForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const productId = form.querySelector('#editProductId').value;
+        const formData = new FormData(form); 
+        
+        try {
+            const response = await fetch(`/api/merch/product/${productId}`, {
+                method: 'PUT',
+                body: formData,
+            });
 
-    function showForm(p) {
-        if (p) {
-            // EDIT MODE
-            isEditMode = true;
-            formTitle.textContent = 'Edit Produk: ' + p.name;
-            merchIdInput.value = p.id;
-            form.name.value = p.name;
-            form.price.value = p.price;
-            form.stock.value = p.stock;
-            imageFile.required = false; // Tidak wajib upload ulang saat edit
-            imageHelp.textContent = `Kosongkan input file jika tidak ingin mengubah gambar. Gambar saat ini: ${p.url.split('/').pop()}`;
-        }
-        formContainer.style.display = 'block';
-    }
+            const result = await response.json();
+            
+            if (response.ok) {
+                alert(`✅ Sukses: ${result.message}`);
+                
+                const modalElement = document.getElementById('editProductModal');
+                
+                // ⭐ GANTI SETTIMEOUT dengan Event Bootstrap
+                setupModalReload(modalElement); 
+                bootstrap.Modal.getInstance(modalElement).hide();
 
-    // Delegasi event untuk tombol Edit di tabel
-    tbody.addEventListener('click', (event) => {
-        if (event.target.classList.contains('edit-btn')) {
-            const btn = event.target;
-            const p = {
-                id: btn.dataset.id,
-                name: btn.dataset.name,
-                price: btn.dataset.price,
-                stock: btn.dataset.stock,
-                url: btn.dataset.url // Asumsi URL gambar dimasukkan ke data-url
-            };
-            showForm(p);
+            } else {
+                alert(`❌ Gagal mengupdate produk: ${result.message}`);
+            }
+        } catch (error) {
+            console.error("Error submit form edit:", error);
+            alert('Terjadi error saat terhubung ke server.');
         }
     });
+}
 
-    loadProducts(); // Panggil saat halaman dimuat
-});
+// FUNGSI BARU: Mengambil data dan menampilkan modal edit
+async function openEditModal(id) {
+    try {
+        const response = await fetch(`/api/merch/products/${id}`); 
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+            alert('Gagal memuat data produk untuk diedit.');
+            return;
+        }
+
+        const data = result.data;
+        
+        // Isi form Edit
+        document.getElementById('editProductId').value = data.id;
+        document.getElementById('editProductName').value = data.name;
+        document.getElementById('editProductDescription').value = data.description;
+        document.getElementById('editProductPrice').value = data.price;
+        document.getElementById('editProductStock').value = data.stock;
+        document.getElementById('editExistingImageUrl').value = data.imageUrl; 
+
+        // Kosongkan input file (type="file")
+        document.getElementById('editProductImageFile').value = '';
+
+        // Tampilkan Modal Edit
+        const modalElement = document.getElementById('editProductModal');
+        new bootstrap.Modal(modalElement).show();
+
+    } catch (error) {
+        console.error("Error loading edit modal:", error);
+        alert('Gagal mengambil data produk dari server.');
+    }
+}
+
+
+// Fungsi Delete (memanggil API DELETE)
+async function deleteProduct(id) {
+    try {
+        const response = await fetch(`/api/merch/product/${id}`, {
+            method: 'DELETE'
+        });
+        const result = await response.json();
+
+        if (response.ok) {
+            alert(`✅ ${result.message}`);
+            // ⭐ PENTING: Panggil loadAdminMerchandise langsung
+            loadAdminMerchandise(); 
+        } else {
+            alert(`❌ Gagal: ${result.message}`);
+        }
+    } catch (error) {
+        alert('Error jaringan saat menghapus produk.');
+    }
+}

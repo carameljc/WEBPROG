@@ -1,3 +1,5 @@
+// controllers/transactionController.js
+
 const db = require('../config/database'); // Sesuaikan jika Anda menggunakan '../config/db'
 const { isLoggedIn } = require('../middleware/authMiddleware'); // Pastikan path benar
 
@@ -5,8 +7,9 @@ const { isLoggedIn } = require('../middleware/authMiddleware'); // Pastikan path
 // Logika Transaksi: Simpan Multi-Row (Kriteria 5a)
 // =========================================================
 exports.saveTransaction = async (req, res) => {
+    // ... (Fungsi saveTransaction tetap sama) ...
     const { items } = req.body; 
-    const userId = req.session.user ? req.session.user.id : null; // Ambil user ID dari session
+    const userId = req.session.user ? req.session.user.id : null; 
     
     if (!userId) {
         return res.status(401).json({ success: false, message: 'Anda harus login untuk mencatat transaksi.' });
@@ -50,7 +53,7 @@ exports.saveTransaction = async (req, res) => {
 // Logika Laporan: Report & Search/Filter (Kriteria 5b, 5c)
 // =========================================================
 exports.getReport = async (req, res) => {
-    // Kriteria 5c: Search/Filter
+    // ... (Fungsi getReport tetap sama) ...
     const searchQuery = req.query.q || '';
 
     let sql = `
@@ -77,5 +80,61 @@ exports.getReport = async (req, res) => {
     } catch (error) {
         console.error("Error fetching transaction report:", error);
         return res.status(500).json({ success: false, message: 'Gagal memuat laporan transaksi.' });
+    }
+};
+
+// =========================================================
+// Logika Detail Transaksi (Fungsi Baru)
+// =========================================================
+exports.getTransactionDetail = async (req, res) => {
+    const { id } = req.params;
+
+    // Query untuk mengambil data header transaksi dan semua item terkait
+    const detailQuery = `
+        SELECT 
+            t.id, 
+            t.transaction_date, 
+            t.total_amount, 
+            u.username as user_pencatat,
+            ti.item_description,
+            ti.amount as item_amount
+        FROM transactions t
+        JOIN users u ON t.user_id = u.id
+        LEFT JOIN transaction_items ti ON t.id = ti.transaction_id
+        WHERE t.id = ?
+        ORDER BY ti.id ASC
+    `;
+
+    try {
+        const [rows] = await db.query(detailQuery, [id]);
+
+        if (rows.length === 0) {
+            return res.status(404).json({ success: false, message: 'Transaksi tidak ditemukan.' });
+        }
+
+        // Memproses hasil query menjadi satu objek detail (Header + Array Items)
+        const header = {
+            id: rows[0].id,
+            transaction_date: rows[0].transaction_date,
+            total_amount: rows[0].total_amount,
+            user_pencatat: rows[0].user_pencatat,
+            items: []
+        };
+
+        rows.forEach(row => {
+            // Hanya tambahkan item jika memang ada (untuk kasus transaksi tanpa item)
+            if (row.item_description) {
+                header.items.push({
+                    description: row.item_description,
+                    amount: row.item_amount
+                });
+            }
+        });
+
+        return res.json({ success: true, transaction: header });
+
+    } catch (error) {
+        console.error("Error fetching transaction detail:", error);
+        return res.status(500).json({ success: false, message: 'Gagal memuat detail transaksi.' });
     }
 };

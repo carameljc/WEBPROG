@@ -1,14 +1,17 @@
+// routes/transaction.js
+
 const express = require('express');
 const router = express.Router();
-// Pastikan path ini benar!
-const transactionController = require('../controllers/transactionController'); 
-const { isLoggedIn } = require('../middleware/authMiddleware'); // Pastikan middleware ini tersedia
+const transactionController = require('../controllers/transactionController');
+const { isLoggedIn } = require('../middleware/authMiddleware'); 
 
-// [a] Simpan Transaksi (Multiple Rows)
+// Route Simpan Transaksi Multi-Row
 router.post('/save', isLoggedIn, transactionController.saveTransaction);
 
-// [b], [c] Lihat Laporan Transaksi (Report, Search, Filter, Print)
-// ERROR DIPERBAIKI: transactionController.getReport sekarang pasti function
-router.get('/report', isLoggedIn, transactionController.getReport);
+// Route Laporan Transaksi (Bisa diakses tanpa auth atau dengan auth, tergantung kebijakan)
+router.get('/report', transactionController.getReport);
+
+// Route BARU untuk Detail Transaksi berdasarkan ID
+router.get('/detail/:id', transactionController.getTransactionDetail);
 
 module.exports = router;

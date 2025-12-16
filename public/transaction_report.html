@@ -13,14 +13,19 @@
     <main class="container py-4">
         <h2 class="mb-4">Laporan Transaksi Persembahan</h2>
 
-        <form id="reportSearchForm" class="d-flex mb-4 gap-2" onsubmit="event.preventDefault(); loadReport();">
+        <form id="reportSearchForm" class="d-flex mb-4 gap-2" onsubmit="loadReport(event);">
             <input type="text" id="searchInput" class="form-control me-2" placeholder="Cari Berdasarkan Nama User / Total Jumlah..." aria-label="Search">
             <button type="submit" class="btn btn-primary">Cari / Filter</button>
         </form>
 
-        <button class="btn btn-info mb-4" onclick="window.print()">
-            🖨️ Print Laporan
-        </button>
+        <div class="d-flex gap-2 mb-4">
+            <button class="btn btn-danger" onclick="window.print()">
+                🖨️ Print Laporan
+            </button>
+            <a href="index.html" class="btn btn-secondary">
+                🏠 Kembali ke Beranda
+            </a>
+        </div>
 
         <div class="table-responsive">
             <table class="table table-striped table-bordered table-hover">
@@ -40,6 +45,24 @@
         </div>
     </main>
 
+    <div class="modal fade" id="transactionDetailModal" tabindex="-1" aria-labelledby="detailModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title" id="detailModalTitle">Detail Transaksi</h5>
+                    
+                </div>
+                <div class="modal-body" id="detailModalBody">
+                    <p class="text-center">Memuat...</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-    <script src="/js/report.js"></script> </body>
+    <script src="/js/report.js"></script> 
+</body>
 </html>
