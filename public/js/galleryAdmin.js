@@ -1,5 +1,3 @@
-// public/js/galleryAdmin.js (Kode Lengkap, Perbaikan Path)
-
 document.addEventListener('DOMContentLoaded', () => {
     // --- 1. AMBIL SEMUA ELEMEN YANG DIBUTUHKAN DI AWAL ---
     const uploadForm = document.getElementById('upload-form');
@@ -32,7 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 let mediaElementThumbnail = '';
                 let mediaElementForModal = '';
 
-                // ✅ PERBAIKAN KRITIS DI SINI: Gunakan item.file_path, bukan membangun path yang salah.
                 // item.file_path = "/galleryMedia/namafile.ext" (Path dari DB)
                 const filePath = item.file_path; 
 

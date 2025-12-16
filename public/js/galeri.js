@@ -1,5 +1,47 @@
 document.addEventListener('DOMContentLoaded', () => {
     const galleryContainer = document.getElementById('gallery-container'); 
+    let galleryItems = [];
+
+    // Inisialisasi Modal
+    function initModal() {
+        const modal = document.getElementById('gallery-modal');
+        const closeBtn = document.getElementById('modal-close-btn');
+        const modalContent = document.getElementById('modal-content');
+        
+        if (!modal) {
+            console.warn('Modal element not found');
+            return;
+        }
+        
+        closeBtn.addEventListener('click', () => {
+            modal.classList.remove('visible');
+        });
+        
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('visible');
+            }
+        });
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('visible')) {
+                modal.classList.remove('visible');
+            }
+        });
+        
+        window.openModal = (index) => {
+            if (!galleryItems[index]) return;
+            
+            const item = galleryItems[index];
+            const isImage = item.file_type === 'image';
+            
+            modalContent.innerHTML = isImage
+                ? `<img src="${item.file_path}" alt="${item.caption || 'Galeri'}">`
+                : `<video controls autoplay src="${item.file_path}"></video>`;
+            
+            modal.classList.add('visible');
+        };
+    }
 
     async function loadPublicGallery() {
         galleryContainer.innerHTML = '<p class="loading-text">Memuat galeri...</p>';
@@ -12,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const items = await response.json(); 
+            galleryItems = items;
             galleryContainer.innerHTML = ''; 
 
             if (items.length === 0 || !Array.isArray(items)) {
@@ -19,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
                  return;
             }
 
-            items.forEach(item => {
+            items.forEach((item, index) => {
                 const galleryItem = document.createElement('div');
                 galleryItem.className = 'gallery-item'; 
                 
@@ -29,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (item.file_type === 'image') {
                     mediaElement = `<img src="${filePath}" alt="${item.caption || 'Galeri'}" loading="lazy">`;
                 } else if (item.file_type === 'video') {
-                    mediaElement = `<video controls src="${filePath}" preload="metadata"></video>`;
+                    mediaElement = `<video src="${filePath}" preload="metadata"></video>`;
                 }
 
                 galleryItem.innerHTML = `
@@ -44,6 +87,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 `;
                 
+                galleryItem.addEventListener('click', () => {
+                    if (typeof window.openModal === 'function') {
+                        window.openModal(index);
+                    } else {
+                        console.error('Modal function not initialized');
+                    }
+                });
+                
                 galleryContainer.appendChild(galleryItem);
             });
 
@@ -53,5 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Inisialisasi
+    initModal();
     loadPublicGallery();
 });

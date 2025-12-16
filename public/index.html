@@ -6,187 +6,25 @@
     <title>GPdI Bethlehem</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" type="image/png" href="/Foto/logo/logo_biasa.png"> 
-    
     <link rel="stylesheet" href="/css/style.css">
-
-    <style>
-        /* =========================================
-           1. CSS SPLASH SCREEN
-        ========================================= */
-        #splash-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: white; z-index: 9999;
-            display: flex; justify-content: center; align-items: center;
-            transition: opacity 0.8s ease-out, visibility 0.8s;
-            cursor: pointer;
-        }
-        #splash-screen.hidden { opacity: 0; visibility: hidden; }
-        
-        #splash-video {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            object-fit: cover; 
-        }
-
-        /* Tombol Skip di Splash Screen */
-        .skip-btn {
-            position: absolute; top: 30px; right: 30px; z-index: 10000;
-            width: 30px; height: 30px;
-            background: transparent; border: none; cursor: pointer;
-        }
-        /* Icon X untuk skip (Opsional, bisa diganti text) */
-        .skip-btn::before, .skip-btn::after {
-            content: ''; position: absolute; top: 50%; left: 50%;
-            width: 20px; height: 2px; background-color: #333;
-        }
-        .skip-btn::before { transform: translate(-50%, -50%) rotate(45deg); }
-        .skip-btn::after { transform: translate(-50%, -50%) rotate(-45deg); }
-
-
-        /* =========================================
-           2. CSS HERO & HEADER (STICKY & GRADIENT)
-        ========================================= */
-        .hero-banner {
-            width: 100%; height: 100vh; position: relative; overflow: hidden;
-        }
-        .hero-banner img {
-            width: 100%; height: 100%; object-fit: cover; object-position: center;
-        }
-
-        header {
-            position: fixed; /* Sticky Navbar */
-            top: 0; left: 0; width: 100%;
-            z-index: 100;
-            background: linear-gradient(to bottom, #270c41 0%, rgba(39, 12, 65, 0) 100%);
-            padding-bottom: 200px; 
-            pointer-events: none; /* Agar klik tembus di area kosong */
-        }
-        nav { pointer-events: auto; } /* Kembalikan event klik pada menu */
-
-        .navbar {
-            padding-top: 15px !important;
-            background-color: transparent !important;
-        }
-
-        /* Styling Link Menu (Desktop) */
-        .navbar-nav .nav-link {
-            color: rgba(255, 255, 255, 0.95) !important;
-            font-weight: 500;
-            font-size: 1rem;
-            margin: 0 8px;
-            transition: all 0.3s;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-        }
-        
-        /* Hover Desktop */
-        @media (min-width: 1200px) {
-            .navbar-nav .nav-link:hover {
-                width: auto;
-                transform: translateY(-2px);
-                background-color: #270c41; 
-                border-radius: 5px;
-                color: #bd81f6;
-            }
-        }
-        
-        .navbar-toggler:focus { box-shadow: none; }
-
-        /* =========================================
-           3. MENU MOBILE / OFFCANVAS
-        ========================================= */
-        .offcanvas {
-            background-color: rgba(0, 0, 0, 0.1) !important; 
-            backdrop-filter: blur(15px); 
-            -webkit-backdrop-filter: blur(15px);
-            color: white;
-            border-left: 1px solid rgba(255,255,255,0.1);
-            box-shadow: none;
-        }
-        .offcanvas-header { border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .offcanvas-title {
-            font-weight: 700; color: #ffffff; letter-spacing: 1px;
-            font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5); 
-        }
-        .btn-close-white { filter: invert(1) grayscale(100%) brightness(200%); }
-
-        #logout-btn {
-            background-color: #270c41 !important; 
-            border: 1px solid #270c41 !important;
-            color: white !important;
-            transition: background 0.3s;
-        }
-        #logout-btn:hover { background-color: #1a052e !important; }
-
-        /* Custom Shadow & Image Styling */
-        .shadow-purple {
-            box-shadow: 8px 8px 20px rgba(39, 12, 65, 0.4);
-            transition: all 0.3s ease; 
-        }
-        .shadow-purple:hover {
-            transform: translateY(-5px);
-            box-shadow: 12px 12px 25px rgba(39, 12, 65, 0.6); 
-        }
-        .img-cover {
-            width: 100%; height: 100%; object-fit: cover; aspect-ratio: 1 / 1; 
-        }
-
-        /* =========================================
-           4. LAYOUT KHUSUS MOBILE (HP/Tablet)
-        ========================================= */
-        @media (max-width: 1199px) {
-            .offcanvas-body { padding: 0 !important; } 
-
-            .navbar-nav { margin-top: 20px; padding-right: 0 !important; width: 100%; }
-
-            .navbar-nav .nav-link {
-                font-size: 1.1rem;
-                padding: 15px 25px; 
-                border-bottom: 1px solid rgba(255,255,255,0.05);
-                text-align: left;
-                width: 100%;
-                border-radius: 0;
-            }
-            
-            .navbar-nav .nav-link:hover {
-                background-color: #270c41;
-                color: #ffffff !important;
-                transform: none;
-            }
-
-            .nav-user {
-                margin-top: 30px;
-                display: flex; flex-direction: column; gap: 15px;
-                padding-left: 25px; padding-right: 25px;
-            }
-            .nav-button, #logout-btn { width: 100%; padding: 12px; font-size: 1rem; }
-
-            .offcanvas {
-                --bs-offcanvas-width: 80%; width: 80% !important;
-                background-color: rgba(0, 0, 0, 0.5) !important;
-                backdrop-filter: blur(20px) !important;
-            }
-            #register-link:hover {
-                color: #ffffff !important; background-color: #270c41; border-color: #270c41;          
-            }
-        }
-    </style>
 </head>
 <body>
+    <!-- Splash Screen -->
     <div id="splash-screen">
         <video id="splash-video" src="/Foto/logo/animasi_logo.mp4" autoplay muted playsinline></video>
         <button class="skip-btn" onclick="document.getElementById('splash-screen').classList.add('hidden'); setTimeout(()=>{document.getElementById('splash-screen').style.display='none'},800);"></button>
     </div>
 
+    <!-- Header & Navigation -->
     <header>
         <nav class="navbar navbar-expand-xl navbar-dark container-fluid px-4">
-            
             <a class="navbar-brand" href="index.html">
                 <img src="/Foto/logo/logo_putih.png" alt="Logo Gereja" style="width: 70px;">
             </a>
 
-           <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" style="background: transparent !important; border: none; box-shadow: none;">
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" style="background: transparent !important; border: none; box-shadow: none;">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -198,6 +36,7 @@
 
                 <div class="offcanvas-body">
                     <div class="navbar-nav justify-content-end flex-grow-1 pe-3 align-items-xl-center">
+                        <!-- PERBAIKI LINK GALERI DI BAWAH INI -->
                         <a href="/tentang.html" class="nav-link public-only">Tentang Kami</a>
                         <a href="/jadwal.html" class="nav-link public-only">Jadwal Ibadah</a>
                         <a href="/merchandise.html" class="nav-link public-only jemaat-only">Merchandise</a>
@@ -230,12 +69,13 @@
         </nav>
     </header>
 
+    <!-- Hero Banner -->
     <div class="hero-banner">
         <img src="/Foto/Welcome.jpg" alt="Welcome to GPdI Bethlehem">
     </div>
 
+    <!-- Main Content -->
     <main class="mt-5">
-        
         <div id="public-content" class="mb-5 p-4 p-md-5">
             <div class="row align-items-center gx-5">
                 <div class="col-lg-6 mb-4 mb-lg-0 text-start">
@@ -287,32 +127,39 @@
 
         <hr class="my-5" style="border-top: 2px solid #eee;">
 
+        <!-- Gallery Section - PERBAIKI CLASS GRID -->
         <section id="galeri-section" class="px-4 px-md-5">
             <h1 class="display-5" style="color: #270349; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif, cursive; font-weight: 700;">Galeri</h1>
-            <div id="gallery-container" class="gallery-grid"></div>
+            <div id="gallery-container" class="gallery-grid grid-4-col"></div> <!-- TAMBAH CLASS grid-4-col -->
         </section>
         
         <div class="mb-5"></div> 
     </main>
 
+    <!-- Modal Popup untuk Galeri -->
+    <div id="gallery-modal" class="modal-overlay">
+        <span class="modal-close" id="modal-close-btn">&times;</span>
+        <div class="modal-content" id="modal-content"></div>
+    </div>
+
+    <!-- Scripts -->
     <script src="/js/main.js"></script>
+    <script src="/js/galeri.js"></script> <!-- TAMBAH SCRIPT GALERI -->
 
     <script>
-        // SCRIPT SPLASH SCREEN ANTI-MACET
+        // SCRIPT SPLASH SCREEN
         document.addEventListener("DOMContentLoaded", () => {
             const splashScreen = document.getElementById('splash-screen');
             const splashVideo = document.getElementById('splash-video');
             
-            // 1. Cek apakah user sudah pernah melihat intro
             if (sessionStorage.getItem('introShown')) {
                 splashScreen.style.display = 'none'; 
                 return; 
             }
 
             let splashHasBeenHidden = false;
-            splashVideo.playbackRate = 1.7; // Percepat video sedikit
+            splashVideo.playbackRate = 1.7;
 
-            // Fungsi Utama Menutup Splash
             function hideSplashScreen() {
                 if (splashHasBeenHidden) return; 
                 splashHasBeenHidden = true;
@@ -321,23 +168,18 @@
                 sessionStorage.setItem('introShown', 'true');
             }
 
-            // 2. Event Listener Standar
             splashVideo.addEventListener('ended', hideSplashScreen);
             splashVideo.addEventListener('error', hideSplashScreen); 
-            
-            // 3. SAFETY NET: Jika dalam 4 detik tidak selesai, tutup paksa
-            setTimeout(hideSplashScreen, 4000); 
-
-            // 4. KLIK UNTUK MENUTUP (Fitur Tambahan)
+            setTimeout(hideSplashScreen, 4000);
             splashScreen.addEventListener('click', hideSplashScreen);
 
-            // 5. Coba Play Otomatis
             splashVideo.play().catch(error => {
                 console.log("Autoplay diblokir browser, menutup splash screen...");
-                hideSplashScreen(); // Jika diblokir, langsung masuk homepage
+                hideSplashScreen();
             });
         });
     </script>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
