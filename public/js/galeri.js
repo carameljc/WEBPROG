@@ -1,64 +1,55 @@
-// public/js/galeri.js
-
 document.addEventListener('DOMContentLoaded', () => {
     const galleryContainer = document.getElementById('gallery-container'); 
 
     async function loadPublicGallery() {
-        galleryContainer.innerHTML = '<p class="col-12 text-center">Memuat galeri...</p>';
+        galleryContainer.innerHTML = '<p class="loading-text">Memuat galeri...</p>';
 
         try {
-            // Memanggil endpoint yang ditangani oleh galleryController.getItems
             const response = await fetch('/api/gallery'); 
             
             if (!response.ok) {
-                throw new Error(`Gagal memuat data dari server. Status: ${response.status}`);
+                throw new Error(`Gagal memuat data. Status: ${response.status}`);
             }
 
             const items = await response.json(); 
             galleryContainer.innerHTML = ''; 
 
             if (items.length === 0 || !Array.isArray(items)) {
-                 galleryContainer.innerHTML = '<p class="col-12 text-center">Belum ada media di galeri saat ini.</p>';
+                 galleryContainer.innerHTML = '<div class="no-content-message"><p class="text-muted">Belum ada media di galeri saat ini.</p></div>';
                  return;
             }
 
             items.forEach(item => {
-                const itemDiv = document.createElement('div');
-                // Grid responsif: 3 kolom di desktop (lg-4), 4 kolom di layar besar (xl-3)
-                itemDiv.className = 'col-6 col-md-4 col-lg-3 mb-4'; 
+                const galleryItem = document.createElement('div');
+                galleryItem.className = 'gallery-item'; 
                 
-                // filePath dari Controller Anda adalah /galleryMedia/namafile
                 const filePath = item.file_path; 
                 let mediaElement = '';
 
-                // Menentukan elemen media
                 if (item.file_type === 'image') {
-                    mediaElement = `<img src="${filePath}" alt="${item.caption}" class="img-fluid rounded">`;
+                    mediaElement = `<img src="${filePath}" alt="${item.caption || 'Galeri'}" loading="lazy">`;
                 } else if (item.file_type === 'video') {
-                    // Video publik harus memiliki controls
-                    mediaElement = `<video controls src="${filePath}" class="img-fluid rounded"></video>`;
-                } else {
-                     mediaElement = `<p class="text-muted">Tipe file tidak didukung.</p>`;
+                    mediaElement = `<video controls src="${filePath}" preload="metadata"></video>`;
                 }
 
-                itemDiv.innerHTML = `
-                    <div class="card h-100 shadow-sm overflow-hidden">
-                        <div class="card-img-top p-2 media-preview">
+                galleryItem.innerHTML = `
+                    <div class="card h-100 shadow-sm border-0 overflow-hidden">
+                        <div class="gallery-img-wrapper">
                             ${mediaElement}
                         </div>
-                        <div class="card-body">
-                            <h6 class="card-title">${item.event_name || 'Tanpa Acara'}</h6>
+                        <div class="card-body p-3">
+                            <h6 class="gallery-card-title text-primary">${item.event_name || 'Tanpa Nama Acara'}</h6>
                             <p class="card-text text-muted small">${item.caption || 'Tidak ada keterangan'}</p>
                         </div>
                     </div>
                 `;
                 
-                galleryContainer.appendChild(itemDiv);
+                galleryContainer.appendChild(galleryItem);
             });
 
         } catch (error) {
-            console.error("Error saat memuat galeri publik:", error);
-            galleryContainer.innerHTML = '<p class="col-12 text-danger">Gagal memuat galeri. Periksa koneksi server.</p>';
+            console.error("Error:", error);
+            galleryContainer.innerHTML = '<p class="text-danger loading-text">Gagal memuat galeri.</p>';
         }
     }
 
