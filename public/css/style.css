@@ -398,7 +398,6 @@ button:not(#logout-btn):not([type="submit"]):hover {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     display: flex;
-    flex-direction: column;
 }
 
 .media-wrapper {
@@ -414,7 +413,6 @@ button:not(#logout-btn):not([type="submit"]):hover {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block;
 }
 
 .caption-wrapper {
@@ -438,7 +436,6 @@ button:not(#logout-btn):not([type="submit"]):hover {
     position: relative;
     cursor: pointer;
     overflow: hidden;
-    display: block;
 }
 
 .gallery-item::before,
