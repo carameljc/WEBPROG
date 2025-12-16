@@ -10,14 +10,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <link rel="icon" type="image/png" href="/Foto/logo/logo_biasa.png"> 
-
     <link rel="stylesheet" href="/css/style.css">
 
     <style>
         /* --- CSS KHUSUS HALAMAN INI --- */
-        
         body, html {
             overflow-x: hidden;
             width: 100%;
@@ -25,92 +25,56 @@
             padding: 0;
         }
 
-        /* Gambar Carousel Full Width */
+        /* Carousel */
         .about-carousel-img {
-            width: 100vw;       
-            max-width: 100%;    
-            height: auto;       
-            display: block;
-            margin: 0;
-            padding: 0;
+            width: 100vw; max-width: 100%; height: auto; display: block; margin: 0; padding: 0;
         }
-
-        #aboutCarousel {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-        }
-
+        #aboutCarousel { margin: 0; padding: 0; width: 100%; }
         .carousel-control-prev, .carousel-control-next { display: none !important; }
         .carousel-indicators [data-bs-target] { background-color: #000 !important; }
 
         /* Typography */
         .section-title { 
-            color: #270c41; 
-            font-weight: 700; 
-            border-bottom: 3px solid #bd81f6; 
-            display: inline-block; 
-            margin-bottom: 1rem;
-            font-family: 'Cinzel Decorative', cursive; 
-            font-size: 2rem; 
+            color: #270c41; font-weight: 700; border-bottom: 3px solid #bd81f6; 
+            display: inline-block; margin-bottom: 1rem;
+            font-family: 'Cinzel Decorative', cursive; font-size: 2rem; 
         }
 
-        /* --- CSS UPDATE: SECTION BACKGROUND UNGU TUA (FULL WIDTH) --- */
+        /* Section Ungu */
         .bg-dark-purple-section {
-            background-color: #270c41; /* Warna Ungu Tua */
-            color: white !important;
-            width: 100%;               /* Lebar Penuh */
-            padding: 50px;           /* Padding Atas Bawah yang lega */
-            margin: 0;                 /* Hapus margin luar */
-            border-radius: 0;          /* Hapus radius agar kotak tajam di ujung layar */
+            background-color: #270c41; color: white !important; width: 100%;               
+            padding: 80px; margin: 0; border-radius: 0;          
         }
-
-        /* Judul & Teks di dalam section ungu */
-        .bg-dark-purple-section .section-title {
-            color: white !important;
-            border-color: #bd81f6;
-        }
-        .bg-dark-purple-section .lead {
-            color: rgba(255, 255, 255, 0.9) !important;
-        }
+        .bg-dark-purple-section .section-title { color: white !important; border-color: #bd81f6; }
+        .bg-dark-purple-section .lead { color: rgba(255, 255, 255, 0.9) !important; }
 
         /* Gambar Samping */
         .side-image {
-            width: 70%;
-            object-fit: cover;
-            min-height: 350px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* Shadow lebih gelap agar kontras */
+            width: 70%; margin-left: 60px; object-fit: cover; min-height: 350px;
+            border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); 
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .side-image:hover {
+            transform: scale(1.05); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
         }
 
-        /* --- CSS VISI MISI --- */
+        /* Visi Misi */
         .visi-misi-title {
-            font-family: 'Cinzel Decorative', cursive;
-            font-size: 3.5rem; 
-            color: #270c41;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
+            font-family: 'Cinzel Decorative', cursive; font-size: 3.5rem; 
+            color: #270c41; cursor: pointer; transition: all 0.3s ease; position: relative;
         }
         .visi-misi-title:hover { color: #bd81f6; transform: translateY(-5px); }
-        .vm-separator {
-            width: 4px; height: 80px; background-color: #270c41;
-            border-radius: 2px; margin: 0 40px;
-        }
-        .vm-content-box {
-            background-color: #f8f9fa;
-            border-left: 5px solid #270c41;
-            border-radius: 8px;
-            padding: 30px;
-            margin-top: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
+        .vm-separator { width: 4px; height: 80px; background-color: #270c41; border-radius: 2px; margin: 0 40px; }
+        
+        .vm-content-box, .collapse img { display: block; margin-left: auto; margin-right: auto; }
+
+        /* Responsive */
         @media (max-width: 768px) {
             .visi-misi-title { font-size: 2.5rem; }
             .vm-separator { width: 80%; height: 2px; margin: 20px auto; }
             .order-mobile-image-first { order: -1; margin-bottom: 30px; }
-            /* Padding di HP disesuaikan */
-            .bg-dark-purple-section { padding: 50px 0; }
+            .bg-dark-purple-section { padding: 50px 20px; }
+            .side-image { width: 100%; margin-left: 0; }
         }
     </style>
 </head>
@@ -194,68 +158,83 @@
         </div>
         
         <section class="bg-dark-purple-section">
-            <div class="pl-4 row align-items-center gx-5">
-                    
+                <div class="row align-items-center gx-5">
                     <div class="col-lg-6">
                         <h3 class="section-title mb-4">GPdI Bethlehem</h3>
                         <p class="lead"> 
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                         </p>
                     </div>
-                    
                     <div class="col-lg-6 order-mobile-image-first">
                         <img src="/Foto/jumatAgung_2025/jumatAgung_4.jpg" alt="Suasana Ibadah Jumat Agung" class="img-fluid side-image">
                     </div>
-
                 </div>
-            </div>
         </section>
 
 
-        <div class="container py-5">
-            <div class="row justify-content-center">
+            <div class="row justify-content-center my-5">
                 <div class="col-lg-11">
 
-                    <section class="my-5">
+                    <section>
                         <div class="d-flex d-flex-vm justify-content-center align-items-center">
                             <div class="text-center">
-                                <h2 class="visi-misi-title" data-bs-toggle="collapse" data-bs-target="#collapseVisi" aria-expanded="false" aria-controls="collapseVisi">
-                                    VISI
-                                </h2>
+                                <h2 class="visi-misi-title" data-bs-toggle="collapse" data-bs-target="#collapseVisi" aria-expanded="false" aria-controls="collapseVisi">VISI</h2>
                             </div>
                             <div class="vm-separator"></div>
                             <div class="text-center">
-                                <h2 class="visi-misi-title" data-bs-toggle="collapse" data-bs-target="#collapseMisi" aria-expanded="false" aria-controls="collapseMisi">
-                                    MISI
-                                </h2>
+                                <h2 class="visi-misi-title" data-bs-toggle="collapse" data-bs-target="#collapseMisi" aria-expanded="false" aria-controls="collapseMisi">MISI</h2>
                             </div>
                         </div>
 
                         <div class="collapse mt-4" id="collapseVisi" data-bs-parent="section">
-                            <div class="vm-content-box">
-                                <h3 class="fw-bold" style="color: #270c41;">Visi Kami</h3>
-                                <p class="lead">"Menjadi Gereja yang Dewasa, Peduli, dan Berdampak bagi Dunia, serta membawa setiap jemaat bertumbuh dalam pengenalan akan Kristus."</p>
-                            </div>
+                                <img src="/Foto/visi.jpg" alt="Visi Gereja" class="img-fluid rounded-3 shadow-sm mx-auto d-block">
                         </div>
 
                         <div class="collapse mt-4" id="collapseMisi" data-bs-parent="section">
-                            <div class="vm-content-box">
-                                <h3 class="fw-bold" style="color: #270c41;">Misi Kami</h3>
-                                <ul class="lead mb-0">
-                                    <li class="mb-2">Membangun jemaat yang berakar kuat dalam kebenaran Firman Tuhan.</li>
-                                    <li class="mb-2">Melayani sesama dengan kasih Kristus melalui aksi sosial nyata.</li>
-                                    <li class="mb-2">Memberitakan Injil Kerajaan Allah ke seluruh lapisan masyarakat.</li>
-                                    <li>Mempersiapkan generasi muda untuk menjadi pemimpin masa depan.</li>
-                                </ul>
-                            </div>
+                                <img src="/Foto/misi.jpg" alt="Misi Gereja" class="img-fluid rounded-3 shadow-sm mx-auto d-block">
                         </div>
                     </section>
 
                 </div>
-            </div>
         </div>
 
     </main>
+
+    <footer class="pt-5 pb-4" style="background-color: #270c41; color: white;">
+        <div class="container-fluid text-center text-md-start px-5"> 
+            <div class="row text-center text-md-start">
+                
+                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                    <img src="/Foto/logo/logo_putih.png" alt="Logo GPdI Bethlehem" class="mb-4" style="width: 200px; height: auto;">
+                </div>
+
+                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+                    <h5 class="text-uppercase mb-4">Hubungi Kami</h5>
+                    <p><i class="fas fa-home me-3"></i> Kelapa Gading, Jakarta Utara</p>
+                    <p><i class="fas fa-envelope me-3"></i> info@gpdibethlehem.com</p>
+                    <p><i class="fas fa-phone me-3"></i> +62 812 3456 7890</p>
+                </div>
+
+                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                    <h5 class="text-uppercase mb-4">Sosial Media</h5>
+                    <div>
+                        <a href="https://www.facebook.com/gpdibethlehem.kg" class="social-icon text-white me-2"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/gpdibethlehem.kg" class="social-icon text-white me-2"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.youtube.com/c/GPdIBethlehem" class="social-icon text-white"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+            </div>
+
+            <hr class="mb-4" style="border-color: rgba(255,255,255,0.2);">
+
+            <div class="row align-items-center">
+                <div class="col-md-12 text-center text-md-start">
+                    <p class="mb-0">© 2025 <strong>GPdI Bethlehem Kelapa Gading</strong>. All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="/js/main.js"></script>
