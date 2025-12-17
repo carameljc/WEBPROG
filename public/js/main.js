@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         if(jemaatOnlyElements) jemaatOnlyElements.forEach(el => el.style.display = 'none');
         if(authElements) authElements.forEach(el => el.style.display = 'none');
     }
-    hideAllRoleMenus();
 
     // --- 2. FUNGSI LOAD HEADER (NAVBAR) ---
     // Ini yang bikin Navbar Index muncul di halaman lain!
@@ -28,8 +27,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const doc = parser.parseFromString(htmlString, 'text/html');
                 const nav = doc.querySelector('nav');
                 
+                
                 if (nav) {
-                    currentHeader.innerHTML = '';
+                    currentHeader.innerHTML = ''; // Bersihkan placeholder
                     currentHeader.appendChild(nav);
                     
                     // Re-inisialisasi variabel elemen menu karena DOM baru saja berubah
@@ -116,7 +116,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     // --- EVENT LISTENER LOGOUT (Global) ---
     // Menggunakan Event Delegation karena tombol logout mungkin hasil loadHeader
     document.addEventListener('click', async (event) => {
-        if (event.target && event.target.id === 'logout-btn') {
+        const logoutBtn = event.target.closest('#logout-btn');
+        if (logoutBtn) {
+            event.preventDefault();
             try {
                 await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
                 sessionStorage.removeItem('introShown'); 
@@ -126,4 +128,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
     });
+
+    document.body.classList.add('ready');
 });

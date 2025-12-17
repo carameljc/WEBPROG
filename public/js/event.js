@@ -1,101 +1,79 @@
-// public/js/event.js (Kode Final)
-
 document.addEventListener('DOMContentLoaded', () => {
-    const eventListContainer = document.getElementById('eventList');
-    const searchInput = document.getElementById('searchInput'); // Element input search
+    const eventCardContainer = document.getElementById('eventCardContainer');
+    const searchInput = document.getElementById('searchInput');
+    const searchForm = document.getElementById('searchForm');
 
-    // ========================================================
-    // 1. FUNGSI UTAMA: LOAD DAN RENDER EVENT (TERMASUK SEARCH)
-    // ========================================================
-    async function loadEventList(searchQuery = '') { 
-        eventListContainer.innerHTML = '<p class="col-12 text-center">Sedang memuat event...</p>';
+    async function loadEventList(searchQuery = '') {
+        // Tampilan loading yang bersih
+        eventCardContainer.innerHTML = '<p class="col-12 text-center text-muted py-5">Memuat daftar event...</p>';
+        
+        let url = `/api/event/daftar${searchQuery ? `?q=${encodeURIComponent(searchQuery)}` : ''}`;
 
-        let url = '/api/event/daftar';
-        // Tambahkan query parameter jika ada pencarian
-        if (searchQuery) {
-            url += `?q=${encodeURIComponent(searchQuery)}`;
-        }
+        try {
+            const response = await fetch(url);
+            const result = await response.json();
 
-        try {
-            const response = await fetch(url);
-            
-            if (!response.ok) {
-                throw new Error(`Gagal mengambil data dari server. (Status: ${response.status})`);
-            }
+            if (!result.success || result.data.length === 0) {
+                eventCardContainer.innerHTML = `
+                    <div class="col-12 text-center py-5">
+                        <p class="alert alert-info d-inline-block px-5 shadow-sm">
+                            Tidak ada event ditemukan ${searchQuery ? `untuk "${searchQuery}"` : ''}.
+                        </p>
+                    </div>`;
+                return;
+            }
 
-            const result = await response.json();
-            
-            if (!result.success) {
-                eventListContainer.innerHTML = `<p class="col-12 alert alert-danger">❌ ${result.message || 'Gagal memuat event dari server.'}</p>`;
-                return;
-            }
+            eventCardContainer.innerHTML = '';
+            
+            result.data.forEach(event => {
+                const posterPath = `/eventPosters/${event.poster}`;
+                
+                // Struktur HTML Card yang sinkron dengan style.css (Borderless)
+                const cardHtml = `
+                    <div class="col">
+                        <div class="event-card">
+                            <div class="event-poster-container">
+                                <img src="${posterPath}" alt="${event.nama_event}" class="event-poster">
+                                <div class="event-info-overlay">
+                                    <h5 class="m-0">${event.nama_event}</h5>
+                                </div>
+                            </div>
+                            <div class="card-body p-4 text-center">
+                                ${event.link_gform ? 
+                                    `<a href="${event.link_gform}" target="_blank" class="btn btn-daftar-event w-100">
+                                        Daftar / Info Lebih Lanjut
+                                     </a>` : 
+                                    `<button class="btn btn-secondary w-100" disabled>Pendaftaran Ditutup</button>`
+                                }
+                            </div>
+                        </div>
+                    </div>`;
+                eventCardContainer.insertAdjacentHTML('beforeend', cardHtml);
+            });
+        } catch (e) {
+            console.error("Fetch error:", e);
+            eventCardContainer.innerHTML = '<p class="col-12 text-danger text-center py-5">Gagal terhubung ke server. Silakan coba lagi nanti.</p>';
+        }
+    }
 
-            const events = result.data;
-            eventListContainer.innerHTML = ''; 
+    // Fungsi Pencarian
+    window.searchEvents = () => loadEventList(searchInput.value.trim());
 
-            if (events.length === 0) {
-                 eventListContainer.innerHTML = `<p class="col-12 text-center">Tidak ada event gereja yang ditemukan ${searchQuery ? `untuk kata kunci: "${searchQuery}"` : 'saat ini'}.</p>`;
-                 return;
-            }
-            
-            // Container sudah memiliki class 'row' di event.html
+    // Reset list saat input pencarian dikosongkan (X button atau backspace)
+    searchInput.addEventListener('input', () => { 
+        if(searchInput.value.trim() === '') {
+            loadEventList(''); 
+        } 
+    });
 
-            events.forEach(event => {
-                const eventCard = document.createElement('div');
-                // Gunakan class kolom Bootstrap untuk responsif (4 kolom di desktop, 6 di tablet, 12 di ponsel)
-                eventCard.className = 'col-sm-12 col-md-6 col-lg-4 mb-4'; 
+    // Menangani pencarian saat form disubmit (Enter)
+    if (searchForm) {
+        searchForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            window.searchEvents();
+        });
+    }
 
-                // 💡 PERUBAHAN KRITIS 3: Mengubah path sumber gambar ke /eventPosters/
-                const posterPath = `/eventPosters/${event.poster}`; 
-
-                eventCard.innerHTML = `
-                    <div class="card h-100 shadow-sm overflow-hidden">
-                        <div class="event-poster card-img-top">
-                            <img src="${posterPath}" alt="Poster Event: ${event.nama_event}" class="img-fluid" style="object-fit: cover; height: 200px; width: 100%;">
-                        </div>
-                        <div class="event-info card-body d-flex flex-column">
-                            <h5 class="card-title">${event.nama_event}</h5>
-                            
-                            ${event.link_gform ? 
-                                `<a href="${event.link_gform}" target="_blank" class="btn btn-primary mt-auto">Daftar / Info Lebih Lanjut</a>` : 
-                                '<span class="text-muted d-block mt-auto small">Pendaftaran ditutup.</span>'
-                            }
-                        </div>
-                    </div>
-                `;
-                eventListContainer.appendChild(eventCard);
-            });
-
-        } catch (error) {
-            console.error("Error saat memuat daftar event:", error);
-            eventListContainer.innerHTML = '<p class="col-12 alert alert-danger">❌ Terjadi kesalahan koneksi saat memuat event. (Cek Konsol Browser/Server)</p>';
-        }
-    }
-    
-    // ========================================================
-    // 2. FUNGSI HANDLER DAN LISTENER UNTUK FORM SEARCH
-    // ========================================================
-    
-    // A. Handler saat tombol 'Cari' ditekan
-    window.searchEvents = () => {
-        const query = searchInput.value.trim();
-        loadEventList(query);
-    };
-
-    // 💡 PERBAIKAN: Event Listener 'input' untuk auto-refresh (Sudah Selesai)
-    searchInput.addEventListener('input', () => {
-        const query = searchInput.value.trim();
-        
-        // Cek jika query kosong
-        if (query === '') {
-            // Memuat ulang semua event
-            loadEventList(''); 
-        } 
-    });
-
-
-    // ========================================================
-    // 3. PEMANGGILAN AWAL
-    // ========================================================
-    loadEventList();
+    // Pemanggilan awal saat halaman dibuka
+    loadEventList();
 });

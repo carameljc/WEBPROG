@@ -547,3 +547,236 @@ footer hr { border-color: rgba(255,255,255,0.1); }
     .bg-dark-purple-section { padding: 50px 20px; }
     .side-image { width: 100%; margin-left: 0; margin-top: 20px; }
 }
+
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
+/* --- Navbar & Hero Fix (Fokus Efek Gambar Kedua) --- */
+.custom-navbar {
+    background-color: rgba(39, 12, 65, 0.85) !important; /* Ungu gelap transparan */
+    backdrop-filter: blur(12px); /* Efek blur kaca */
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 1050;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Tombol Logout Sesuai Gambar Kedua */
+.btn-logout {
+    background-color: rgba(0, 0, 0, 0.25);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    padding: 5px 20px;
+    font-size: 0.85rem;
+    transition: 0.3s;
+}
+
+.btn-logout:hover {
+    background-color: #f44336;
+    border-color: #f44336;
+    color: white;
+}
+
+/* --- Hero Section --- */
+.hero-event {
+    height: 400px;
+    background-image: url('/Foto/natal_2024_1.jpg'); 
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    z-index: 1;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.3), #f8f9fa);
+}
+
+/* --- Typography Cinzel Decorative (Judul Gereja) --- */
+.section-title {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 3.2rem;
+    font-weight: 700;
+    color: #270c41;
+    margin-bottom: 5px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+}
+
+.section-subtitle {
+    font-size: 1.15rem;
+    color: #555;
+    border-bottom: 3px solid #bd81f6;
+    display: inline-block;
+    padding-bottom: 8px;
+    font-weight: 500;
+}
+
+/* --- Borderless Content Layout --- */
+.content-container {
+    margin-top: -60px; /* Konten naik agar menyatu dengan hero */
+    position: relative;
+    z-index: 2;
+    background: transparent !important; /* Penting: Menghilangkan kotak putih */
+}
+
+.event-heading {
+    font-weight: 700;
+    color: #270c41;
+    margin-bottom: 25px;
+    margin-top: 30px;
+}
+
+.btn-cari {
+    background-color: #673ab7;
+    border: none;
+    padding: 10px 30px;
+    font-weight: 600;
+    border-radius: 8px;
+}
+
+/* --- Event Card Design --- */
+.event-card {
+    background: #ffffff;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    transition: 0.3s ease-in-out;
+    overflow: hidden;
+    height: 100%;
+}
+
+.event-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(39, 12, 65, 0.2);
+}
+
+.event-poster-container {
+    width: 100%;
+    padding-top: 75%;
+    position: relative;
+}
+
+.event-poster {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover;
+}
+
+.event-info-overlay {
+    position: absolute;
+    bottom: 0; width: 100%; padding: 20px;
+    background: linear-gradient(to top, rgba(39, 12, 65, 0.95), transparent);
+    color: white;
+}
+
+.event-info-overlay h5 {
+    font-weight: 700;
+    margin: 0;
+}
+
+/* Tombol khusus di dalam card event */
+.btn-daftar-event {
+    background-color: #bd81f6; /* Ungu terang branding kamu */
+    color: white;
+    font-weight: 600;
+    border-radius: 10px;
+    padding: 12px;
+    border: none;
+    transition: 0.3s;
+}
+
+.btn-daftar-event:hover {
+    background-color: #270c41; /* Berubah jadi ungu gelap saat hover */
+    color: white;
+    transform: scale(1.02);
+}
+
+/* --- Fix Navbar Mobile & Offcanvas --- */
+@media (max-width: 1199px) {
+    /* 1. Sidebar Full Height & Background Ungu Gelap */
+    .offcanvas.offcanvas-end {
+        top: 0 !important;
+        height: 100vh !important; /* Paksa tinggi penuh layar */
+        width: 75% !important; /* Lebar sidebar */
+        background-color: #1a052e !important; /* Warna ungu sangat gelap */
+        border: none !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    /* 2. Header Menu (Teks MENU putih) */
+    .offcanvas-header {
+        padding: 25px 25px 15px 25px !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .offcanvas-title {
+        color: #ffffff !important;
+        font-weight: bold !important;
+        font-size: 1.4rem !important;
+        letter-spacing: 1px;
+    }
+
+    /* Tombol X (Close) warna putih */
+    .btn-close {
+        filter: invert(1) grayscale(100%) brightness(200%);
+    }
+
+    /* 3. Body Sidebar agar bisa mendorong Logout ke bawah */
+    .offcanvas-body {
+        padding: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        height: 100% !important;
+        overflow-y: auto;
+    }
+
+    /* 4. Daftar Fitur (Teks Putih & Garis Pembatas) */
+    .navbar-nav {
+        flex-direction: column !important;
+        width: 100% !important;
+    }
+
+    .nav-link {
+        color: #ffffff !important;
+        padding: 18px 25px !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        font-size: 1rem !important;
+        text-align: left !important;
+        font-weight: 500 !important;
+        transition: background 0.2s;
+    }
+
+    .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    /* 5. TOMBOL LOGOUT DI PALING BAWAH (PERSIS GAMBAR) */
+    #user-info {
+        margin-top: auto !important; /* Mendorong tombol ke bawah */
+        padding: 20px 20px 40px 20px !important; /* Ruang bawah lebih luas */
+        width: 100% !important;
+        background: transparent !important;
+    }
+
+    .btn-logout {
+        width: 100% !important;
+        padding: 14px !important;
+        background-color: #bd81f6 !important; /* Warna ungu terang sesuai gambar */
+        color: #ffffff !important;
+        border: none !important;
+        border-radius: 50px !important; /* Bentuk lonjong sempurna */
+        font-weight: 700 !important;
+        font-size: 1rem !important;
+        display: block !important;
+        text-align: center !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+}
