@@ -2,13 +2,14 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     loadMerchandise();
-    setupCheckoutListeners(); 
+    setupCheckoutListeners(); // Panggil fungsi baru
 });
 
-let availableProducts = []; 
+let availableProducts = []; // Menyimpan data produk yang dimuat
 
 async function loadMerchandise() {
     const listContainer = document.getElementById('merchandiseList');
+    const statusMessage = document.getElementById('statusMessage');
     listContainer.innerHTML = '<p class="text-center w-100">Memuat daftar produk...</p>';
     
     const apiUrl = '/api/merch/products'; 
@@ -21,7 +22,8 @@ async function loadMerchandise() {
             throw new Error(result.message || 'Gagal mengambil data merchandise dari server.');
         }
 
-        availableProducts = result.data; 
+        availableProducts = result.data; // Simpan data produk
+        
         listContainer.innerHTML = ''; 
 
         if (availableProducts.length === 0) {
@@ -31,6 +33,8 @@ async function loadMerchandise() {
 
         availableProducts.forEach(item => {
             const price = parseFloat(item.price).toLocaleString('id-ID');
+            
+            // Perbaikan Path Gambar
             const merchImagePath = item.imageUrl 
                 ? `/images/merch/${item.imageUrl}` 
                 : '/images/default_merch.jpg'; 
@@ -57,17 +61,19 @@ async function loadMerchandise() {
     } catch (error) {
         console.error("Error loading merchandise:", error);
         listContainer.innerHTML = `<p class="text-center w-100 text-danger">Gagal memuat produk. Error: ${error.message}</p>`;
+        statusMessage.textContent = 'Gagal memuat produk.';
+        statusMessage.classList.remove('d-none', 'alert-info');
+        statusMessage.classList.add('alert-danger');
     }
 }
 
 // =========================================================
-// FITUR CHECKOUT & PERHITUNGAN
+// FITUR CHECKOUT
 // =========================================================
 
 function setupCheckoutListeners() {
     const checkoutModalElement = document.getElementById('checkoutModal');
     const checkoutQuantityInput = document.getElementById('checkoutQuantity');
-    const shippingModeSelect = document.getElementById('shippingMode');
     const checkoutForm = document.getElementById('checkoutForm');
     const listContainer = document.getElementById('merchandiseList');
 
@@ -79,29 +85,26 @@ function setupCheckoutListeners() {
             const name = btn.dataset.name;
             const price = parseFloat(btn.dataset.price);
 
-            // Isi data awal modal
+            // Isi modal
             document.getElementById('checkoutProductName').textContent = name;
             document.getElementById('checkoutProductId').value = id;
             document.getElementById('checkoutPriceAtSale').value = price;
             document.getElementById('checkoutQuantity').value = 1;
-            
-            // Set default shipping mode
-            if(shippingModeSelect) shippingModeSelect.value = 'pribadi';
 
-            updateCheckoutCalculations(); // Hitung total awal
+            updateTotal(price); // Hitung total awal
 
+            // Tampilkan modal
             const myModal = new bootstrap.Modal(checkoutModalElement);
             myModal.show();
         }
     });
 
-    // 2. LISTENER PERUBAHAN INPUT (QUANTITY & SHIPPING)
-    if (checkoutQuantityInput) {
-        checkoutQuantityInput.addEventListener('input', updateCheckoutCalculations);
-    }
-    if (shippingModeSelect) {
-        shippingModeSelect.addEventListener('change', updateCheckoutCalculations);
-    }
+    // 2. LISTENER PERUBAHAN QUANTITY
+    checkoutQuantityInput.addEventListener('input', () => {
+        const quantity = parseInt(checkoutQuantityInput.value) || 0;
+        const price = parseFloat(document.getElementById('checkoutPriceAtSale').value);
+        updateTotal(price, quantity);
+    });
 
     // 3. LISTENER SUBMIT FORM CHECKOUT
     checkoutForm.addEventListener('submit', async (e) => {
@@ -110,39 +113,36 @@ function setupCheckoutListeners() {
         const quantity = parseInt(document.getElementById('checkoutQuantity').value);
         const productId = document.getElementById('checkoutProductId').value;
         const priceAtSale = parseFloat(document.getElementById('checkoutPriceAtSale').value);
-        
-        // Ambil Ongkir dari teks (hapus karakter non-angka)
-        const shippingCostText = document.getElementById('displayShipping').innerText;
-        const shippingCost = parseFloat(shippingCostText.replace(/[^0-9]/g, ''));
 
-        // Data Transaksi Lengkap untuk Sinkronisasi ke Master Tujuan Admin
+        if (quantity < 1) {
+            alert("Jumlah pembelian harus minimal 1.");
+            return;
+        }
+
         const transactionData = {
             items: [{
                 product_id: productId,
                 quantity: quantity,
-                price_at_sale: priceAtSale
-            }],
-            customer_name: document.getElementById('customerName').value,
-            customer_address: document.getElementById('customerAddress').value,
-            customer_phone: document.getElementById('customerPhone').value,
-            shipping_mode: document.getElementById('shippingMode').value,
-            shipping_cost: shippingCost
+                price_at_sale: priceAtSale // Menggunakan harga saat ini
+            }]
         };
 
         try {
             const response = await fetch('/api/merch/checkout', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                },
                 body: JSON.stringify(transactionData),
             });
-            
             const result = await response.json();
 
+            // Tutup modal
+            bootstrap.Modal.getInstance(checkoutModalElement).hide();
+
             if (response.ok) {
-                bootstrap.Modal.getInstance(checkoutModalElement).hide();
-                alert(`✅ Checkout Berhasil!\nTotal Akhir: Rp ${result.total_paid ? result.total_paid.toLocaleString('id-ID') : 'Sukses'}`);
-                loadMerchandise(); 
-                checkoutForm.reset();
+                alert(`✅ Checkout Berhasil! Total: Rp ${result.total_paid ? result.total_paid.toLocaleString('id-ID') : (priceAtSale * quantity).toLocaleString('id-ID')}`);
+                loadMerchandise(); // Muat ulang daftar produk untuk update stok
             } else if (response.status === 401) {
                 alert("❌ Pembelian gagal: Anda harus login terlebih dahulu.");
             } else {
@@ -156,29 +156,9 @@ function setupCheckoutListeners() {
     });
 }
 
-// Fungsi bantu untuk update subtotal, ongkir, dan total
-function updateCheckoutCalculations() {
-    const qtyInput = document.getElementById('checkoutQuantity');
-    const priceInput = document.getElementById('checkoutPriceAtSale');
-    const modeSelect = document.getElementById('shippingMode');
-    
-    if (!qtyInput || !priceInput || !modeSelect) return;
-
-    const qty = parseInt(qtyInput.value) || 0;
-    const price = parseFloat(priceInput.value) || 0;
-    const mode = modeSelect.value;
-    
-    // Logika biaya ongkir
-    const shippingCost = (mode === 'hadiah') ? 20000 : 10000;
-    const subtotal = qty * price;
-    const total = subtotal + shippingCost;
-
-    // Update tampilan di Modal
-    const subtotalEl = document.getElementById('displaySubtotal');
-    const shippingEl = document.getElementById('displayShipping');
-    const totalEl = document.getElementById('displayTotal');
-
-    if(subtotalEl) subtotalEl.innerText = `Rp ${subtotal.toLocaleString('id-ID')}`;
-    if(shippingEl) shippingEl.innerText = `Rp ${shippingCost.toLocaleString('id-ID')}`;
-    if(totalEl) totalEl.innerText = `Rp ${total.toLocaleString('id-ID')}`;
+// Fungsi bantu untuk update total bayar
+function updateTotal(price, quantity = 1) {
+    const qty = parseInt(document.getElementById('checkoutQuantity').value) || 0;
+    const total = price * qty;
+    document.getElementById('checkoutTotalAmount').textContent = total.toLocaleString('id-ID');
 }
