@@ -2,17 +2,25 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Input Transaksi Baru</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Transaksi Persembahan</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/authCheck.js"></script>
 </head>
 <body>
+    <header>
+        </header>
+
     <main class="container py-4">
-        <h2 class="mb-4">Input Transaksi Persembahan</h2>
+        <h2 class="mb-4">💰 Input Transaksi Persembahan</h2>
 
         <div id="statusMessage" class="alert d-none" role="alert"></div>
 
         <form id="transactionForm">
             <div class="table-responsive mb-3">
-                <table id="itemTable" class="table table-bordered table-striped">
+                <table id="itemTable" class="table table-bordered table-striped table-hover">
                     <thead class="table-dark">
                         <tr>
                             <th style="width: 70%;">Keterangan Item</th>
@@ -34,6 +42,10 @@
             </button>
         </form>
     </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    
+    <script src="/js/main.js"></script> 
     <script src="/js/transaction.js"></script>
 </body>
 </html>
