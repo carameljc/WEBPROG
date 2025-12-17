@@ -48,7 +48,7 @@ body.admin-page {
 
 /* 5. Tabel Header Ungu (Pengganti table-dark) */
 .table-purple thead tr th {
-    background: linear-gradient(90deg, #270c41 0%, #4a148c 100%) !important;
+    background: #4a148c !important;
     color: white;
     border-bottom: 3px solid #7b1fa2;
 }
@@ -88,12 +88,6 @@ body.admin-page {
     box-shadow: 0 5px 15px rgba(123, 31, 162, 0.4);
 }
 
-/* 5. Tabel Header Ungu (Pengganti table-dark) */
-.table-purple thead tr th {
-    background: linear-gradient(90deg, #270c41 0%, #4a148c 100%) !important;
-    color: white;
-    border-bottom: 3px solid #7b1fa2;
-}
 
 .container {
     max-width: 960px;
@@ -509,13 +503,6 @@ footer hr { border-color: rgba(255,255,255,0.1); }
     transform: translateY(-2px); /* Efek tombol naik dikit */
     box-shadow: 0 6px 15px rgba(167, 29, 49, 0.4);
 }
-
-/* Kalau ada tombol .btn-secondary, kita bikin senada juga */
-.btn-secondary {
-    background: #6c757d; /* Default */
-    border: none;
-}
-
 /* =========================================
    TOMBOL EDIT (Golden Amber - Mewah & Kalem)
    ========================================= */

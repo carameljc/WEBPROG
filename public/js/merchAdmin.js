@@ -2,7 +2,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     // Panggil loadAdminMerchandise untuk memuat data awal dan setupEventListeners
-    loadAdminMerchandise(true); // Kirim flag untuk setup listener hanya di awal
+    loadAdminMerchandise(true); 
 });
 
 // Fungsi untuk membersihkan backdrop/overlay modal secara agresif
@@ -13,9 +13,7 @@ const cleanUpModal = () => {
     document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
 };
 
-
 async function loadAdminMerchandise(initialLoad = false) {
-    // Panggil cleanup di awal (hanya sekali)
     cleanUpModal(); 
     
     const tableBody = document.getElementById('adminMerchTableBody');
@@ -43,16 +41,20 @@ async function loadAdminMerchandise(initialLoad = false) {
                     ? `/images/merch/${item.imageUrl}` 
                     : '/images/default_merch.jpg'; 
                 
+                // UPDATE: Menggunakan class CSS baru (btn-edit-yellow, btn-delete-lilac)
+                // align-middle biar teks rapi di tengah vertikal
                 const row = `
                     <tr>
-                        <td>${item.id}</td>
-                        <td><img src="${imagePath}" style="width: 50px; height: 50px; object-fit: cover;"></td>
-                        <td>${item.name}</td>
-                        <td>Rp ${price}</td>
-                        <td>${item.stock}</td>
-                        <td>
-                            <button class="btn btn-sm btn-warning edit-btn" data-id="${item.id}">Edit</button>
-                            <button class="btn btn-sm btn-danger delete-btn" data-id="${item.id}">Hapus</button>
+                        <td class="align-middle text-center">${item.id}</td>
+                        <td class="align-middle text-center">
+                            <img src="${imagePath}" class="shadow-sm rounded" style="width: 60px; height: 60px; object-fit: cover;">
+                        </td>
+                        <td class="align-middle fw-bold">${item.name}</td>
+                        <td class="align-middle">Rp ${price}</td>
+                        <td class="align-middle text-center">${item.stock}</td>
+                        <td class="align-middle text-center">
+                            <button class="btn btn-sm btn-edit-yellow edit-btn me-1" data-id="${item.id}">Edit</button>
+                            <button class="btn btn-sm btn-delete-lilac delete-btn" data-id="${item.id}">Hapus</button>
                         </td>
                     </tr>
                 `;
@@ -60,7 +62,6 @@ async function loadAdminMerchandise(initialLoad = false) {
             });
         }
         
-        // ⭐ PERBAIKAN: setupEventListeners hanya dipanggil sekali saat initialLoad
         if (initialLoad) {
             setupEventListeners(); 
         }
@@ -74,21 +75,16 @@ async function loadAdminMerchandise(initialLoad = false) {
 function setupEventListeners() {
     const tableBody = document.getElementById('adminMerchTableBody');
     
-    // FUNGSI UNTUK MENGATUR RELOAD SETELAH MODAL TERTUTUP (Digunakan di Submit)
+    // Helper untuk auto-reload saat modal tutup
     const setupModalReload = (modalElement) => {
-        // Hapus event listener lama sebelum menambahkan yang baru
         modalElement.removeEventListener('hidden.bs.modal', modalReloadHandler); 
-
-        // Tambahkan handler baru
         modalElement.addEventListener('hidden.bs.modal', modalReloadHandler);
     };
 
     const modalReloadHandler = function () {
         cleanUpModal(); 
         loadAdminMerchandise(); 
-        // Event listener akan dihapus sendiri oleh Modal Bootstrap setelah hide
     };
-
 
     // 1. LISTENER UNTUK TOMBOL EDIT/HAPUS (Delegation)
     tableBody.addEventListener('click', async (e) => {
@@ -105,20 +101,15 @@ function setupEventListeners() {
     });
 
     // 2. LISTENER UNTUK TOMBOL TAMBAH PRODUK BARU
-    const addBtn = document.querySelector('.btn-success'); 
+    // Menggunakan querySelector untuk tombol dengan href specific
+    const addBtn = document.querySelector('a[href="#addProductModal"]'); 
     if (addBtn) {
         addBtn.addEventListener('click', (e) => {
-            e.preventDefault(); 
-            
-            const modalElement = document.getElementById('addProductModal');
-            const myModal = new bootstrap.Modal(modalElement);
-            myModal.show();
-            
             document.getElementById('addProductForm').reset();
         });
     }
 
-    // 3. LISTENER UNTUK SUBMIT FORM TAMBAH PRODUK BARU (Perbaikan Modal)
+    // 3. LISTENER SUBMIT FORM TAMBAH
     document.getElementById('addProductForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         
@@ -134,13 +125,9 @@ function setupEventListeners() {
             
             if (response.ok) {
                 alert(`✅ Sukses: ${result.message}`);
-                
                 const modalElement = document.getElementById('addProductModal');
-                
-                // ⭐ GANTI SETTIMEOUT dengan Event Bootstrap
                 setupModalReload(modalElement); 
                 bootstrap.Modal.getInstance(modalElement).hide();
-
             } else {
                 alert(`❌ Gagal menambahkan produk: ${result.message}`);
             }
@@ -150,7 +137,7 @@ function setupEventListeners() {
         }
     });
     
-    // 4. LISTENER UNTUK SUBMIT FORM EDIT (Perbaikan Modal)
+    // 4. LISTENER SUBMIT FORM EDIT
     document.getElementById('editProductForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const form = e.target;
@@ -167,13 +154,9 @@ function setupEventListeners() {
             
             if (response.ok) {
                 alert(`✅ Sukses: ${result.message}`);
-                
                 const modalElement = document.getElementById('editProductModal');
-                
-                // ⭐ GANTI SETTIMEOUT dengan Event Bootstrap
                 setupModalReload(modalElement); 
                 bootstrap.Modal.getInstance(modalElement).hide();
-
             } else {
                 alert(`❌ Gagal mengupdate produk: ${result.message}`);
             }
@@ -184,7 +167,7 @@ function setupEventListeners() {
     });
 }
 
-// FUNGSI BARU: Mengambil data dan menampilkan modal edit
+// FUNGSI: Mengambil data dan menampilkan modal edit
 async function openEditModal(id) {
     try {
         const response = await fetch(`/api/merch/products/${id}`); 
@@ -197,18 +180,14 @@ async function openEditModal(id) {
 
         const data = result.data;
         
-        // Isi form Edit
         document.getElementById('editProductId').value = data.id;
         document.getElementById('editProductName').value = data.name;
         document.getElementById('editProductDescription').value = data.description;
         document.getElementById('editProductPrice').value = data.price;
         document.getElementById('editProductStock').value = data.stock;
         document.getElementById('editExistingImageUrl').value = data.imageUrl; 
-
-        // Kosongkan input file (type="file")
         document.getElementById('editProductImageFile').value = '';
 
-        // Tampilkan Modal Edit
         const modalElement = document.getElementById('editProductModal');
         new bootstrap.Modal(modalElement).show();
 
@@ -218,8 +197,7 @@ async function openEditModal(id) {
     }
 }
 
-
-// Fungsi Delete (memanggil API DELETE)
+// Fungsi Delete
 async function deleteProduct(id) {
     try {
         const response = await fetch(`/api/merch/product/${id}`, {
@@ -229,7 +207,6 @@ async function deleteProduct(id) {
 
         if (response.ok) {
             alert(`✅ ${result.message}`);
-            // ⭐ PENTING: Panggil loadAdminMerchandise langsung
             loadAdminMerchandise(); 
         } else {
             alert(`❌ Gagal: ${result.message}`);
