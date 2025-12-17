@@ -58,7 +58,7 @@
             transform: scale(1.05); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
         }
 
-        /* Visi Misi */
+        /* Visi Misi & Pengakuan Iman Title */
         .visi-misi-title {
             font-family: 'Cinzel Decorative', cursive; font-size: 3.5rem; 
             color: #270c41; cursor: pointer; transition: all 0.3s ease; position: relative;
@@ -66,6 +66,7 @@
         .visi-misi-title:hover { color: #bd81f6; transform: translateY(-5px); }
         .vm-separator { width: 4px; height: 80px; background-color: #270c41; border-radius: 2px; margin: 0 40px; }
         
+        /* Kontainer Gambar */
         .vm-content-box, .collapse img { display: block; margin-left: auto; margin-right: auto; }
 
         /* Responsive */
@@ -80,7 +81,53 @@
 </head>
 <body>
 
-    <header></header>
+    <header>
+        <nav class="navbar navbar-expand-xl navbar-dark container-fluid px-4">
+            <a class="navbar-brand" href="index.html">
+                <img src="/Foto/logo/logo_putih.png" alt="Logo Gereja" style="width: 70px;">
+            </a>
+
+           <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" style="background: transparent !important; border: none; box-shadow: none;">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">MENU</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close" style="background: transparent !important; border: none; box-shadow: none;"></button>
+                </div>
+
+                <div class="offcanvas-body">
+                    <div class="navbar-nav justify-content-end flex-grow-1 pe-3 align-items-xl-center">
+                        <a href="/tentang.html" class="nav-link public-only active">Tentang Kami</a>
+                        <a href="/jadwal.html" class="nav-link public-only">Jadwal Ibadah</a>
+                        <a href="/merchandise.html" class="nav-link public-only jemaat-only">Merchandise</a>
+                        <a href="/galeri.html" class="nav-link public-only">Galeri</a>
+                        <a href="/persembahan.html" class="nav-link public-only">Persembahan</a>
+                        
+                        <a href="/transaction_form.html" class="nav-link admin-only">Input Transaksi</a>
+                        <a href="/transaction_report.html" class="nav-link admin-only jemaat-only">Laporan</a>
+                        <a href="/merchAdmin.html" class="nav-link admin-only">Stok</a>
+                        <a href="/eventAdmin.html" class="nav-link admin-only">Event Admin</a>
+                        <a href="/jemaat.html" class="nav-link admin-only">Jemaat Admin</a>
+                        <a href="/galleryAdmin.html" class="nav-link admin-only">Galeri Admin</a>
+                        
+                        <a href="/event.html" class="nav-link jemaat-only">Event</a>
+                        <a href="/kritik.html" class="nav-link auth-only">Kritik & Saran</a>
+                        <a href="/profil.html" class="nav-link jemaat-only">Profil Saya</a>
+                    </div>
+
+                    <div class="nav-user ms-xl-3 d-flex align-items-center">
+                        <a href="/login.html" id="login-link" class="btn btn-warning fw-bold text-white rounded-pill px-4 nav-button">Login</a>
+                        <a href="/register.html" id="register-link" class="btn btn-outline-light fw-bold text-white rounded-pill px-4 ms-xl-2 nav-button">Daftar</a>
+                        <div id="user-info" style="display: none; width: 100%;">
+                            <button id="logout-btn" class="btn rounded-pill px-4" style="width: 100%;">Logout</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
 
     <main style="padding-top: 0;"> 
         
@@ -123,31 +170,39 @@
                 </div>
         </section>
 
+        <div class="row justify-content-center my-5">
+            <div class="col-lg-11">
 
-            <div class="row justify-content-center my-5">
-                <div class="col-lg-11">
-
-                    <section>
-                        <div class="d-flex d-flex-vm justify-content-center align-items-center">
-                            <div class="text-center">
-                                <h2 class="visi-misi-title" data-bs-toggle="collapse" data-bs-target="#collapseVisi" aria-expanded="false" aria-controls="collapseVisi">VISI</h2>
-                            </div>
-                            <div class="vm-separator"></div>
-                            <div class="text-center">
-                                <h2 class="visi-misi-title" data-bs-toggle="collapse" data-bs-target="#collapseMisi" aria-expanded="false" aria-controls="collapseMisi">MISI</h2>
-                            </div>
+                <section class="mb-5">
+                    <div class="d-flex d-flex-vm justify-content-center align-items-center">
+                        <div class="text-center">
+                            <h2 class="visi-misi-title" data-bs-toggle="collapse" data-bs-target="#collapseVisi" aria-expanded="false" aria-controls="collapseVisi">VISI</h2>
                         </div>
-
-                        <div class="collapse mt-4" id="collapseVisi" data-bs-parent="section">
-                                <img src="/Foto/visi.jpg" alt="Visi Gereja" class="img-fluid rounded-3 shadow-sm mx-auto d-block">
+                        <div class="vm-separator"></div>
+                        <div class="text-center">
+                            <h2 class="visi-misi-title" data-bs-toggle="collapse" data-bs-target="#collapseMisi" aria-expanded="false" aria-controls="collapseMisi">MISI</h2>
                         </div>
+                    </div>
 
-                        <div class="collapse mt-4" id="collapseMisi" data-bs-parent="section">
-                                <img src="/Foto/misi.jpg" alt="Misi Gereja" class="img-fluid rounded-3 shadow-sm mx-auto d-block">
-                        </div>
-                    </section>
+                    <div class="collapse mt-4" id="collapseVisi" data-bs-parent="section">
+                            <img src="/Foto/visi.jpg" alt="Visi Gereja" class="img-fluid rounded-3 shadow-sm mx-auto d-block">
+                    </div>
 
-                </div>
+                    <div class="collapse mt-4" id="collapseMisi" data-bs-parent="section">
+                            <img src="/Foto/misi.jpg" alt="Misi Gereja" class="img-fluid rounded-3 shadow-sm mx-auto d-block">
+                    </div>
+                </section>
+
+                <section class="mb-5 text-center">
+                    <h2 class="visi-misi-title" data-bs-toggle="collapse" data-bs-target="#collapseIman" aria-expanded="false" aria-controls="collapseIman">
+                        Pengakuan Iman GPdI
+                    </h2>
+                    <div class="collapse mt-4" id="collapseIman">
+                        <img src="/Foto/pengakuanIman.jpg" alt="Pengakuan Iman GPdI" class="img-fluid rounded-3 shadow-sm mx-auto d-block" style="max-width: 100%;">
+                    </div>
+                </section>
+
+            </div>
         </div>
 
     </main>

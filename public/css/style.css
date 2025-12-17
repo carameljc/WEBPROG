@@ -1,5 +1,5 @@
 /* ==========================================================================
-   1. GENERAL STYLING
+   1. GENERAL STYLING & RESET
    ========================================================================== */
 html, body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -7,87 +7,10 @@ html, body {
     padding: 0;
     background-color: #f0f2f5;
     color: #333;
-    overflow-x: hidden; /* PENTING: Mencegah scroll ke samping (bolong kanan) */
+    overflow-x: hidden; /* Mencegah scroll ke samping */
     width: 100%;
+    position: relative;
 }
-
-/* =========================================
-   TEMA ADMIN ROYAL PURPLE (Global Style)
-   ========================================= */
-
-/* 1. Background Halaman (Gradasi Ungu Muda Halus) */
-body.admin-page {
-    background: linear-gradient(180deg, #f4eefc 0%, #ffffff 100%);
-    min-height: 100vh;
-}
-
-/* 3. Kartu/Kotak Putih (Untuk Form & Tabel) */
-.custom-card {
-    background: white;
-    border: none;
-    border-radius: 16px;
-    border-top: 5px solid #270c41; /* Ciri khas: Garis ungu di atas */
-    box-shadow: 0 10px 30px rgba(39, 12, 65, 0.08);
-    padding: 2rem; /* Spasi dalam lega */
-    margin-bottom: 1.5rem;
-}
-
-/* 4. Tombol Gradient Ungu (Pengganti btn-primary) */
-.btn-gradient {
-    background: linear-gradient(135deg, #270c41 0%, #7b1fa2 100%);
-    color: white !important;
-    border: none;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-.btn-gradient:hover {
-    background: linear-gradient(135deg, #38006b 0%, #8e24aa 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(123, 31, 162, 0.4);
-}
-
-/* 5. Tabel Header Ungu (Pengganti table-dark) */
-.table-purple thead tr th {
-    background: #4a148c !important;
-    color: white;
-    border-bottom: 3px solid #7b1fa2;
-}
-
-/* =========================================
-   TEMA ADMIN ROYAL PURPLE (Global Style)
-   ========================================= */
-
-/* 1. Background Halaman (Gradasi Ungu Muda Halus) */
-body.admin-page {
-    background: linear-gradient(180deg, #f4eefc 0%, #ffffff 100%);
-    min-height: 100vh;
-}
-
-/* 3. Kartu/Kotak Putih (Untuk Form & Tabel) */
-.custom-card {
-    background: white;
-    border: none;
-    border-radius: 16px;
-    border-top: 5px solid #270c41; /* Ciri khas: Garis ungu di atas */
-    box-shadow: 0 10px 30px rgba(39, 12, 65, 0.08);
-    padding: 2rem; /* Spasi dalam lega */
-    margin-bottom: 1.5rem;
-}
-
-/* 4. Tombol Gradient Ungu (Pengganti btn-primary) */
-.btn-gradient {
-    background: linear-gradient(135deg, #270c41 0%, #7b1fa2 100%);
-    color: white !important;
-    border: none;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-.btn-gradient:hover {
-    background: linear-gradient(135deg, #38006b 0%, #8e24aa 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(123, 31, 162, 0.4);
-}
-
 
 .container {
     max-width: 960px;
@@ -108,7 +31,48 @@ body.admin-page {
 }
 
 /* ==========================================================================
-   2. SPLASH SCREEN & HERO BANNER
+   2. TEMA ADMIN ROYAL PURPLE (Khusus Halaman Admin)
+   ========================================================================== */
+/* Background Halaman Admin */
+body.admin-page {
+    background: linear-gradient(180deg, #f4eefc 0%, #ffffff 100%);
+    min-height: 100vh;
+}
+
+/* Kartu/Kotak Putih Admin */
+.custom-card {
+    background: white;
+    border: none;
+    border-radius: 16px;
+    border-top: 5px solid #270c41; /* Ciri khas: Garis ungu di atas */
+    box-shadow: 0 10px 30px rgba(39, 12, 65, 0.08);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Tombol Gradient Ungu (Admin) */
+.btn-gradient {
+    background: linear-gradient(135deg, #270c41 0%, #7b1fa2 100%);
+    color: white !important;
+    border: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+.btn-gradient:hover {
+    background: linear-gradient(135deg, #38006b 0%, #8e24aa 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(123, 31, 162, 0.4);
+}
+
+/* Tabel Header Ungu */
+.table-purple thead tr th {
+    background: #4a148c !important;
+    color: white;
+    border-bottom: 3px solid #7b1fa2;
+}
+
+/* ==========================================================================
+   3. SPLASH SCREEN
    ========================================================================== */
 #splash-screen {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -133,31 +97,58 @@ body.admin-page {
 }
 .skip-btn:hover { background: white; color: black; }
 
+/* ==========================================================================
+   HERO BANNER (Header Gambar Full Screen)
+   ========================================================================== */
 .hero-banner {
-    width: 100%; height: 100vh; position: relative; overflow: hidden;
+    width: 100%;
+    height: 100vh; /* Full tinggi layar */
+    position: relative;
+    overflow: hidden;
+    
+    /* Flexbox untuk memastikan gambar di tengah */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
 }
+
 .hero-banner img {
-    width: 100%; height: 100%; object-fit: cover; object-position: center;
+    width: 100%;
+    height: 100%;
+    
+    /* Agar gambar tidak gepeng & tetap proporsional memenuhi layar */
+    object-fit: cover; 
+    object-position: center center; /* Fokus di tengah gambar */
+}
+
+/* Penyesuaian untuk layar kecil (HP) agar tulisan 'Welcome' aman */
+@media (max-width: 768px) {
+    .hero-banner {
+        height: 100vh; /* Tetap full screen di HP */
+    }
+    
+    .hero-banner img {
+        object-position: center; /* Pastikan tetap di tengah */
+    }
 }
 
 /* ==========================================================================
-   3. GLOBAL NAVBAR STYLE (STICKY & GRADIENT)
+   4. NAVBAR & HEADER (Global)
    ========================================================================== */
 header {
-    position: fixed; /* Sticky Navbar */
+    position: fixed;
     top: 0; left: 0; width: 100%;
     z-index: 100;
     /* Gradasi Ungu Gelap ke Transparan */
     background: linear-gradient(to bottom, #270c41 0%, rgba(39, 12, 65, 0) 100%);
-    padding-bottom: 50px; /* Area gradasi */
-    pointer-events: none; /* Klik tembus di area kosong */
+    padding-bottom: 50px;
+    pointer-events: none;
 }
 
-nav {
-    pointer-events: auto; /* Menu bisa diklik */
-}
+nav { pointer-events: auto; }
 
-/* Override Bootstrap Navbar */
 .navbar {
     padding-top: 15px !important;
     background-color: transparent !important;
@@ -186,7 +177,7 @@ nav {
 
 .navbar-toggler:focus { box-shadow: none; }
 
-/* Offcanvas (Mobile Menu) */
+/* Offcanvas Default (Akan di-override oleh media query mobile di bawah) */
 .offcanvas {
     background-color: rgba(0, 0, 0, 0.1) !important; 
     backdrop-filter: blur(15px); 
@@ -194,7 +185,7 @@ nav {
     color: white;
     border-left: 1px solid rgba(255,255,255,0.1);
     box-shadow: none;
-    border-radius: 35px;
+    border-radius: 35px 0 0 35px; /* Radius kiri */
 }
 .offcanvas-header { border-bottom: 1px solid rgba(255,255,255,0.1); }
 .offcanvas-title {
@@ -203,29 +194,82 @@ nav {
 }
 .btn-close-white { filter: invert(1) grayscale(100%) brightness(200%); }
 
+/* Khusus Custom Navbar (Jika dipakai di halaman event tertentu) */
+.custom-navbar {
+    background-color: rgba(39, 12, 65, 0.85) !important;
+    backdrop-filter: blur(12px);
+    z-index: 1050;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
 /* ==========================================================================
-   4. LAYOUT KHUSUS MOBILE (RESPONSIVE)
+   5. MOBILE MENU & RESPONSIVE LAYOUT (FIXED)
    ========================================================================== */
 @media (max-width: 1199px) {
-    .offcanvas-body { padding: 0 !important; }
-
-    .navbar-nav { 
-        margin-top: 20px; padding-right: 0 !important; width: 100%;
+    /* 1. Sidebar Full Height & Background Ungu Gelap */
+    .offcanvas.offcanvas-end {
+        top: 0 !important;
+        height: 100vh !important;
+        width: 75% !important;
+        background-color: #1a052e !important; /* Ungu Gelap */
+        border-radius: 0 !important;
+        border: none !important;
+        display: flex !important;
+        flex-direction: column !important;
     }
 
-    .navbar-nav .nav-link {
-        font-size: 1.1rem;
-        padding: 15px 25px; /* Padding lebar untuk area klik */
-        border-bottom: 1px solid rgba(255,255,255,0.05);
-        text-align: left;
+    .offcanvas-header {
+        padding: 25px 25px 15px 25px !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .offcanvas-title {
+        font-size: 1.4rem !important;
+    }
+
+    .btn-close {
+        filter: invert(1) grayscale(100%) brightness(200%);
+    }
+
+    .offcanvas-body {
+        padding: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        height: 100% !important;
+        overflow-y: auto;
+    }
+
+    .navbar-nav {
+        flex-direction: column !important;
+        width: 100% !important;
+        margin-top: 0;
+        padding-right: 0 !important;
+    }
+
+    .nav-link {
+        color: #ffffff !important;
+        padding: 18px 25px !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        font-size: 1rem !important;
+        text-align: left !important;
+        font-weight: 500 !important;
         width: 100%;
         border-radius: 0;
     }
-    
-    .navbar-nav .nav-link:hover {
-        background-color: #270c41;
-        color: #ffffff !important;
+
+    .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.05);
         transform: none;
+    }
+
+    /* User Info & Logout di Bawah */
+    #user-info {
+        margin-top: auto !important;
+        padding: 20px 20px 40px 20px !important;
+        width: 100% !important;
+        background: transparent !important;
+        display: flex; /* Pastikan flex agar terlihat */
     }
 
     .nav-user {
@@ -234,16 +278,21 @@ nav {
         padding-left: 25px; padding-right: 25px;
     }
 
-    .nav-button, #logout-btn {
-        width: 100%; 
-        padding: 12px; 
-        font-size: 1rem;
+    .nav-button {
+        width: 100%; padding: 12px; font-size: 1rem;
     }
 
-    .offcanvas {
-        --bs-offcanvas-width: 80%; width: 80% !important;
-        background-color: rgba(0, 0, 0, 0.5) !important;
-        backdrop-filter: blur(20px) !important;
+    #logout-btn, .btn-logout {
+        width: 100% !important;
+        padding: 14px !important;
+        background-color: #bd81f6 !important;
+        color: #ffffff !important;
+        border: none !important;
+        border-radius: 50px !important;
+        font-weight: 700 !important;
+        display: block !important;
+        text-align: center !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     }
 
     #register-link:hover {
@@ -252,8 +301,34 @@ nav {
 }
 
 /* ==========================================================================
-   5. UTILITIES (Shadow, Images, Buttons)
+   6. UTILITIES (Forms, Tables, Images, Shadows)
    ========================================================================== */
+/* Forms */
+input, select, textarea {
+    width: 100%; padding: 12px; margin-bottom: 1rem;
+    border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;
+}
+.error, .error-message {
+    color: #b91c1c; background: #fee2e2; border: 1px solid #fecaca;
+    border-radius: 8px; padding: 10px; display: inline-block;
+    text-align: center; margin-top: 1rem;
+}
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; }
+th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
+th { background-color: #f8f9fa; }
+
+/* Role Visibility */
+.admin-only, .jemaat-only, .auth-only, #user-info { display: none; }
+body.logged-in #login-link, body.logged-in #register-link, body.logged-in #public-content { display: none; }
+body.logged-in #user-info { display: flex; align-items: center; }
+body.logged-in .auth-only { display: inline-block; }
+body.role-jemaat .jemaat-only { display: inline-block; }
+body.role-jemaat .admin-only { display: none; }
+body.role-admin .admin-only { display: inline-block; }
+body.role-admin .jemaat-only, body.role-admin .public-only { display: none; }
+
 /* Custom Shadow Ungu */
 .shadow-purple {
     box-shadow: 8px 8px 20px rgba(39, 12, 65, 0.4);
@@ -269,39 +344,9 @@ nav {
     width: 100%; height: 100%; object-fit: cover; aspect-ratio: 1 / 1; 
 }
 
-/* Tombol Logout */
-#logout-btn {
-    background-color: #270c41; /* Ungu Tua */
-    border: 1px solid #270c41;
-    color: white;
-}
-#logout-btn:hover { background-color: #1a052e; }
-
-/* Forms & Tables */
-input, select, textarea {
-    width: 100%; padding: 12px; margin-bottom: 1rem;
-    border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;
-}
-.error, .error-message {
-    color: #b91c1c; background: #fee2e2; border: 1px solid #fecaca;
-    border-radius: 8px; padding: 10px; display: inline-block;
-    text-align: center; margin-top: 1rem;
-}
-table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; }
-th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
-th { background-color: #f8f9fa; }
-
-/* Visibility / Role Classes */
-.admin-only, .jemaat-only, .auth-only, #user-info { display: none; }
-body.logged-in #login-link, body.logged-in #register-link, body.logged-in #public-content { display: none; }
-body.logged-in #user-info { display: flex; align-items: center; }
-body.logged-in .auth-only { display: inline-block; }
-body.role-jemaat .jemaat-only { display: inline-block; }
-body.role-jemaat .admin-only { display: none; }
-body.role-admin .admin-only { display: inline-block; }
-body.role-admin .jemaat-only, body.role-admin .public-only { display: none; }
-
-/* Buttons General */
+/* ==========================================================================
+   7. BUTTONS CUSTOM (Gradient & Standar)
+   ========================================================================== */
 button {
     padding: 10px 15px; color: white; border: none; border-radius: 4px;
     cursor: pointer; font-size: 0.9rem; margin-right: 5px; transition: background-color 0.2s;
@@ -310,8 +355,55 @@ button:hover { opacity: 0.9; }
 button[type="submit"] { width: 100%; font-size: 1rem; background-color: #007bff; }
 button[type="submit"]:hover { background-color: #0069d9; }
 
+/* Tombol Merah Umum (kecuali yang spesifik) */
+button:not(#logout-btn):not([type="submit"]):not(.navbar-toggler):not(.btn-close):not(.skip-btn):not(.btn-edit):not(.btn-warning):not(.btn-primary):not(.btn-lokasi) {
+    background-color: #ff0000;
+}
+button:not(#logout-btn):not([type="submit"]):not(.navbar-toggler):not(.btn-close):not(.skip-btn):not(.btn-edit):not(.btn-warning):not(.btn-primary):not(.btn-lokasi):hover {
+    background-color: #850000;
+}
+
+/* Tombol Logout Desktop */
+#logout-btn, .btn-logout {
+    background-color: #270c41;
+    border: 1px solid #270c41;
+    color: white;
+}
+#logout-btn:hover { background-color: #1a052e; }
+
+/* Tombol Merah Elegan (Royal Crimson) - Pengganti btn-danger */
+.btn-danger, .btn-danger:focus {
+    background: linear-gradient(135deg, #a71d31 0%, #c62828 100%) !important;
+    border: none;
+    box-shadow: 0 4px 10px rgba(167, 29, 49, 0.2); 
+    font-weight: 600;
+    color: white !important;
+    transition: all 0.3s ease;
+}
+.btn-danger:hover {
+    background: linear-gradient(135deg, #8e1829 0%, #b71c1c 100%) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(167, 29, 49, 0.4);
+}
+
+/* Tombol Edit/Warning (Golden Amber) */
+.btn-edit, .btn-warning {
+    background: linear-gradient(135deg, #f09819 0%, #ffb300 100%) !important;
+    border: none;
+    box-shadow: 0 4px 10px rgba(240, 152, 25, 0.3); 
+    color: white !important; 
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+.btn-edit:hover, .btn-warning:hover {
+    background: linear-gradient(135deg, #e68a00 0%, #ffa000 100%) !important;
+    transform: translateY(-2px); 
+    box-shadow: 0 6px 15px rgba(240, 152, 25, 0.5); 
+    color: white !important;
+}
+
 /* ==========================================================================
-   6. EVENT & GALLERY
+   8. EVENTS & GALLERY COMPONENTS
    ========================================================================== */
 .event-section {
     background: white; border-radius: 16px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -334,6 +426,7 @@ button[type="submit"]:hover { background-color: #0069d9; }
     border-radius: 12px; overflow: hidden; 
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); 
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    height: 100%;
 }
 .event-card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25); }
 
@@ -343,51 +436,47 @@ button[type="submit"]:hover { background-color: #0069d9; }
 
 .event-info { padding: 20px 15px; text-align: center; flex-grow: 1; }
 .event-info h3 { margin: 0 0 15px 0; font-size: 1.5em; font-weight: 700; color: #004d99; }
-.event-info a.btn-primary {
+.event-info a.btn-primary, .btn-daftar-event {
     display: block; margin-top: 15px; padding: 12px 10px; 
     background-color: #673AB7; color: white;
     text-decoration: none; border-radius: 8px; font-weight: 600;
     letter-spacing: 0.5px; transition: background-color 0.2s, box-shadow 0.2s;
 }
-.event-info a.btn-primary:hover { background-color: #512DA8; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); }
+.event-info a.btn-primary:hover, .btn-daftar-event:hover { 
+    background-color: #512DA8; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+}
 .event-info .info-text { display: block; margin-top: 15px; color: #cc0000; font-weight: 500; font-size: 0.9em; }
 
-.btn-tambah {
-    display: inline-block; background-color: #4f46e5; color: white;
-    padding: 10px 18px; border-radius: 8px;
-    text-decoration: none; transition: background 0.3s; font-weight: 500;
+/* Hero Event (Gambar Background) */
+.hero-event {
+    height: 400px;
+    background-image: url('/Foto/natal_2024_2.jpeg'); 
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    z-index: 1;
 }
-.btn-tambah:hover { background-color: #4338ca; }
+.hero-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.3), #f8f9fa);
+}
+.content-container {
+    margin-top: -60px; /* Konten naik */
+    position: relative; z-index: 2;
+    background: transparent !important;
+}
 
-/* =========================
-   Gallery Grid
-========================= */
+/* Gallery Grid */
 .gallery-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
     gap: 1.8rem;
     margin-top: 2rem;
 }
-
-.gallery-full-width {
-    width: 100%;
-    padding: 0 2rem; 
-    box-sizing: border-box;
-}
-
-@media (max-width: 768px) {
-    .gallery-grid.grid-3-col { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; }
-}
-@media (max-width: 480px) {
-    .gallery-grid.grid-1-col { grid-template-columns: 1fr; }
-}
-@media (min-width: 1024px) {
-    .gallery-grid.grid-3-col { grid-template-columns: repeat(3, 1fr); }
-}
+.gallery-full-width { width: 100%; padding: 0 2rem; box-sizing: border-box; }
 
 .gallery-item, .gallery-item-admin {
-    background-color: #fff; 
-    border-radius: 8px;
+    background-color: #fff; border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -395,8 +484,7 @@ button[type="submit"]:hover { background-color: #0069d9; }
 
 .media-wrapper, .gallery-img-wrapper {
     width: 100%; aspect-ratio: 16 / 9; background-color: #1a052e;
-    overflow: hidden; position: relative; display: flex;
-    justify-content: center; align-items: center;
+    overflow: hidden; position: relative; display: flex; justify-content: center; align-items: center;
 }
 .gallery-item img, .gallery-item video, .gallery-item-admin img, .gallery-item-admin video {
     width: 100%; height: 100%; object-fit: cover; object-position: center;
@@ -405,10 +493,6 @@ button[type="submit"]:hover { background-color: #0069d9; }
 .gallery-item:hover .media-wrapper img, .gallery-item:hover .media-wrapper video {
     transform: scale(1.05);
 }
-
-.caption-wrapper { padding: 1rem; }
-.caption-wrapper h4 { margin: 0 0 0.5rem 0; font-size: 1.1rem; font-weight: 600; }
-.caption-wrapper p { margin: 0; font-size: 0.9rem; color: #666; }
 
 /* Modal Gallery */
 .modal-overlay {
@@ -431,11 +515,11 @@ button[type="submit"]:hover { background-color: #0069d9; }
 }
 
 /* =========================================
-   FOOTER STYLE
-========================================= */
+   9. FOOTER
+   ========================================= */
 footer {
     width: 100%; margin: 0; padding-left: 0; padding-right: 0;
-    overflow-x: hidden; /* Mencegah horizontal scroll di footer */
+    overflow-x: hidden; 
     box-shadow: 0 -5px 20px rgba(0,0,0,0.2);
 }
 footer h5 {
@@ -455,8 +539,14 @@ footer a:hover { color: #bd81f6; padding-left: 5px; }
 footer hr { border-color: rgba(255,255,255,0.1); }
 
 /* =========================================
-   VISI & MISI SECTION (Global)
-========================================= */
+   10. PAGE SPECIFICS (About, Visi Misi)
+   ========================================= */
+.section-title {
+    font-family: 'Cinzel Decorative', cursive; font-size: 3.2rem;
+    font-weight: 700; color: #270c41; margin-bottom: 5px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+}
+
 .visi-misi-title {
     font-family: 'Cinzel Decorative', cursive; font-size: 3.5rem;
     color: #270c41; cursor: pointer; transition: all 0.3s ease; position: relative;
@@ -473,60 +563,9 @@ footer hr { border-color: rgba(255,255,255,0.1); }
     border-radius: 8px; padding: 30px; margin-top: 20px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center;
 }
-.vm-content-box img {
-    max-width: 100%; height: auto; display: block; margin: 0 auto;
-}
+.vm-content-box img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
 
-@media (max-width: 768px) {
-    .visi-misi-title { font-size: 2.5rem; }
-    .vm-separator { width: 80%; height: 2px; margin: 20px auto; }
-    .d-flex-vm { flex-direction: column; }
-}
-
-/* =========================================
-   TOMBOL MERAH ELEGAN (Royal Crimson)
-   ========================================= */
-
-/* Mengganti warna default Bootstrap btn-danger */
-.btn-danger, .btn-danger:focus {
-    background: linear-gradient(135deg, #a71d31 0%, #c62828 100%) !important;
-    border: none;
-    box-shadow: 0 4px 10px rgba(167, 29, 49, 0.2); 
-    font-weight: 600;
-    color: white !important;
-    transition: all 0.3s ease;
-}
-
-/* Efek Hover (Saat mouse diarahkan) */
-.btn-danger:hover {
-    background: linear-gradient(135deg, #8e1829 0%, #b71c1c 100%) !important;
-    transform: translateY(-2px); /* Efek tombol naik dikit */
-    box-shadow: 0 6px 15px rgba(167, 29, 49, 0.4);
-}
-/* =========================================
-   TOMBOL EDIT (Golden Amber - Mewah & Kalem)
-   ========================================= */
-
-.btn-edit, .btn-warning {
-    background: linear-gradient(135deg, #f09819 0%, #ffb300 100%) !important;
-    border: none;
-    box-shadow: 0 4px 10px rgba(240, 152, 25, 0.3); 
-    color: white !important; 
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-
-/* Efek Hover (Saat mouse diarahkan) */
-.btn-edit:hover, .btn-warning:hover {
-    background: linear-gradient(135deg, #e68a00 0%, #ffa000 100%) !important;
-    transform: translateY(-2px); 
-    box-shadow: 0 6px 15px rgba(240, 152, 25, 0.5); 
-    color: white !important;
-}
-
-/* =========================================
-   STYLE UNTUK TENTANG.HTML (Purple Section & Side Image)
-========================================= */
+/* Styles untuk Tentang.html */
 .bg-dark-purple-section {
     background-color: #270c41; color: white !important; width: 100%;               
     padding: 80px; margin: 0; border-radius: 0;          
@@ -543,240 +582,18 @@ footer hr { border-color: rgba(255,255,255,0.1); }
     transform: scale(1.05); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
 }
 
+/* Responsive Extra */
 @media (max-width: 768px) {
+    .visi-misi-title { font-size: 2.5rem; }
+    .vm-separator { width: 80%; height: 2px; margin: 20px auto; }
+    .d-flex-vm { flex-direction: column; }
+    
     .bg-dark-purple-section { padding: 50px 20px; }
     .side-image { width: 100%; margin-left: 0; margin-top: 20px; }
-}
 
-html, body {
-    max-width: 100%;
-    overflow-x: hidden;
-    position: relative;
-    margin: 0;
-    padding: 0;
-}
-
-/* --- Navbar & Hero Fix (Fokus Efek Gambar Kedua) --- */
-.custom-navbar {
-    background-color: rgba(39, 12, 65, 0.85) !important; /* Ungu gelap transparan */
-    backdrop-filter: blur(12px); /* Efek blur kaca */
-    -webkit-backdrop-filter: blur(12px);
-    z-index: 1050;
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Tombol Logout Sesuai Gambar Kedua */
-.btn-logout {
-    background-color: rgba(0, 0, 0, 0.25);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 20px;
-    padding: 5px 20px;
-    font-size: 0.85rem;
-    transition: 0.3s;
-}
-
-.btn-logout:hover {
-    background-color: #f44336;
-    border-color: #f44336;
-    color: white;
-}
-
-/* --- Hero Section --- */
-.hero-event {
-    height: 400px;
-    background-image: url('/Foto/natal_2024_1.jpg'); 
-    background-size: cover;
-    background-position: center;
-    position: relative;
-    z-index: 1;
-}
-
-.hero-overlay {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.3), #f8f9fa);
-}
-
-/* --- Typography Cinzel Decorative (Judul Gereja) --- */
-.section-title {
-    font-family: 'Cinzel Decorative', cursive;
-    font-size: 3.2rem;
-    font-weight: 700;
-    color: #270c41;
-    margin-bottom: 5px;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
-}
-
-.section-subtitle {
-    font-size: 1.15rem;
-    color: #555;
-    border-bottom: 3px solid #bd81f6;
-    display: inline-block;
-    padding-bottom: 8px;
-    font-weight: 500;
-}
-
-/* --- Borderless Content Layout --- */
-.content-container {
-    margin-top: -60px; /* Konten naik agar menyatu dengan hero */
-    position: relative;
-    z-index: 2;
-    background: transparent !important; /* Penting: Menghilangkan kotak putih */
-}
-
-.event-heading {
-    font-weight: 700;
-    color: #270c41;
-    margin-bottom: 25px;
-    margin-top: 30px;
-}
-
-.btn-cari {
-    background-color: #673ab7;
-    border: none;
-    padding: 10px 30px;
-    font-weight: 600;
-    border-radius: 8px;
-}
-
-/* --- Event Card Design --- */
-.event-card {
-    background: #ffffff;
-    border: none;
-    border-radius: 15px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-    transition: 0.3s ease-in-out;
-    overflow: hidden;
-    height: 100%;
-}
-
-.event-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 35px rgba(39, 12, 65, 0.2);
-}
-
-.event-poster-container {
-    width: 100%;
-    padding-top: 75%;
-    position: relative;
-}
-
-.event-poster {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    object-fit: cover;
-}
-
-.event-info-overlay {
-    position: absolute;
-    bottom: 0; width: 100%; padding: 20px;
-    background: linear-gradient(to top, rgba(39, 12, 65, 0.95), transparent);
-    color: white;
-}
-
-.event-info-overlay h5 {
-    font-weight: 700;
-    margin: 0;
-}
-
-/* Tombol khusus di dalam card event */
-.btn-daftar-event {
-    background-color: #bd81f6; /* Ungu terang branding kamu */
-    color: white;
-    font-weight: 600;
-    border-radius: 10px;
-    padding: 12px;
-    border: none;
-    transition: 0.3s;
-}
-
-.btn-daftar-event:hover {
-    background-color: #270c41; /* Berubah jadi ungu gelap saat hover */
-    color: white;
-    transform: scale(1.02);
-}
-
-/* --- Fix Navbar Mobile & Offcanvas --- */
-@media (max-width: 1199px) {
-    /* 1. Sidebar Full Height & Background Ungu Gelap */
-    .offcanvas.offcanvas-end {
-        top: 0 !important;
-        height: 100vh !important; /* Paksa tinggi penuh layar */
-        width: 75% !important; /* Lebar sidebar */
-        background-color: #1a052e !important; /* Warna ungu sangat gelap */
-        border: none !important;
-        display: flex !important;
-        flex-direction: column !important;
-    }
-
-    /* 2. Header Menu (Teks MENU putih) */
-    .offcanvas-header {
-        padding: 25px 25px 15px 25px !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    .offcanvas-title {
-        color: #ffffff !important;
-        font-weight: bold !important;
-        font-size: 1.4rem !important;
-        letter-spacing: 1px;
-    }
-
-    /* Tombol X (Close) warna putih */
-    .btn-close {
-        filter: invert(1) grayscale(100%) brightness(200%);
-    }
-
-    /* 3. Body Sidebar agar bisa mendorong Logout ke bawah */
-    .offcanvas-body {
-        padding: 0 !important;
-        display: flex !important;
-        flex-direction: column !important;
-        height: 100% !important;
-        overflow-y: auto;
-    }
-
-    /* 4. Daftar Fitur (Teks Putih & Garis Pembatas) */
-    .navbar-nav {
-        flex-direction: column !important;
-        width: 100% !important;
-    }
-
-    .nav-link {
-        color: #ffffff !important;
-        padding: 18px 25px !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        font-size: 1rem !important;
-        text-align: left !important;
-        font-weight: 500 !important;
-        transition: background 0.2s;
-    }
-
-    .nav-link:hover {
-        background-color: rgba(255, 255, 255, 0.05);
-    }
-
-    /* 5. TOMBOL LOGOUT DI PALING BAWAH (PERSIS GAMBAR) */
-    #user-info {
-        margin-top: auto !important; /* Mendorong tombol ke bawah */
-        padding: 20px 20px 40px 20px !important; /* Ruang bawah lebih luas */
-        width: 100% !important;
-        background: transparent !important;
-    }
-
-    .btn-logout {
-        width: 100% !important;
-        padding: 14px !important;
-        background-color: #bd81f6 !important; /* Warna ungu terang sesuai gambar */
-        color: #ffffff !important;
-        border: none !important;
-        border-radius: 50px !important; /* Bentuk lonjong sempurna */
-        font-weight: 700 !important;
-        font-size: 1rem !important;
-        display: block !important;
-        text-align: center !important;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    /* Space gambar Visi Misi di HP */
+    #collapseVisi, #collapseMisi, #collapseIman {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
     }
 }

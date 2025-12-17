@@ -19,8 +19,7 @@
 
     <div id="splash-screen">
         <video id="splash-video" src="/Foto/logo/animasi_logo.mp4" autoplay muted playsinline></video>
-        <button class="skip-btn" onclick="document.getElementById('splash-screen').classList.add('hidden'); setTimeout(()=>{document.getElementById('splash-screen').style.display='none'},800);">Lewati</button>
-    </div>
+        </div>
 
     <header>
         <nav class="navbar navbar-expand-xl navbar-dark container-fluid px-4">
@@ -46,6 +45,8 @@
                         <a href="/galeri.html" class="nav-link public-only">Galeri</a>
                         <a href="/persembahan.html" class="nav-link public-only">Persembahan</a>
                         
+                        <a href="/transaction_form.html" class="nav-link admin-only">Input Transaksi</a>
+                        <a href="/transaction_report.html" class="nav-link admin-only jemaat-only">Laporan</a>
                         <a href="/merchAdmin.html" class="nav-link admin-only">Stok</a>
                         <a href="/eventAdmin.html" class="nav-link admin-only">Event Admin</a>
                         <a href="/jemaat.html" class="nav-link admin-only">Jemaat Admin</a>
@@ -75,7 +76,8 @@
     <main class="mt-5">
         
         <div id="public-content" class="mb-5 p-4 p-md-5">
-            <div class="container-fluid"> <div class="row align-items-center gx-5">
+            <div class="container-fluid"> 
+                <div class="row align-items-center gx-5">
                     <div class="col-lg-6 mb-4 mb-lg-0 text-start">
                         <h1 class="display-5 mb-5" style="color: #270349; font-family:'Cinzel Decorative', cursive; font-weight: 700;">Selamat Datang</h1>
                         <p class="lead text-muted fw-bold" style="max-width: 100%; margin-left: 0;">
@@ -128,36 +130,39 @@
             </div>
         </div>
 
-            <div class="row justify-content-center">
-                <div class="col-lg-11">
-                    <section class="my-3">
-                        <div class="d-flex d-flex-vm justify-content-center align-items-center">
-                            <div class="text-center">
-                                <h2 class="visi-misi-title" data-bs-toggle="collapse" data-bs-target="#collapseVisi" aria-expanded="false" aria-controls="collapseVisi">VISI</h2>
-                                <small class="text-muted fst-italic">(Klik)</small>
-                            </div>
-                            <div class="vm-separator"></div>
-                            <div class="text-center">
-                                <h2 class="visi-misi-title" data-bs-toggle="collapse" data-bs-target="#collapseMisi" aria-expanded="false" aria-controls="collapseMisi">MISI</h2>
-                                <small class="text-muted fst-italic">(Klik)</small>
-                            </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
+                <section class="my-3">
+                    <div class="d-flex d-flex-vm justify-content-center align-items-center">
+                        <div class="text-center">
+                            <h2 class="visi-misi-title" data-bs-toggle="collapse" data-bs-target="#collapseVisi" aria-expanded="false" aria-controls="collapseVisi">VISI</h2>
+                            <small class="text-muted fst-italic">(Klik)</small>
                         </div>
+                        <div class="vm-separator"></div>
+                        <div class="text-center">
+                            <h2 class="visi-misi-title" data-bs-toggle="collapse" data-bs-target="#collapseMisi" aria-expanded="false" aria-controls="collapseMisi">MISI</h2>
+                            <small class="text-muted fst-italic">(Klik)</small>
+                        </div>
+                    </div>
 
-                        <div class="collapse mt-4" id="collapseVisi">
-                                <img src="/Foto/visi.jpg" alt="Visi Gereja" class="img-fluid rounded-3 shadow-sm mx-auto d-block">
-                        </div>
+                    <div class="collapse mt-4" id="collapseVisi">
+                            <img src="/Foto/visi.jpg" alt="Visi Gereja" class="img-fluid rounded-3 shadow-sm mx-auto d-block">
+                    </div>
 
-                        <div class="collapse mt-4" id="collapseMisi">
-                                <img src="/Foto/misi.jpg" alt="Misi Gereja" class="img-fluid rounded-3 shadow-sm mx-auto d-block">
-                        </div>
-                    </section>
-                </div>
+                    <div class="collapse mt-4" id="collapseMisi">
+                            <img src="/Foto/misi.jpg" alt="Misi Gereja" class="img-fluid rounded-3 shadow-sm mx-auto d-block">
+                    </div>
+                </section>
             </div>
+        </div>
+
         <hr class="my-5" style="border-top: 2px solid #eee;">
 
         <section id="galeri-section" class="px-4 px-md-5">
-            <h1 class="display-5" style="color: #270349; font-family:'Cinzel Decorative', cursive; font-weight: 700;">Galeri</h1>
-            <div id="gallery-container" class="gallery-grid grid-3-col"></div>
+            <div class="container-fluid">
+                <h1 class="display-5" style="color: #270349; font-family:'Cinzel Decorative', cursive; font-weight: 700;">Galeri</h1>
+                <div id="gallery-container" class="gallery-grid grid-4-col"></div>
+            </div>
         </section>
         
         <div class="mb-5"></div> 
@@ -232,6 +237,8 @@
             splashVideo.addEventListener('ended', hideSplashScreen);
             splashVideo.addEventListener('error', hideSplashScreen); 
             setTimeout(hideSplashScreen, 4000); 
+            
+            // Event listener klik pada container splash screen
             splashScreen.addEventListener('click', hideSplashScreen);
 
             splashVideo.play().catch(error => {
