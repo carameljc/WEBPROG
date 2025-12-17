@@ -10,18 +10,16 @@
           crossorigin="anonymous">
     <link rel="stylesheet" href="/css/style.css">
 </head>
-<body>
-    <header>
-        </header>
+<body class="admin-page">
+    <header></header>
     
-    <main class="container">
+    <main class="container py-4" style="margin-top: 130px;">
         
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="m-0 fw-bold">Galeri Gereja (Admin)</h2>
-            <a href="/index.html" class="btn btn-secondary">← Kembali ke Beranda</a>
         </div>
         
-        <hr class="mb-5"> <div class="mb-5">
+        <hr class="mb-5"> <div class="custom-card mb-5">
             <h3 class="text-start mb-3">Unggah Foto/Video Baru</h3>
             
             <form id="upload-form" enctype="multipart/form-data" class="row g-3 text-start">
@@ -42,7 +40,7 @@
                 </div>
                 
                 <div class="col-12 mt-4">
-                    <button type="submit" class="btn btn-primary w-100 py-2">Unggah Media</button>
+                    <button type="submit" class="btn btn-gradient w-100 py-2">Unggah Media</button>
                 </div>
             </form>
             <p id="upload-status" class="mt-2 text-start"></p>
@@ -64,6 +62,7 @@
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
             crossorigin="anonymous"></script>
 
+    <script src="/js/main.js"></script>
     <script src="/js/authCheck.js"></script>
     <script src="/js/galleryAdmin.js"></script>
 </body>

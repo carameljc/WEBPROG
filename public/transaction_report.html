@@ -8,28 +8,25 @@
     <link rel="stylesheet" href="/css/style.css">
     <script src="/js/authCheck.js"></script>
 </head>
-<body>
+<body class="admin-page">
     <header></header>
-    <main class="container py-4">
+    <main class="container py-4" style="margin-top: 130px;">
         <h2 class="mb-4">Laporan Transaksi Persembahan</h2>
 
         <form id="reportSearchForm" class="d-flex mb-4 gap-2" onsubmit="loadReport(event);">
             <input type="text" id="searchInput" class="form-control me-2" placeholder="Cari Berdasarkan Nama User / Total Jumlah..." aria-label="Search">
-            <button type="submit" class="btn btn-primary">Cari / Filter</button>
+            <button type="submit" class="btn btn-gradient">Cari / Filter</button>
         </form>
 
         <div class="d-flex gap-2 mb-4">
             <button class="btn btn-danger" onclick="window.print()">
                 🖨️ Print Laporan
             </button>
-            <a href="index.html" class="btn btn-secondary">
-                🏠 Kembali ke Beranda
-            </a>
         </div>
 
         <div class="table-responsive">
             <table class="table table-striped table-bordered table-hover">
-                <thead class="table-dark">
+                <thead class="table-purple">
                     <tr>
                         <th>ID Transaksi</th>
                         <th>Tanggal</th>
@@ -63,6 +60,7 @@
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="/js/main.js"></script>
     <script src="/js/report.js"></script> 
 </body>
 </html>

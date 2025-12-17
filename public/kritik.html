@@ -9,11 +9,9 @@
           crossorigin="anonymous">
     <link rel="stylesheet" href="/css/style.css">
 </head>
-<body>
+<body class="admin-page">
     <header></header>
-    <main class="container">
-
-        <a href="/index.html" class="btn-kembali" style="text-decoration: none; margin-bottom: 2rem;">‹ Kembali ke Beranda</a>
+    <main class="container" style="margin-top: 130px;">
 
         <div id="jemaat-view" style="display: none;">
             <h2>Sampaikan Kritik & Saran Anda</h2>
@@ -25,7 +23,7 @@
             <div id="pesan-sukses" style="color: green; margin-top: 1rem;"></div>
         </div>
 
-        <div id="admin-view" style="display: none;">
+        <div id="admin-view" style="display: none;" class="py-4">
             <h2>Daftar Masukan dari Jemaat</h2>
             <div id="list-kritik">
                 <p>Memuat data...</p>
@@ -38,6 +36,7 @@
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
             crossorigin="anonymous"></script>
 
+    <script src="/js/main.js"></script>
     <script src="/js/kritik.js"></script>
 </body>
 </html>

@@ -11,6 +11,90 @@ html, body {
     width: 100%;
 }
 
+/* =========================================
+   TEMA ADMIN ROYAL PURPLE (Global Style)
+   ========================================= */
+
+/* 1. Background Halaman (Gradasi Ungu Muda Halus) */
+body.admin-page {
+    background: linear-gradient(180deg, #f4eefc 0%, #ffffff 100%);
+    min-height: 100vh;
+}
+
+/* 3. Kartu/Kotak Putih (Untuk Form & Tabel) */
+.custom-card {
+    background: white;
+    border: none;
+    border-radius: 16px;
+    border-top: 5px solid #270c41; /* Ciri khas: Garis ungu di atas */
+    box-shadow: 0 10px 30px rgba(39, 12, 65, 0.08);
+    padding: 2rem; /* Spasi dalam lega */
+    margin-bottom: 1.5rem;
+}
+
+/* 4. Tombol Gradient Ungu (Pengganti btn-primary) */
+.btn-gradient {
+    background: linear-gradient(135deg, #270c41 0%, #7b1fa2 100%);
+    color: white !important;
+    border: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+.btn-gradient:hover {
+    background: linear-gradient(135deg, #38006b 0%, #8e24aa 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(123, 31, 162, 0.4);
+}
+
+/* 5. Tabel Header Ungu (Pengganti table-dark) */
+.table-purple thead tr th {
+    background: linear-gradient(90deg, #270c41 0%, #4a148c 100%) !important;
+    color: white;
+    border-bottom: 3px solid #7b1fa2;
+}
+
+/* =========================================
+   TEMA ADMIN ROYAL PURPLE (Global Style)
+   ========================================= */
+
+/* 1. Background Halaman (Gradasi Ungu Muda Halus) */
+body.admin-page {
+    background: linear-gradient(180deg, #f4eefc 0%, #ffffff 100%);
+    min-height: 100vh;
+}
+
+/* 3. Kartu/Kotak Putih (Untuk Form & Tabel) */
+.custom-card {
+    background: white;
+    border: none;
+    border-radius: 16px;
+    border-top: 5px solid #270c41; /* Ciri khas: Garis ungu di atas */
+    box-shadow: 0 10px 30px rgba(39, 12, 65, 0.08);
+    padding: 2rem; /* Spasi dalam lega */
+    margin-bottom: 1.5rem;
+}
+
+/* 4. Tombol Gradient Ungu (Pengganti btn-primary) */
+.btn-gradient {
+    background: linear-gradient(135deg, #270c41 0%, #7b1fa2 100%);
+    color: white !important;
+    border: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+.btn-gradient:hover {
+    background: linear-gradient(135deg, #38006b 0%, #8e24aa 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(123, 31, 162, 0.4);
+}
+
+/* 5. Tabel Header Ungu (Pengganti table-dark) */
+.table-purple thead tr th {
+    background: linear-gradient(90deg, #270c41 0%, #4a148c 100%) !important;
+    color: white;
+    border-bottom: 3px solid #7b1fa2;
+}
+
 .container {
     max-width: 960px;
     margin: 2rem auto;
@@ -116,6 +200,7 @@ nav {
     color: white;
     border-left: 1px solid rgba(255,255,255,0.1);
     box-shadow: none;
+    border-radius: 35px;
 }
 .offcanvas-header { border-bottom: 1px solid rgba(255,255,255,0.1); }
 .offcanvas-title {
@@ -156,7 +241,9 @@ nav {
     }
 
     .nav-button, #logout-btn {
-        width: 100%; padding: 12px; font-size: 1rem;
+        width: 100%; 
+        padding: 12px; 
+        font-size: 1rem;
     }
 
     .offcanvas {
@@ -228,13 +315,6 @@ button {
 button:hover { opacity: 0.9; }
 button[type="submit"] { width: 100%; font-size: 1rem; background-color: #007bff; }
 button[type="submit"]:hover { background-color: #0069d9; }
-/* Override tombol merah umum kecuali yang spesifik */
-button:not(#logout-btn):not([type="submit"]):not(.navbar-toggler):not(.btn-close):not(.skip-btn) {
-    background-color: #ff0000;
-}
-button:not(#logout-btn):not([type="submit"]):not(.navbar-toggler):not(.btn-close):not(.skip-btn):hover {
-    background-color: #850000;
-}
 
 /* ==========================================================================
    6. EVENT & GALLERY
@@ -291,21 +371,29 @@ button:not(#logout-btn):not([type="submit"]):not(.navbar-toggler):not(.btn-close
 .gallery-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
-    gap: 1.5rem;
+    gap: 1.8rem;
     margin-top: 2rem;
 }
+
+.gallery-full-width {
+    width: 100%;
+    padding: 0 2rem; 
+    box-sizing: border-box;
+}
+
 @media (max-width: 768px) {
-    .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; }
+    .gallery-grid.grid-3-col { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; }
 }
 @media (max-width: 480px) {
-    .gallery-grid { grid-template-columns: 1fr; }
+    .gallery-grid.grid-1-col { grid-template-columns: 1fr; }
 }
 @media (min-width: 1024px) {
-    .gallery-grid.grid-4-col { grid-template-columns: repeat(4, 1fr); }
+    .gallery-grid.grid-3-col { grid-template-columns: repeat(3, 1fr); }
 }
 
 .gallery-item, .gallery-item-admin {
-    background-color: #fff; border-radius: 8px;
+    background-color: #fff; 
+    border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -399,6 +487,54 @@ footer hr { border-color: rgba(255,255,255,0.1); }
     .visi-misi-title { font-size: 2.5rem; }
     .vm-separator { width: 80%; height: 2px; margin: 20px auto; }
     .d-flex-vm { flex-direction: column; }
+}
+
+/* =========================================
+   TOMBOL MERAH ELEGAN (Royal Crimson)
+   ========================================= */
+
+/* Mengganti warna default Bootstrap btn-danger */
+.btn-danger, .btn-danger:focus {
+    background: linear-gradient(135deg, #a71d31 0%, #c62828 100%) !important;
+    border: none;
+    box-shadow: 0 4px 10px rgba(167, 29, 49, 0.2); 
+    font-weight: 600;
+    color: white !important;
+    transition: all 0.3s ease;
+}
+
+/* Efek Hover (Saat mouse diarahkan) */
+.btn-danger:hover {
+    background: linear-gradient(135deg, #8e1829 0%, #b71c1c 100%) !important;
+    transform: translateY(-2px); /* Efek tombol naik dikit */
+    box-shadow: 0 6px 15px rgba(167, 29, 49, 0.4);
+}
+
+/* Kalau ada tombol .btn-secondary, kita bikin senada juga */
+.btn-secondary {
+    background: #6c757d; /* Default */
+    border: none;
+}
+
+/* =========================================
+   TOMBOL EDIT (Golden Amber - Mewah & Kalem)
+   ========================================= */
+
+.btn-edit, .btn-warning {
+    background: linear-gradient(135deg, #f09819 0%, #ffb300 100%) !important;
+    border: none;
+    box-shadow: 0 4px 10px rgba(240, 152, 25, 0.3); 
+    color: white !important; 
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+/* Efek Hover (Saat mouse diarahkan) */
+.btn-edit:hover, .btn-warning:hover {
+    background: linear-gradient(135deg, #e68a00 0%, #ffa000 100%) !important;
+    transform: translateY(-2px); 
+    box-shadow: 0 6px 15px rgba(240, 152, 25, 0.5); 
+    color: white !important;
 }
 
 /* =========================================
