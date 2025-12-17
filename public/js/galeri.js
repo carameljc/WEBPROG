@@ -80,10 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="gallery-img-wrapper">
                             ${mediaElement}
                         </div>
-                        <div class="card-body p-3">
-                            <h6 class="gallery-card-title text-primary">${item.event_name || 'Tanpa Nama Acara'}</h6>
-                            <p class="card-text text-muted small">${item.caption || 'Tidak ada keterangan'}</p>
-                        </div>
                     </div>
                 `;
                 
