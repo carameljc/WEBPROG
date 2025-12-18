@@ -35,18 +35,27 @@ async function loadMerchandise() {
                 ? `/images/merch/${item.imageUrl}` 
                 : '/images/default_merch.jpg'; 
             
+            // GANTI BAGIAN ITEM HTML INI:
             const itemHtml = `
                 <div class="col">
-                    <div class="card h-100 shadow-sm">
-                        <img src="${merchImagePath}" class="card-img-top" alt="${item.name}" style="height: 200px; object-fit: cover;">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">${item.name}</h5>
-                            <p class="card-text flex-grow-1">${item.description ? item.description.substring(0, 100) : ''}...</p>
-                            <h4 class="text-success mt-auto" data-price-value="${item.price}">Rp ${price}</h4>
-                            <button class="btn btn-primary mt-2 buy-btn" 
-                                    data-id="${item.id}" 
-                                    data-name="${item.name}" 
-                                    data-price="${item.price}">Beli Sekarang</button>
+                    <div class="merch-card"> <div class="merch-img-wrapper"> <img src="${merchImagePath}" alt="${item.name}">
+                            <span class="badge-stok">Ready Stock</span>
+                        </div>
+                        
+                        <div class="merch-body">
+                            <h5 class="merch-title" title="${item.name}">${item.name}</h5>
+                            <p class="merch-desc">
+                                ${item.description ? item.description.substring(0, 80) : 'Tidak ada deskripsi'}...
+                            </p>
+                            
+                            <div class="mt-auto"> <span class="merch-price">Rp ${price}</span>
+                                <button class="btn-beli buy-btn" 
+                                        data-id="${item.id}" 
+                                        data-name="${item.name}" 
+                                        data-price="${item.price}">
+                                    <i class="fa-solid fa-cart-shopping me-2"></i> Beli Sekarang
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
