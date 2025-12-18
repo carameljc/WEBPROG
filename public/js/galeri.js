@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const itemsPerPage = 6;   // Batas 6 foto per halaman
     let currentPage = 1;      // Halaman aktif saat ini
 
-    // --- 1. Inisialisasi Modal (Tetap sama) ---
+    // --- 1. Inisialisasi Modal ---
     function initModal() {
         const modal = document.getElementById('gallery-modal');
         const closeBtn = document.getElementById('modal-close-btn');
@@ -24,7 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         
-        // Fungsi global untuk membuka modal
         window.openModal = (globalIndex) => {
             if (!allGalleryItems[globalIndex]) return;
             
@@ -39,26 +38,21 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
-    // --- 2. Fungsi Render Galeri (Per Halaman) ---
+    // --- 2. Fungsi Render Galeri ---
     function renderGalleryPage(page) {
-        galleryContainer.innerHTML = ''; // Kosongkan container
+        galleryContainer.innerHTML = ''; 
 
-        // Hitung index mulai dan akhir (Rumus Pagination)
         const startIndex = (page - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
-        
-        // Ambil potongan data (misal: index 0-6 untuk hal 1)
         const itemsToDisplay = allGalleryItems.slice(startIndex, endIndex);
 
         if (itemsToDisplay.length === 0) {
-            galleryContainer.innerHTML = '<div class="col-12 text-center"><p class="text-muted">Tidak ada foto di halaman ini.</p></div>';
+            galleryContainer.innerHTML = '<div class="col-12 text-center"><p class="text-muted text-white">Tidak ada foto di halaman ini.</p></div>';
             return;
         }
 
         itemsToDisplay.forEach((item, loopIndex) => {
-            // Index Asli (Global) diperlukan agar Modal menampilkan gambar yang benar
             const globalIndex = startIndex + loopIndex;
-
             const galleryItem = document.createElement('div');
             galleryItem.className = 'gallery-item'; 
             
@@ -71,15 +65,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 mediaElement = `<video src="${filePath}" preload="metadata"></video>`;
             }
 
+            // === ⬇️ PERBAIKAN: DEFINISI VARIABEL TEKS DISINI ⬇️ ===
+            const titleText = item.event_name || 'Dokumentasi';
+            const captionText = item.caption || '';
+            // =======================================================
+
             galleryItem.innerHTML = `
                 <div class="card h-100 shadow-sm border-0 overflow-hidden" style="cursor: pointer;">
                     <div class="gallery-img-wrapper">
                         ${mediaElement}
+                        <div class="gallery-overlay">
+                            <h5 class="overlay-text">${titleText}</h5>
+                            ${captionText ? `<p class="overlay-caption">${captionText}</p>` : ''}
+                            <i class="fa-solid fa-up-right-from-square text-white mt-2"></i>
+                        </div>
                     </div>
-                    </div>
+                </div>
             `;
             
-            // Klik card membuka modal dengan index yang benar
             galleryItem.addEventListener('click', () => {
                 window.openModal(globalIndex);
             });
@@ -87,7 +90,6 @@ document.addEventListener('DOMContentLoaded', () => {
             galleryContainer.appendChild(galleryItem);
         });
 
-        // Setelah render foto, render tombol pagination
         renderPaginationControls();
     }
 
@@ -98,12 +100,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const totalPages = Math.ceil(allGalleryItems.length / itemsPerPage);
 
-        // Jika hanya 1 halaman, tidak perlu tombol
         if (totalPages <= 1) return;
 
         // Tombol PREVIOUS
         const prevBtn = document.createElement('button');
-        prevBtn.innerText = '←';
+        prevBtn.innerHTML = '<i class="fa-solid fa-chevron-left"></i>'; // Pakai Icon biar cantik
         prevBtn.className = 'btn btn-pagination';
         prevBtn.disabled = currentPage === 1;
         prevBtn.addEventListener('click', () => {
@@ -114,10 +115,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         paginationContainer.appendChild(prevBtn);
 
+        // Tombol Angka (Opsional: Supaya user tahu di halaman berapa)
+        const pageIndicator = document.createElement('span');
+        pageIndicator.className = 'mx-3 text-white fw-bold align-self-center';
+        pageIndicator.innerText = `${currentPage} / ${totalPages}`;
+        // Jika di halaman index (background putih), text harus hitam
+        if(!document.body.classList.contains('galeri-dark')) {
+            pageIndicator.classList.remove('text-white');
+            pageIndicator.classList.add('text-dark');
+        }
+        paginationContainer.appendChild(pageIndicator);
 
         // Tombol NEXT
         const nextBtn = document.createElement('button');
-        nextBtn.innerText = '→';
+        nextBtn.innerHTML = '<i class="fa-solid fa-chevron-right"></i>'; // Pakai Icon biar cantik
         nextBtn.className = 'btn btn-pagination';
         nextBtn.disabled = currentPage === totalPages;
         nextBtn.addEventListener('click', () => {
@@ -135,12 +146,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             const response = await fetch('/api/gallery'); 
-            
             if (!response.ok) throw new Error(`Status: ${response.status}`);
 
             const items = await response.json(); 
-            
-            // Simpan data ke variabel global
             allGalleryItems = items; 
 
             if (allGalleryItems.length === 0) {
@@ -148,7 +156,6 @@ document.addEventListener('DOMContentLoaded', () => {
                  return;
             }
 
-            // Render Halaman Pertama
             currentPage = 1;
             renderGalleryPage(1);
 
@@ -158,7 +165,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Jalankan
     initModal();
     loadPublicGallery();
 });

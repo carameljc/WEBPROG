@@ -583,9 +583,6 @@ footer hr { border-color: rgba(255,255,255,0.1); }
 }
 
 /* =========================
-   PAGINATION STYLES
-========================= */
-/* =========================
    PAGINATION STYLES (Royal Purple Theme)
 ========================= */
 .btn-pagination {
@@ -628,4 +625,210 @@ footer hr { border-color: rgba(255,255,255,0.1); }
     cursor: not-allowed;
     box-shadow: none;
     transform: none;
+}
+
+/* =========================
+   GALLERY HOVER OVERLAY
+========================= */
+
+/* Pastikan wrapper jadi patokan posisi absolut */
+.gallery-img-wrapper {
+    position: relative !important;
+}
+
+/* Lapisan Hitam Transparan (Overlay) */
+.gallery-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Warna hitam 60% transparan (Bikin efek redup) */
+    background: rgba(0, 0, 0, 0.6); 
+    
+    /* Posisi teks di tengah */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    /* Sembunyikan secara default */
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+    padding: 20px;
+    text-align: center;
+    z-index: 2; /* Pastikan di atas gambar */
+}
+
+/* Teks di dalam Overlay */
+.overlay-text {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    
+    /* Efek animasi naik sedikit */
+    transform: translateY(20px);
+    transition: transform 0.3s ease-in-out;
+}
+
+.overlay-caption {
+    color: #e0e0e0; /* Putih agak abu */
+    font-size: 0.9rem;
+    font-weight: 400;
+    
+    /* Efek animasi naik sedikit */
+    transform: translateY(20px);
+    transition: transform 0.3s ease-in-out 0.1s; /* Delay dikit biar manis */
+}
+
+/* === SAAT DI-HOVER === */
+.gallery-item:hover .gallery-overlay {
+    opacity: 1; /* Munculkan overlay */
+}
+
+/* Saat hover, teks naik ke posisi normal */
+.gallery-item:hover .overlay-text,
+.gallery-item:hover .overlay-caption {
+    transform: translateY(0);
+}
+
+/* Zoom gambar tetap jalan tapi di belakang overlay */
+.gallery-item:hover .gallery-img-wrapper img {
+    transform: scale(1.1);
+}
+
+/* =========================================
+   MERCHANDISE PAGE STYLING
+========================================= */
+
+/* Judul Halaman */
+.page-title {
+    font-family: 'Cinzel', 'Georgia', serif;
+    color: #270c41;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+/* Kartu Produk */
+.merch-card {
+    border: none;
+    border-radius: 15px;
+    background: #fff;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    overflow: hidden;
+    height: 100%; /* Biar tinggi kartu rata */
+    display: flex;
+    flex-direction: column;
+}
+
+.merch-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(39, 12, 65, 0.15);
+}
+
+/* Gambar Produk */
+.merch-img-wrapper {
+    height: 250px; /* Tinggi gambar fix biar rapi */
+    overflow: hidden;
+    position: relative;
+    background-color: #f8f9fa;
+}
+
+.merch-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.merch-card:hover .merch-img-wrapper img {
+    transform: scale(1.08); /* Zoom dikit pas hover */
+}
+
+/* Label Stok (Opsional, kalau mau nambah fitur nanti) */
+.badge-stok {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #270c41;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Body Kartu */
+.merch-body {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.merch-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 8px;
+    /* Batasi 2 baris judul */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.merch-desc {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 15px;
+    flex-grow: 1; /* Dorong harga ke bawah */
+    line-height: 1.5;
+}
+
+/* Harga Emas */
+.merch-price {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #f57f17; /* Emas Tua */
+    margin-bottom: 15px;
+    display: block;
+}
+
+/* Tombol Beli */
+.btn-beli {
+    width: 100%;
+    background: linear-gradient(135deg, #270c41 0%, #6a1b9a 100%);
+    border: none;
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-beli:hover {
+    background: linear-gradient(135deg, #4a148c 0%, #8e24aa 100%);
+    box-shadow: 0 5px 15px rgba(106, 27, 154, 0.3);
+    transform: translateY(-2px);
+    color: white;
+}
+
+/* Modal Checkout Cantik */
+.checkout-modal-header {
+    background: linear-gradient(135deg, #270c41 0%, #4a148c 100%);
+    color: white;
+    border-radius: 15px 15px 0 0; /* Radius atas */
+}
+
+.checkout-summary {
+    background-color: #f3e5f5; /* Ungu sangat muda */
+    border-radius: 10px;
+    padding: 15px;
+    border: 1px solid #e1bee7;
 }
