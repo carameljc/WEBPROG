@@ -1,3 +1,5 @@
+// public/js/main.js
+
 document.addEventListener('DOMContentLoaded', async () => {
 
     // --- 1. VARIABEL UI ---
@@ -5,7 +7,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const jemaatOnlyElements = document.querySelectorAll('.jemaat-only');
     const authElements = document.querySelectorAll('.auth-only');
 
-    // Sembunyikan menu role-specific di awal biar gak "kedip"
+    // Sembunyikan menu role-specific di awal
     function hideAllRoleMenus() {
         if(adminOnlyElements) adminOnlyElements.forEach(el => el.style.display = 'none');
         if(jemaatOnlyElements) jemaatOnlyElements.forEach(el => el.style.display = 'none');
@@ -13,27 +15,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // --- 2. FUNGSI LOAD HEADER (NAVBAR) ---
-    // Ini yang bikin Navbar Index muncul di halaman lain!
     async function loadHeader() {
         const currentHeader = document.querySelector('header');
         
         // Cek apakah header ada tapi kosong (belum ada <nav>)
         if (currentHeader && !currentHeader.querySelector('nav')) { 
             try {
-                // Ambil navbar dari index.html
+                // Ambil dari index.html
                 const response = await fetch('/index.html'); 
                 const htmlString = await response.text();
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(htmlString, 'text/html');
                 const nav = doc.querySelector('nav');
                 
-                
                 if (nav) {
-                    currentHeader.innerHTML = ''; // Bersihkan placeholder
+                    currentHeader.innerHTML = ''; 
                     currentHeader.appendChild(nav);
                     
-                    // Re-inisialisasi variabel elemen menu karena DOM baru saja berubah
-                    // (PENTING: Agar logika Admin/Jemaat jalan di navbar yang baru diload)
+                    // Re-inisialisasi status login setelah navbar muncul
                     setTimeout(() => checkAuthStatus(), 100); 
                 }
             } catch (error) {
@@ -42,11 +41,40 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // --- 3. FUNGSI UPDATE TAMPILAN (LOGIN/LOGOUT) ---
+    // --- 3. FUNGSI LOAD FOOTER (BARU ✨) ---
+    async function loadFooter() {
+        const currentFooter = document.querySelector('footer');
+
+        // Cek jika ada tag footer tapi isinya kosong (belum ada div container)
+        if (currentFooter && !currentFooter.querySelector('.container-fluid')) {
+            try {
+                // Ambil dari index.html (karena footer sumber ada di sana)
+                const response = await fetch('/index.html');
+                const htmlString = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(htmlString, 'text/html');
+                const sourceFooter = doc.querySelector('footer');
+
+                if (sourceFooter) {
+                    // 1. Copy isi HTML (Teks, Link, Sosmed)
+                    currentFooter.innerHTML = sourceFooter.innerHTML;
+
+                    // 2. Copy Style & Class (Warna ungu, padding, dll)
+                    // Ini PENTING karena di index.html style ada di tag <footer>-nya
+                    currentFooter.className = sourceFooter.className;
+                    currentFooter.setAttribute('style', sourceFooter.getAttribute('style'));
+                }
+            } catch (error) {
+                console.error('Gagal memuat footer:', error);
+            }
+        }
+    }
+
+    // --- 4. FUNGSI UPDATE TAMPILAN (LOGIN/LOGOUT) ---
     function updateUIVisibility(user) {
         const body = document.body;
         
-        // Ambil elemen ulang karena mungkin baru saja di-load dari loadHeader()
+        // Ambil elemen ulang karena baru saja di-load dari loadHeader()
         const loginLink = document.getElementById('login-link');
         const registerLink = document.getElementById('register-link');
         const userInfo = document.getElementById('user-info');
@@ -68,17 +96,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             if (loginLink) loginLink.style.display = 'none';
             if (registerLink) registerLink.style.display = 'none';
-            if (userInfo) userInfo.style.display = 'flex'; // Munculkan tombol Logout
+            if (userInfo) userInfo.style.display = 'flex'; 
             
             if (welcomeUserName) welcomeUserName.textContent = user.nama_lengkap;
 
-            // Tampilkan menu umum login
             if(authEls) authEls.forEach(el => el.style.display = 'inline-block');
 
-            // Cek Role
             if (user.role === 'admin') {
                 body.classList.add('role-admin');
-                if(adminEls) adminEls.forEach(el => el.style.display = 'inline-block'); // Munculkan menu admin
+                if(adminEls) adminEls.forEach(el => el.style.display = 'inline-block'); 
             } else if (user.role === 'jemaat') {
                 body.classList.add('role-jemaat');
                 if(jemaatEls) jemaatEls.forEach(el => el.style.display = 'inline-block');
@@ -92,7 +118,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // --- 4. CEK STATUS KE SERVER ---
+    // --- 5. CEK STATUS KE SERVER ---
     async function checkAuthStatus() {
         try {
             const response = await fetch('/api/auth/status', { credentials: 'include' });
@@ -109,12 +135,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // --- EKSEKUSI ---
-    await loadHeader(); // 1. Pasang Navbar dulu
-    await checkAuthStatus(); // 2. Baru cek Login & Atur menu
+    // --- EKSEKUSI UTAMA ---
+    await loadHeader(); // 1. Muat Header
+    await loadFooter(); // 2. Muat Footer (BARU)
+    await checkAuthStatus(); // 3. Cek Login
 
-    // --- EVENT LISTENER LOGOUT (Global) ---
-    // Menggunakan Event Delegation karena tombol logout mungkin hasil loadHeader
+    // --- EVENT LISTENER LOGOUT ---
     document.addEventListener('click', async (event) => {
         const logoutBtn = event.target.closest('#logout-btn');
         if (logoutBtn) {
