@@ -469,7 +469,7 @@ button:not(#logout-btn):not([type="submit"]):not(.navbar-toggler):not(.btn-close
 /* Gallery Grid */
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); 
     gap: 1.8rem;
     margin-top: 2rem;
 }
