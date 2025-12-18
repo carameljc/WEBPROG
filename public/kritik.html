@@ -2,41 +2,330 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>GPdI Bethlehem</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
-          rel="stylesheet" 
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
-          crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kritik & Saran - GPdI Bethlehem</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="icon" type="image/png" href="/Foto/logo/logo_biasa.png"> 
     <link rel="stylesheet" href="/css/style.css">
+
+    <style>
+        /* --- STYLE KHUSUS SPLIT LAYOUT KRITIK --- */
+        body {
+            background-color: #ffffff;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Container Utama yang membagi layar (di antara Header dan Footer) */
+        .split-container {
+            display: flex;
+            flex-grow: 1; /* Mengisi ruang sisa agar footer terdorong ke bawah */
+            min-height: 80vh; /* Tinggi minimal area konten */
+            margin-top: 70px; /* Space untuk Navbar Fixed */
+        }
+
+        /* PANEL KIRI: Informasi & Visual */
+        .left-panel {
+            flex: 0 0 40%; /* Lebar 40% */
+            background: linear-gradient(135deg, #1a052e 0%, #4a148c 100%);
+            color: white;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Elemen Dekorasi di Panel Kiri */
+        .left-panel::before {
+            content: '';
+            position: absolute;
+            top: -50px; right: -50px;
+            width: 300px; height: 300px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+        .left-panel::after {
+            content: '';
+            position: absolute;
+            bottom: -50px; left: -50px;
+            width: 200px; height: 200px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .left-title {
+            font-family: 'Cinzel Decorative', cursive;
+            font-size: 3rem;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .left-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            opacity: 0.9;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+        .info-item i {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+
+        /* PANEL KANAN: Formulir */
+        .right-panel {
+            flex: 1; /* Sisa lebar (60%) */
+            background-color: #ffffff;
+            padding: 60px 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Form Styling */
+        .form-label {
+            font-weight: 600;
+            color: #270c41;
+            margin-bottom: 10px;
+        }
+
+        .custom-textarea {
+            border: 2px solid #eee;
+            border-radius: 15px;
+            padding: 20px;
+            font-size: 1rem;
+            background-color: #fcfcfc;
+            transition: 0.3s;
+            resize: none;
+        }
+        .custom-textarea:focus {
+            border-color: #bd81f6;
+            background-color: #fff;
+            box-shadow: none;
+            outline: none;
+        }
+
+        .btn-send-modern {
+            background: #270c41;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            margin-top: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-send-modern:hover {
+            background: #4a148c;
+            transform: translateX(5px);
+        }
+
+        /* Admin Feedback List Styling */
+        .feedback-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .feedback-item-card {
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 15px;
+            padding: 20px;
+            transition: 0.3s;
+        }
+        .feedback-item-card:hover {
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            border-color: #bd81f6;
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 991px) {
+            .split-container {
+                flex-direction: column;
+                margin-top: 60px;
+            }
+            .left-panel {
+                padding: 60px 30px;
+                text-align: center;
+            }
+            .left-panel::before, .left-panel::after { display: none; }
+            .info-item { justify-content: center; }
+            
+            .right-panel {
+                padding: 40px 20px;
+            }
+        }
+    </style>
 </head>
-<body class="admin-page">
-    <header></header>
-    <main class="container" style="margin-top: 130px;">
+<body>
 
-        <div id="jemaat-view" style="display: none;">
-            <h2>Sampaikan Kritik & Saran Anda</h2>
-            <p>Masukan Anda sangat berharga bagi kami untuk menjadi lebih baik. Masukan yang Anda kirim bersifat anonim.</p>
-            <form id="form-kritik">
-                <textarea name="isi_saran" rows="8" placeholder="Tuliskan masukan Anda di sini..." required></textarea>
-                <button type="submit">Kirim Masukan</button>
-            </form>
-            <div id="pesan-sukses" style="color: green; margin-top: 1rem;"></div>
-        </div>
+    <header>
+        <nav class="navbar navbar-expand-xl navbar-dark container-fluid px-4" style="position: fixed; width: 100%; top: 0; z-index: 1000; background: rgba(39, 12, 65, 0.95); backdrop-filter: blur(5px);">
+            <a class="navbar-brand" href="index.html">
+                <img src="/Foto/logo/logo_putih.png" alt="Logo Gereja" style="width: 70px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title">MENU</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <div class="navbar-nav justify-content-end flex-grow-1 pe-3 align-items-xl-center">
+                        <a href="/tentang.html" class="nav-link public-only">Tentang Kami</a>
+                        <a href="/jadwal.html" class="nav-link public-only">Jadwal Ibadah</a>
+                        <a href="/merchandise.html" class="nav-link public-only jemaat-only">Merchandise</a>
+                        <a href="/galeri.html" class="nav-link public-only">Galeri</a>
+                        <a href="/persembahan.html" class="nav-link public-only">Persembahan</a>
+                        
+                        <a href="/transaction_form.html" class="nav-link admin-only">Input Transaksi</a>
+                        <a href="/merchAdmin.html" class="nav-link admin-only">Stok</a>
+                        <a href="/eventAdmin.html" class="nav-link admin-only">Event Admin</a>
+                        <a href="/jemaat.html" class="nav-link admin-only">Jemaat Admin</a>
+                        <a href="/galleryAdmin.html" class="nav-link admin-only">Galeri Admin</a>
 
-        <div id="admin-view" style="display: none;" class="py-4">
-            <h2>Daftar Masukan dari Jemaat</h2>
-            <div id="list-kritik">
-                <p>Memuat data...</p>
+                        <a href="/event.html" class="nav-link jemaat-only">Event</a>
+                        <a href="/kritik.html" class="nav-link auth-only active">Kritik & Saran</a>
+                        <a href="/profil.html" class="nav-link jemaat-only">Profil Saya</a>
+                    </div>
+                    <div class="nav-user ms-xl-3 d-flex align-items-center">
+                        <div id="user-info" style="display: none; width: 100%;">
+                            <button id="logout-btn" class="btn rounded-pill px-4" style="width: 100%;">Logout</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="split-container">
+        
+        <div class="left-panel">
+            <h1 class="left-title">Suara Anda Berharga</h1>
+            <p class="left-text">
+                Kami percaya bahwa pertumbuhan gereja dimulai dari keterbukaan. 
+                Sampaikan masukan Anda untuk membantu kami melayani lebih baik lagi.
+            </p>
+            
+            <div class="info-item">
+                <i class="fas fa-user-secret"></i>
+                <span>Identitas Anda Dijamin 100% Anonim</span>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-heart"></i>
+                <span>Membangun Tubuh Kristus Bersama</span>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-envelope-open-text"></i>
+                <span>Setiap Pesan Akan Dibaca & Dipertimbangkan</span>
             </div>
         </div>
 
-    </main>
-    <footer id="jemaat-view"></footer>
+        <div class="right-panel">
 
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+            <div id="jemaat-view" style="display: none;">
+                <h2 class="fw-bold mb-4" style="color: #270c41;">Formulir Masukan</h2>
+                
+                <form id="form-kritik">
+                    <div class="mb-4">
+                        <label for="isi_saran" class="form-label">Tuliskan Pesan Anda</label>
+                        <textarea class="form-control custom-textarea" id="isi_saran" name="isi_saran" rows="8" 
+                                  placeholder="Apa yang bisa kami tingkatkan?..." required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-send-modern">
+                        Kirim Sekarang <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
 
-<script src="/js/main.js"></script>
+                <div id="pesan-sukses" class="alert alert-success mt-4 align-items-center" role="alert" style="display: none;">
+                    <i class="fas fa-check-circle me-2"></i> Terima kasih! Masukan Anda telah kami terima.
+                </div>
+            </div>
 
+            <div id="admin-view" style="display: none;">
+                <h2 class="fw-bold mb-4" style="color: #270c41;">Kotak Masuk (Admin)</h2>
+                
+                <div id="list-kritik" class="feedback-grid">
+                    <div class="text-center w-100 py-5">
+                        <i class="fas fa-circle-notch fa-spin text-muted"></i> Loading...
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <footer class="pt-5 pb-4" style="background-color: #270c41; color: white;">
+        <div class="container-fluid text-center text-md-start px-5"> 
+            <div class="row text-center text-md-start">
+                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                    <img src="/Foto/logo/logo_putih.png" alt="Logo GPdI Bethlehem" class="mb-4" style="width: 200px; height: auto;">
+                </div>
+                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+                    <h5 class="text-uppercase mb-4">Hubungi Kami</h5>
+                    <p><i class="fas fa-home me-3"></i> Kelapa Gading, Jakarta Utara</p>
+                    <p><i class="fas fa-envelope me-3"></i> info@gpdibethlehem.com</p>
+                    <p><i class="fas fa-phone me-3"></i> +62 812 3456 7890</p>
+                </div>
+                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                    <h5 class="text-uppercase mb-4">Sosial Media</h5>
+                    <div>
+                        <a href="https://www.facebook.com/gpdibethlehem.kg" class="social-icon text-white me-2"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/gpdibethlehem.kg" class="social-icon text-white me-2"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.youtube.com/c/GPdIBethlehem" class="social-icon text-white"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="mb-4" style="border-color: rgba(255,255,255,0.2);">
+            <div class="row align-items-center">
+                <div class="col-md-12 text-center text-md-start">
+                    <p class="mb-0">© 2025 <strong>GPdI Bethlehem Kelapa Gading</strong>. All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/js/main.js"></script>
     <script src="/js/kritik.js"></script>
 </body>

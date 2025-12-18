@@ -2,41 +2,284 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>GPdI Bethlehem</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
-          rel="stylesheet" 
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
-          crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Persembahan - GPdI Bethlehem</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="icon" type="image/png" href="/Foto/logo/logo_biasa.png"> 
     <link rel="stylesheet" href="/css/style.css">
+
+    <style>
+        /* --- STYLE KHUSUS HALAMAN PERSEMBAHAN (FULL WIDTH) --- */
+        body {
+            background-color: #ffffff; 
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* 1. Header Gradient (Vertikal: Atas ke Bawah) */
+        .purple-header {
+            padding-top: 200px; 
+            padding-bottom: 150px;
+            background: linear-gradient(to bottom, #270349 0%, #ffffff 100%);
+            color: white;
+            width: 100%;
+        }
+
+        /* 2. Main Content Spacing */
+        main {
+            /* JARAK LEBIH JAUH ANTARA KONTEN DAN FOOTER */
+            margin-bottom: 150px; 
+        }
+
+        /* 3. Ayat Alkitab */
+        .bible-verse {
+            text-align: center;
+            font-style: italic;
+            color: #555;
+            font-size: 1.3rem; 
+            line-height: 1.8;
+            padding: 20px 0; 
+            /* Jarak antar ayat dan konten transfer */
+            margin-bottom: 120px; 
+        }
+        .bible-verse strong {
+            color: #270c41;
+            font-size: 1.1rem;
+            display: block; 
+            margin-top: 15px;
+            font-style: normal;
+        }
+
+        /* 4. Kartu Rekening */
+        .bank-card {
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .bank-card::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 5px;
+            background: #270c41;
+        }
+        .bank-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            border-color: #9d50bb;
+        }
+        .rek-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #270c41;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 1px;
+        }
+        .btn-copy {
+            background: #f0f0f0; border: none; color: #555; 
+            width: 45px; height: 45px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.3s;
+        }
+        .btn-copy:hover { background: #270c41; color: white; }
+
+        /* 5. QRIS Section */
+        .qris-container {
+            text-align: center;
+            background: #fff;
+            padding: 40px;
+            border: 3px dashed #bd81f6;
+            border-radius: 20px;
+            height: 100%; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .qris-image {
+            width: 100%;
+            max-width: 350px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .purple-header { padding-top: 120px; padding-bottom: 50px; }
+            .rek-number { font-size: 1.4rem; }
+            .qris-container { margin-top: 40px; }
+            .bible-verse { font-size: 1.1rem; margin-bottom: 60px; } 
+            main { margin-bottom: 80px; } /* Jarak footer di HP sedikit lebih kecil */
+        }
+    </style>
 </head>
 <body>
-    <header></header>
-    <main class="container">
-        <div class="persembahan-container">
-            <h2>Persembahan Kasih</h2>
-            <p class="subtitle">"Hendaklah masing-masing memberikan menurut kerelaan hatinya, jangan dengan sedih hati atau karena paksaan, sebab Allah mengasihi orang yang memberi dengan sukacita." (2 Korintus 9:7)</p>
+
+    <header>
+        <nav class="navbar navbar-expand-xl navbar-dark container-fluid px-4" style="position: fixed; width: 100%; top: 0; z-index: 1000; background: rgba(39, 12, 65, 0.95); backdrop-filter: blur(5px);">
+            <a class="navbar-brand" href="index.html">
+                <img src="/Foto/logo/logo_putih.png" alt="Logo Gereja" style="width: 70px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title">MENU</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <div class="navbar-nav justify-content-end flex-grow-1 pe-3 align-items-xl-center">
+                        <a href="/tentang.html" class="nav-link public-only">Tentang Kami</a>
+                        <a href="/jadwal.html" class="nav-link public-only">Jadwal Ibadah</a>
+                        <a href="/merchandise.html" class="nav-link public-only jemaat-only">Merchandise</a>
+                        <a href="/galeri.html" class="nav-link public-only">Galeri</a>
+                        <a href="/persembahan.html" class="nav-link public-only active">Persembahan</a>
+                        
+                        <a href="/transaction_form.html" class="nav-link admin-only">Input Transaksi</a>
+                        <a href="/merchAdmin.html" class="nav-link admin-only">Stok</a>
+                        <a href="/eventAdmin.html" class="nav-link admin-only">Event Admin</a>
+                        <a href="/jemaat.html" class="nav-link admin-only">Jemaat Admin</a>
+                        <a href="/galleryAdmin.html" class="nav-link admin-only">Galeri Admin</a>
+
+                        <a href="/event.html" class="nav-link jemaat-only">Event</a>
+                        <a href="/kritik.html" class="nav-link auth-only">Kritik & Saran</a>
+                        <a href="/profil.html" class="nav-link jemaat-only">Profil Saya</a>
+                    </div>
+                    <div class="nav-user ms-xl-3 d-flex align-items-center">
+                        <a href="/login.html" id="login-link" class="btn btn-warning fw-bold text-white rounded-pill px-4 nav-button">Login</a>
+                        <a href="/register.html" id="register-link" class="btn btn-outline-light fw-bold text-white rounded-pill px-4 ms-xl-2 nav-button">Daftar</a>
+                        <div id="user-info" style="display: none; width: 100%;">
+                            <button id="logout-btn" class="btn rounded-pill px-4" style="width: 100%;">Logout</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="purple-header text-center px-4 px-md-5">
+        <h1 class="display-3 fw-bold" style="font-family: 'Cinzel Decorative', cursive;">Persembahan Kasih</h1>
+        <p class="lead fs-3" style="opacity: 0.9;">Mari menabur dengan sukacita untuk pekerjaan Tuhan</p>
+    </section>
+
+    <main class="container-fluid px-4 px-md-5">
+        
+        <div class="bible-verse">
+            "Hendaklah masing-masing memberikan menurut kerelaan hatinya, jangan dengan sedih hati atau karena paksaan, sebab Allah mengasihi orang yang memberi dengan sukacita."
+            <br>
+            <strong>— 2 Korintus 9:7 —</strong>
+        </div>
+
+        <div class="row gx-5">
             
-            <div class="qris-section">
-                <p>Pindai kode QR di bawah ini untuk memberi persembahan melalui QRIS.</p>
-                <img src="/path/ke/gambar-qris-anda.png" alt="Kode QRIS Persembahan Gereja" class="qris-image">
+            <div class="col-lg-6">
+                <h2 class="mb-4 fw-bold" style="color: #270c41;">Transfer Bank</h2>
+                <p class="text-muted mb-4 fs-5">Salurkan persembahan & persepuluhan Anda melalui rekening berikut:</p>
+
+                <div class="bank-card">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="fw-bold m-0 text-uppercase">Persembahan (BCA)</h4>
+                        <i class="fas fa-university fa-2x text-secondary"></i>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span class="rek-number">123 456 7890</span>
+                        <button class="btn-copy" onclick="copyToClipboard('1234567890')" title="Salin">
+                            <i class="far fa-copy"></i>
+                        </button>
+                    </div>
+                    <p class="text-muted d-block mt-3 mb-0 fs-5">a/n GPdI Bethlehem Kelapa Gading</p>
+                </div>
+
+                <div class="bank-card">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="fw-bold m-0 text-uppercase">Persepuluhan (BCA)</h4>
+                        <i class="fas fa-university fa-2x text-secondary"></i>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span class="rek-number">987 654 3210</span>
+                        <button class="btn-copy" onclick="copyToClipboard('9876543210')" title="Salin">
+                            <i class="far fa-copy"></i>
+                        </button>
+                    </div>
+                    <p class="text-muted d-block mt-3 mb-0 fs-5">a/n GPdI Bethlehem Kelapa Gading</p>
+                </div>
             </div>
 
-            <div class="rekening-section">
-                <p>Atau melalui transfer ke rekening bank:</p>
-                <div class="rekening-info">
-                    <strong>Bank Central Asia (BCA)</strong><br>
-                    <span>123 456 7890</span><br>
-                    <span>a/n Gereja Wadah Sejahtera</span>
+            <div class="col-lg-6">
+                <div class="qris-container">
+                    <h2 class="mb-3 fw-bold" style="color: #270c41;">Scan QRIS</h2>
+                    <p class="text-muted fs-5 mb-4">Dukung pembayaran via GoPay, OVO, Dana, ShopeePay, BCA Mobile, dll.</p>
+                    
+                    <img src="/Foto/qris.jpg" alt="QRIS GPdI Bethlehem" class="qris-image">
+                    
+                    <div class="scan-text mt-4 fw-bold text-primary fs-4">
+                        <i class="fas fa-camera me-2"></i> SCAN HERE
+                    </div>
+                    <p class="text-muted mt-2 fs-5">GPdI Bethlehem Kelapa Gading</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="pt-5 pb-4" style="background-color: #270c41; color: white;">
+        <div class="container-fluid text-center text-md-start px-5"> 
+            <div class="row text-center text-md-start">
+                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                    <img src="/Foto/logo/logo_putih.png" alt="Logo GPdI Bethlehem" class="mb-4" style="width: 200px; height: auto;">
+                </div>
+                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+                    <h5 class="text-uppercase mb-4">Hubungi Kami</h5>
+                    <p><i class="fas fa-home me-3"></i> Kelapa Gading, Jakarta Utara</p>
+                    <p><i class="fas fa-envelope me-3"></i> info@gpdibethlehem.com</p>
+                    <p><i class="fas fa-phone me-3"></i> +62 812 3456 7890</p>
+                </div>
+                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                    <h5 class="text-uppercase mb-4">Sosial Media</h5>
+                    <div>
+                        <a href="https://www.facebook.com/gpdibethlehem.kg" class="social-icon text-white me-2"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/gpdibethlehem.kg" class="social-icon text-white me-2"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.youtube.com/c/GPdIBethlehem" class="social-icon text-white"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="mb-4" style="border-color: rgba(255,255,255,0.2);">
+            <div class="row align-items-center">
+                <div class="col-md-12 text-center text-md-start">
+                    <p class="mb-0">© 2025 <strong>GPdI Bethlehem Kelapa Gading</strong>. All Rights Reserved.</p>
                 </div>
             </div>
         </div>
-    </main>
-    <footer></footer>
+    </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
-            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
-            crossorigin="anonymous"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/js/main.js"></script>
+
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                alert('Nomor rekening berhasil disalin!');
+            }, function(err) {
+                console.error('Gagal menyalin: ', err);
+            });
+        }
+    </script>
 </body>
 </html>

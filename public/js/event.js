@@ -1,12 +1,21 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const eventCardContainer = document.getElementById('eventCardContainer');
+    const sliderContent = document.getElementById('sliderContent');
     const searchInput = document.getElementById('searchInput');
     const searchForm = document.getElementById('searchForm');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    let eventsData = [];
+    let currentIndex = 0;
 
     async function loadEventList(searchQuery = '') {
-        // Tampilan loading yang bersih
-        eventCardContainer.innerHTML = '<p class="col-12 text-center text-muted py-5">Memuat daftar event...</p>';
-        
+        // Loading State
+        sliderContent.innerHTML = `
+            <div class="d-flex flex-column align-items-center justify-content-center py-5">
+                <div class="spinner-border text-secondary" role="status"></div>
+                <p class="mt-3 text-muted">Memuat event...</p>
+            </div>`;
+
         let url = `/api/event/daftar${searchQuery ? `?q=${encodeURIComponent(searchQuery)}` : ''}`;
 
         try {
@@ -14,59 +23,86 @@ document.addEventListener('DOMContentLoaded', () => {
             const result = await response.json();
 
             if (!result.success || result.data.length === 0) {
-                eventCardContainer.innerHTML = `
-                    <div class="col-12 text-center py-5">
-                        <p class="alert alert-info d-inline-block px-5 shadow-sm">
-                            Tidak ada event ditemukan ${searchQuery ? `untuk "${searchQuery}"` : ''}.
-                        </p>
+                sliderContent.innerHTML = `
+                    <div class="text-center py-5">
+                        <i class="fas fa-calendar-times fa-3x text-muted mb-3"></i>
+                        <h4 class="text-muted">Tidak ada event ditemukan.</h4>
                     </div>`;
+                prevBtn.style.display = 'none';
+                nextBtn.style.display = 'none';
                 return;
             }
 
-            eventCardContainer.innerHTML = '';
+            eventsData = result.data;
+            currentIndex = 0;
             
-            result.data.forEach(event => {
-                const posterPath = `/eventPosters/${event.poster}`;
-                
-                // Struktur HTML Card yang sinkron dengan style.css (Borderless)
-                const cardHtml = `
-                    <div class="col">
-                        <div class="event-card">
-                            <div class="event-poster-container">
-                                <img src="${posterPath}" alt="${event.nama_event}" class="event-poster">
-                                <div class="event-info-overlay">
-                                    <h5 class="m-0">${event.nama_event}</h5>
-                                </div>
-                            </div>
-                            <div class="card-body p-4 text-center">
-                                ${event.link_gform ? 
-                                    `<a href="${event.link_gform}" target="_blank" class="btn btn-daftar-event w-100">
-                                        Daftar / Info Lebih Lanjut
-                                     </a>` : 
-                                    `<button class="btn btn-secondary w-100" disabled>Pendaftaran Ditutup</button>`
-                                }
-                            </div>
-                        </div>
-                    </div>`;
-                eventCardContainer.insertAdjacentHTML('beforeend', cardHtml);
-            });
+            prevBtn.style.display = 'flex';
+            nextBtn.style.display = 'flex';
+
+            renderSlider();
+
         } catch (e) {
             console.error("Fetch error:", e);
-            eventCardContainer.innerHTML = '<p class="col-12 text-danger text-center py-5">Gagal terhubung ke server. Silakan coba lagi nanti.</p>';
+            sliderContent.innerHTML = '<p class="text-danger text-center py-5">Gagal terhubung ke server.</p>';
         }
     }
 
-    // Fungsi Pencarian
-    window.searchEvents = () => loadEventList(searchInput.value.trim());
+    function renderSlider() {
+        sliderContent.innerHTML = ''; 
 
-    // Reset list saat input pencarian dikosongkan (X button atau backspace)
-    searchInput.addEventListener('input', () => { 
-        if(searchInput.value.trim() === '') {
-            loadEventList(''); 
-        } 
+        eventsData.forEach((event, index) => {
+            const posterPath = `/eventPosters/${event.poster}`;
+            const isActive = index === 0 ? 'active' : '';
+
+            const buttonHtml = event.link_gform 
+                ? `<a href="${event.link_gform}" target="_blank" class="btn-action">Daftar Sekarang</a>`
+                : `<span class="badge rounded-pill bg-secondary px-4 py-2 fs-6">Pendaftaran Ditutup</span>`;
+
+            const slideHtml = `
+                <div class="event-slide ${isActive}" data-index="${index}">
+                    <img src="${posterPath}" alt="${event.nama_event}" class="poster-large">
+                    
+                    <div class="text-center mt-2">
+                        <h2 class="event-title-large">${event.nama_event}</h2>
+                        <div class="mt-3">
+                            ${buttonHtml}
+                        </div>
+                    </div>
+                </div>
+            `;
+            sliderContent.insertAdjacentHTML('beforeend', slideHtml);
+        });
+    }
+
+    function showSlide(index) {
+        const slides = document.querySelectorAll('.event-slide');
+        if (slides.length === 0) return;
+
+        if (index >= slides.length) currentIndex = 0;
+        else if (index < 0) currentIndex = slides.length - 1;
+        else currentIndex = index;
+
+        slides.forEach(slide => slide.classList.remove('active'));
+        slides[currentIndex].classList.add('active');
+    }
+
+    // Event Listeners
+    nextBtn.addEventListener('click', () => showSlide(currentIndex + 1));
+    prevBtn.addEventListener('click', () => showSlide(currentIndex - 1));
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') showSlide(currentIndex + 1);
+        if (e.key === 'ArrowLeft') showSlide(currentIndex - 1);
     });
 
-    // Menangani pencarian saat form disubmit (Enter)
+    window.searchEvents = () => loadEventList(searchInput.value.trim());
+
+    if (searchInput) {
+        searchInput.addEventListener('input', () => { 
+            if(searchInput.value.trim() === '') loadEventList(''); 
+        });
+    }
+
     if (searchForm) {
         searchForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -74,6 +110,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Pemanggilan awal saat halaman dibuka
     loadEventList();
 });
