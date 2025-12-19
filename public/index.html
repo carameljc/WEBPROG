@@ -15,6 +15,89 @@
 
     <link rel="icon" type="image/png" href="/Foto/logo/logo_biasa.png"> 
     <link rel="stylesheet" href="/css/style.css">
+    
+    <style>
+            color: #270349;
+            background-color: transparent;
+            border: 1px solid #270349;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        .nav-pills .nav-link:hover {
+            background-color: #f0e6ff;
+        }
+        .nav-pills .nav-link.active {
+            background-color: #270349;
+            color: #fff;
+            box-shadow: 0 4px 6px rgba(39, 3, 73, 0.3);
+        }
+
+            /* Reset style tombol pills agar jadi teks biasa yang berubah warna */
+            .nav-pills .nav-link {
+                background-color: transparent !important;
+                color: #999; /* Warna abu-abu saat tidak aktif */
+                border: none !important;
+                border-radius: 0;
+                font-size: 1.1rem;
+                padding-left: 0;
+                transition: color 0.3s;
+            }
+            /* Saat aktif, teks jadi ungu dan tebal */
+            .nav-pills .nav-link.active {
+                color: #270349 !important;
+                font-weight: 800 !important;
+                border-left: 3px solid #270349 !important; /* Garis kecil di kiri */
+                padding-left: 10px !important;
+            }
+            .nav-pills .nav-link:hover {
+                color: #270349;
+            }
+    
+        /* Container Utama */
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            background: #fff;
+            padding: 20px 0;
+        }
+
+        /* Jalur/Track */
+        .marquee-track {
+            display: flex;
+            width: max-content; 
+            gap: 15px;
+            /* Animasi jalan terus */
+            animation: scrollGallery 40s linear infinite; 
+        }
+
+        /* Styling Item Gambar */
+        .slide-item img {
+            height: 250px; 
+            width: auto;   
+            object-fit: cover;
+            display: block;
+            border-radius: 0 !important; /* Kotak lancip */
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+            
+            /* REVISI: Ubah kursor jadi jari telunjuk saat disorot */
+            cursor: pointer; 
+            transition: opacity 0.3s;
+        }
+
+        .slide-item img:hover {
+            /* Opsional: Sedikit transparan saat disorot agar user tahu ini bisa diklik */
+            opacity: 0.8; 
+        }
+
+        /* Animasi Loop */
+        @keyframes scrollGallery {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); } 
+        }
+
+    </style>
 </head>
 <body>
 
@@ -171,22 +254,161 @@
             </div>
         </div>
 
+    <section class="py-5 mt-3 ps-4 ps-md-5">
+        <div class="container-fluid">
+            <h1 class="display-6 mb-5 text-start" style="color: #270349; font-family:'Cinzel Decorative', cursive; font-weight: 700;">
+                Jadwal Ibadah Sepekan
+            </h1>
+
+            <div class="row align-items-start">
+                <div class="col-md-3 col-lg-2 mb-4 mb-md-0 border-end border-2" style="border-color: #eee;">
+                    <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                        <button class="nav-link active text-start fw-bold mb-2 ps-0" id="v-pills-raya-tab" data-bs-toggle="pill" data-bs-target="#v-pills-raya" type="button" role="tab">Ibadah Raya</button>
+                        <button class="nav-link text-start fw-bold mb-2 ps-0" id="v-pills-kids-tab" data-bs-toggle="pill" data-bs-target="#v-pills-kids" type="button" role="tab">Sekolah Minggu</button>
+                        <button class="nav-link text-start fw-bold mb-2 ps-0" id="v-pills-youth-tab" data-bs-toggle="pill" data-bs-target="#v-pills-youth" type="button" role="tab">Youth & Teens</button>
+                        <button class="nav-link text-start fw-bold mb-2 ps-0" id="v-pills-pasutri-tab" data-bs-toggle="pill" data-bs-target="#v-pills-pasutri" type="button" role="tab">Pasutri</button>
+                        <button class="nav-link text-start fw-bold mb-2 ps-0" id="v-pills-lansia-tab" data-bs-toggle="pill" data-bs-target="#v-pills-lansia" type="button" role="tab">Lansia</button>
+                        <button class="nav-link text-start fw-bold ps-0" id="v-pills-doa-tab" data-bs-toggle="pill" data-bs-target="#v-pills-doa" type="button" role="tab">Jadwal Doa</button>
+                    </div>
+                </div>
+
+                <div class="col-md-9 col-lg-8 ps-md-5">
+                    <div class="tab-content" id="v-pills-tabContent">
+                        
+                        <div class="tab-pane fade show active" id="v-pills-raya" role="tabpanel">
+                            <h3 class="fw-bold mb-4" style="color: #270349;">Minggu</h3>
+                            
+                            <div class="row g-4 mb-4">
+                                <div class="col-md-4">
+                                    <h5 class="fw-bold text-dark mb-1">Ibadah Umum 1</h5>
+                                    <p class="text-secondary fs-5 mb-0">07.00 WIB</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <h5 class="fw-bold text-dark mb-1">Ibadah Umum 2</h5>
+                                    <p class="text-secondary fs-5 mb-0">10.00 WIB</p>
+                                </div>
+                            </div>
+                            
+                            <p class="fst-italic text-muted"><i class="fas fa-map-marker-alt me-2"></i>Main Hall Lt. 2</p>
+                        </div>
+
+                        <div class="tab-pane fade" id="v-pills-kids" role="tabpanel">
+                            <h3 class="fw-bold mb-4" style="color: #270349;">BethKids (Minggu)</h3>
+                            
+                            <div class="row g-5">
+                                <div class="col-md-6">
+                                    <h5 class="fw-bold text-dark mb-1">Kelas Pagi</h5>
+                                    <p class="text-secondary fs-5 mb-0">07.30 WIB</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <h5 class="fw-bold text-dark mb-1">Kelas Siang</h5>
+                                    <p class="text-secondary fs-5 mb-0">10.30 WIB</p>
+                                </div>
+                            </div>
+                            
+                            <p class="mt-4 fst-italic text-muted"><i class="fas fa-map-marker-alt me-2"></i>Ruang Serna Lt. 1</p>
+                        </div>
+
+                        <div class="tab-pane fade" id="v-pills-youth" role="tabpanel">                            
+                            <div class="row g-5"> <div class="col-md-6">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <i class="fas fa-fire text-danger me-2"></i>
+                                        <h4 class="fw-bold mb-0 text-dark">BYC (Youth Service)</h4>
+                                    </div>
+                                    <p class="h5 fw-bold text-primary mb-1">Sabtu</p>
+                                    <p class="fs-5 text-secondary">17.00 WIB</p>
+                                    <small class="text-muted"><i class="fas fa-map-marker-alt me-1"></i>Ruang Serna Lt. 1</small>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <i class="fas fa-music text-info me-2"></i>
+                                        <h4 class="fw-bold mb-0 text-dark">ReBeth (Teens Service)</h4>
+                                    </div>
+                                    <p class="h5 fw-bold text-primary mb-1">Minggu</p>
+                                    <p class="fs-5 text-secondary">10.30 WIB</p>
+                                    <small class="text-muted"><i class="fas fa-map-marker-alt me-1"></i>Ruang Kubah Lt. 3</small>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="v-pills-pasutri" role="tabpanel">                            
+                            <div class="row g-5">
+                                <div class="col-md-6">
+                                    <h4 class="fw-bold text-dark mb-2">BCC (Ibadah Pasutri)</h4>
+                                    <p class="text-muted mb-1">Jumat Minggu 1 & 3</p>
+                                    <p class="fs-5 fw-bold text-primary">19.00 WIB</p>
+                                    <small class="text-muted"><i class="fas fa-map-marker-alt me-1"></i>Ruang Serna Lt. 1</small>
+
+                                </div>
+
+                                <div class="col-md-6">
+                                    <h4 class="fw-bold text-dark mb-2">PELPRIP (Ibadah Pria)</h4>
+                                    <p class="text-muted mb-1">Jumat Minggu ke-2</p>
+                                    <p class="fs-5 fw-bold text-primary">19.00 WIB</p>
+                                    <small class="text-muted"><i class="fas fa-map-marker-alt me-1"></i>Ruang Serna Lt. 1</small>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <h4 class="fw-bold text-dark mb-2">PELWAP (Ibadah Wanita)</h4>
+                                    <p class="text-muted mb-1">Selasa</p>
+                                    <p class="fs-5 fw-bold text-primary">19.00 WIB</p>
+                                    <small class="text-muted"><i class="fas fa-map-marker-alt me-1"></i>Ruang Serna Lt. 1</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="v-pills-lansia" role="tabpanel">                            
+                            <div class="row g-5">
+                                <div class="col-md-6">
+                                    <h4 class="fw-bold text-dark mb-2">GAC (Ibadah Lansia)</h4>
+                                    <p class="text-muted mb-1">Jadwal Menyesuaikan</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="v-pills-doa" role="tabpanel">                            
+                            <div class="row g-4">
+                                <div class="col-md-4">
+                                    <h5 class="fw-bold text-dark mb-1">Doa Kamis</h5>
+                                    <p class="text-muted small mb-1">Kamis</p>
+                                    <p class="fs-5 text-secondary">18.30 WIB</p>
+                                    <small class="text-muted"><i class="fas fa-map-marker-alt me-1"></i>Ruang Serna Lt. 1</small>
+                                </div>
+                                <div class="col-md-4">
+                                    <h5 class="fw-bold text-dark mb-1">Doa Puasa</h5>
+                                    <p class="text-muted small mb-1">Jumat (Dibuka jam 16:00 WIB)</p>
+                                    <p class="fs-5 text-secondary">Puasa : 00:00 - 16.00 WIB</p>
+                                    <p class="fs-5 text-secondary">Doa Rantai : 08:00 - 16.00 WIB</p>
+                                    <small class="text-muted"><i class="fas fa-map-marker-alt me-1"></i>Ruang Serna Lt. 1</small>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
         <hr class="my-5" style="border-top: 2px solid #eee;">
 
-        <section id="galeri-section" class="px-4 px-md-5">
-            <div class="container-fluid">
-                <h1 class="display-5" style="color: #270349; font-family:'Cinzel Decorative', cursive; font-weight: 700;">Galeri</h1>
-                <div id="gallery-container" class="gallery-grid grid-4-col"></div>
-            </div>
-        </section>
-        
-        <div class="mb-5"></div> 
-    </main>
+    <section id="galeri-home-section" class="py-5" style="background-color: #f9f9f9; overflow: hidden;">
+        <div class="container-fluid px-0">
+            
+            <h1 class="display-5 mb-5 text-center" style="color: #270349; font-family:'Cinzel Decorative', cursive; font-weight: 700;">
+                Galeri
+            </h1>
 
-    <div id="gallery-modal" class="modal-overlay">
-        <span class="modal-close" id="modal-close-btn">&times;</span>
-        <div class="modal-content" id="modal-content"></div>
-    </div>
+            <div class="marquee-container">
+                <div class="marquee-track" id="dynamic-marquee-track">
+                    <p class="text-center w-100 mt-3">Memuat Galeri...</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
 
     <footer class="pt-5 pb-4" style="background-color: #270c41; color: white;">
         <div class="container-fluid text-center text-md-start px-5"> 
@@ -261,6 +483,73 @@
                 hideSplashScreen();
             });
         });
+    
+    // 1. Fungsi Global untuk membuka Modal (Dipanggil saat gambar diklik)
+    function openHomeModal(imageSrc) {
+        const modal = document.getElementById('gallery-modal');
+        const modalContent = document.getElementById('modal-content');
+        const closeBtn = document.getElementById('modal-close-btn');
+
+        if (!modal || !modalContent) return;
+
+        // Isi modal dengan gambar yang diklik
+        modalContent.innerHTML = `<img src="${imageSrc}" alt="Preview" style="max-width:100%; max-height:80vh;">`;
+        
+        // Tampilkan modal (tambah class visible sesuai style galeri.js)
+        modal.classList.add('visible');
+
+        // Logic Tutup Modal
+        // a. Klik tombol silang (X)
+        closeBtn.onclick = () => modal.classList.remove('visible');
+        
+        // b. Klik area gelap di luar foto
+        modal.onclick = (e) => {
+            if (e.target === modal) modal.classList.remove('visible');
+        };
+
+        // c. Tekan tombol ESC di keyboard
+        document.onkeydown = (e) => {
+            if (e.key === 'Escape') modal.classList.remove('visible');
+        };
+    }
+
+    // 2. Script Load Data Galeri
+    document.addEventListener("DOMContentLoaded", async () => {
+        const track = document.getElementById('dynamic-marquee-track');
+        if (!track) return;
+
+        try {
+            const response = await fetch('/api/gallery');
+            if (!response.ok) throw new Error('Gagal ambil data');
+            
+            const data = await response.json();
+            const images = data.filter(item => item.file_type === 'image');
+
+            if (images.length === 0) {
+                track.innerHTML = '<p class="text-center w-100 mt-3">Belum ada foto.</p>';
+                return;
+            }
+
+            // Generate HTML
+            // Perhatikan bagian onclick="openHomeModal(...)"
+            const generateSlide = (item) => `
+                <div class="slide-item">
+                    <img src="${item.file_path}" 
+                         alt="Galeri GPdI" 
+                         loading="lazy"
+                         onclick="openHomeModal('${item.file_path}')">
+                </div>
+            `;
+
+            const slidesHTML = images.map(generateSlide).join('');
+
+            // Masukkan 2x (Duplikasi) agar looping infinite scroll mulus
+            track.innerHTML = slidesHTML + slidesHTML;
+
+        } catch (error) {
+            console.error("Error home gallery:", error);
+        }
+    });
     </script>
 </body>
 </html>
