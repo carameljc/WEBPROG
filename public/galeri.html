@@ -27,7 +27,9 @@
         /* --- STYLE HEADER GAMBAR FULL DENGAN FADE TRANSPARAN --- */
         .page-banner {
             position: relative;
-            width: 100%; /* Ubah auto ke 100% agar pasti penuh */
+            width: 100%; 
+            
+            /* Setting Default (Layar Besar/Laptop) */
             height: 600px; 
             
             /* Gambar Background */
@@ -40,17 +42,30 @@
             padding: 0;
 
             /* --- EFEK TRANSPARAN GRADIENT (MASKING) --- */
-            /* Browser modern (Chrome, Edge, Safari baru) */
             mask-image: linear-gradient(to bottom, black 45%, transparent 100%);
-            /* Dukungan untuk Safari lama dan iOS */
             -webkit-mask-image: linear-gradient(to bottom, black 45%, transparent 100%);
-            
-            /* PENJELASAN:
-               - linear-gradient(to bottom, ...) : Membuat gradasi dari atas ke bawah.
-               - black 60% : Gambar terlihat penuh (opaque) dari atas sampai 60% tingginya.
-               - transparent 100% : Gambar menjadi transparan total di bagian paling bawah (100%).
-               Anda bisa mengubah angka '60%' jika ingin efek pudarnya mulai lebih cepat atau lambat.
-            */
+        }
+
+        /* --- MEDIA QUERY: RESPONSIF HEADER --- */
+        
+        /* 1. Untuk Layar Tablet / Laptop Kecil (Lebar max 992px) */
+        @media (max-width: 992px) {
+            .page-banner {
+                height: 400px; /* Kecilkan tinggi jadi 400px */
+                /* Sesuaikan gradasi masking agar pas dengan tinggi baru */
+                mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+                -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+            }
+        }
+
+        /* 2. Untuk Layar HP (Lebar max 576px) */
+        @media (max-width: 576px) {
+            .page-banner {
+                height: 250px; /* Kecilkan tinggi jadi 250px */
+                /* Gradasi lebih tajam untuk layar pendek */
+                mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+                -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+            }
         }
 
         /* --- STYLE GRID GALERI --- */
