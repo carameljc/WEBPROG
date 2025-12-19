@@ -21,14 +21,26 @@
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #f9f9f9;
+            margin: 0; /* Pastikan margin body 0 */
+            padding: 0;
         }
 
+        /* Hero Section (Foto Header) */
+        .hero-event {
+            position: relative;
+            margin-bottom: 0;
+            margin-top: 0; /* Pastikan tidak ada margin atas */
+            top: 0;        /* Tempel ke paling atas */
+            width: 100%;
+            /* Pastikan class ini di style.css menampilkan gambar background dengan height yang cukup */
+        }
 
         /* Container Utama Konten */
         #main-content {
             position: relative;
             z-index: 10;
             background: transparent;
+            margin-top: -60px; /* Naik sedikit menimpa foto header */
             padding-bottom: 50px;
             min-height: 80vh; 
             display: flex;
@@ -184,7 +196,7 @@
 <body>
 
     <header>
-    </header class="navbar navbar-expand-xl navbar-dark container-fluid px-4">
+        <nav class="navbar navbar-expand-xl navbar-dark container-fluid px-4" style="position: fixed; width: 100%; top: 0; z-index: 1000; background: rgba(39, 12, 65, 0.95); backdrop-filter: blur(5px);">
             <a class="navbar-brand" href="index.html">
                 <img src="/Foto/logo/logo_putih.png" alt="Logo Gereja" style="width: 70px;">
             </a>
@@ -213,7 +225,7 @@
                         <a href="/jemaat.html" class="nav-link admin-only">Jemaat Admin</a>
                         <a href="/galleryAdmin.html" class="nav-link admin-only">Galeri Admin</a>
 
-                        <a href="/event.html" class="nav-link jemaat-only">Event</a>
+                        <a href="/event.html" class="nav-link jemaat-only active">Event</a>
                         <a href="/kritik.html" class="nav-link auth-only">Kritik & Saran</a>
                         <a href="/profil.html" class="nav-link jemaat-only">Profil Saya</a>
                     </div>

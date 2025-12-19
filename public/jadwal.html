@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gill+Sans:wght@400;600&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -21,11 +22,12 @@
         body {
             /* Background Gradient: Ungu Tua ke Ungu Muda */
             background: #270349;
+            font-family: sans-serif;
         }   
 
         /* 1. Header Ungu di Bawah Navbar */
         .purple-header {
-            padding-top: 130px; 
+            padding-top: 150px; 
             padding-bottom: 50px;
         }
 
@@ -77,18 +79,30 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
         
-        /* 5. Style Gambar Wadah (Ukuran Asli) */
-        .wadah-img {
-            width: 80%;
-            height: auto; 
-            border-radius: 20px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-            transition: all 0.4s ease-in-out;
+        /* 5. Style Gambar Wadah */
+        .wadah-card {
+            padding: 10px;
         }
 
-        .wadah-img:hover {
-            transform: scale(1.05);
+        .img-wrapper {
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            width: 80%;
+            margin: 0 auto;
+            transition: all 0.4s ease-in-out;
+        }
+        
+        .wadah-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .img-wrapper:hover {
             box-shadow: 0 0 25px rgba(189, 129, 246, 0.8);
+            transform: scale(1.05);
         }
 
         /* Style Tombol Lokasi */
@@ -96,6 +110,7 @@
             border: 2px solid white;
             color: white;
             font-weight: 600;
+            text-decoration: none;
             transition: all 0.3s;
         }
         .btn-lokasi:hover {
@@ -112,7 +127,52 @@
 </head>
 <body>
 
-    <header></header>
+    <header>
+        <nav class="navbar navbar-expand-xl navbar-dark container-fluid px-4">
+            <a class="navbar-brand" href="index.html">
+                <img src="/Foto/logo/logo_putih.png" alt="Logo Gereja" style="width: 70px;">
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title">MENU</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+                </div>
+
+                <div class="offcanvas-body">
+                    <div class="navbar-nav justify-content-end flex-grow-1 pe-3 align-items-xl-center">
+                        <a href="/tentang.html" class="nav-link public-only">Tentang Kami</a>
+                        <a href="/jadwal.html" class="nav-link public-only">Jadwal Ibadah</a>
+                        <a href="/merchandise.html" class="nav-link public-only jemaat-only">Merchandise</a>
+                        <a href="/galeri.html" class="nav-link public-only">Galeri</a>
+                        <a href="/persembahan.html" class="nav-link public-only">Persembahan</a>
+                        
+                        <a href="/transaction_form.html" class="nav-link admin-only">Input Transaksi</a>
+                        <a href="/merchAdmin.html" class="nav-link admin-only">Stok</a>
+                        <a href="/eventAdmin.html" class="nav-link admin-only">Event Admin</a>
+                        <a href="/jemaat.html" class="nav-link admin-only">Jemaat Admin</a>
+                        <a href="/galleryAdmin.html" class="nav-link admin-only">Galeri Admin</a>
+
+                        <a href="/event.html" class="nav-link jemaat-only">Event</a>
+                        <a href="/kritik.html" class="nav-link auth-only">Kritik & Saran</a>
+                        <a href="/profil.html" class="nav-link jemaat-only">Profil Saya</a>
+                    </div>
+
+                    <div class="nav-user ms-xl-3 d-flex align-items-center">
+                        <a href="/login.html" id="login-link" class="btn btn-warning fw-bold text-white rounded-pill px-4 nav-button">Login</a>
+                        <a href="/register.html" id="register-link" class="btn btn-outline-light fw-bold text-white rounded-pill px-4 ms-xl-2 nav-button">Daftar</a>
+                        <div id="user-info" style="display: none; width: 100%;">
+                            <button id="logout-btn" class="btn rounded-pill px-4" style="width: 100%;">Logout</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
 
     <section class="purple-header">
         <div class="container-fluid px-5"> 
@@ -209,7 +269,7 @@
             <div class="col-6 col-lg-4">
                 <div class="wadah-card text-center">
                     <div class="img-wrapper">
-                        <img src="/Foto/PELPRIP.jpg" alt="PELWAP" class="img-fluid wadah-img">
+                        <img src="/Foto/PELWAP.png" alt="PELWAP" class="img-fluid wadah-img">
                     </div>
                     <h5 class="mt-5 text-white" style="font-family: 'Gill Sans', 'Gill Sans MT';">Wadah Wanita</h5>
                     <p class="fw-bold text-white" style="font-family:sans-serif; font-size: 0.9rem;">Jumat, 19:00 WIB (Minggu ke-2)</p>
@@ -219,7 +279,7 @@
             <div class="col-6 col-lg-4">
                 <div class="wadah-card text-center">
                     <div class="img-wrapper">
-                        <img src="/Foto/GAC.jpg" alt="GAC" class="img-fluid wadah-img">
+                        <img src="/Foto/BCC.png" alt="Pasutri" class="img-fluid wadah-img">
                     </div>
                     <h5 class="mt-5 text-white" style="font-family: 'Gill Sans', 'Gill Sans MT';">Wadah Pasutri</h5>
                     <p class="fw-bold text-white mb-5" style="font-family:sans-serif; font-size: 0.9rem;">Jadwal Menyesuaikan</p>
@@ -229,7 +289,7 @@
             <div class="col-6 col-lg-4">
                 <div class="wadah-card text-center">
                     <div class="img-wrapper">
-                        <img src="/Foto/GAC.jpg" alt="BCC" class="img-fluid wadah-img">
+                        <img src="/Foto/GAC.jpg" alt="Lansia" class="img-fluid wadah-img">
                     </div>
                     <h5 class="mt-5 text-white" style="font-family: 'Gill Sans', 'Gill Sans MT';">Wadah Lansia</h5>
                     <p class="fw-bold text-white mb-5" style="font-family:sans-serif; font-size: 0.9rem;">Jadwal Menyesuaikan</p>
