@@ -17,43 +17,13 @@
     <link rel="stylesheet" href="/css/style.css">
     
     <style>
-            color: #270349;
-            background-color: transparent;
-            border: 1px solid #270349;
-            transition: all 0.3s ease;
-            font-weight: bold;
-        }
-        .nav-pills .nav-link:hover {
-            background-color: #f0e6ff;
-        }
-        .nav-pills .nav-link.active {
-            background-color: #270349;
-            color: #fff;
-            box-shadow: 0 4px 6px rgba(39, 3, 73, 0.3);
+        /* --- STYLE JADWAL IBADAH --- */
+        /* Warna Ungu Baru */
+        .text-purple {
+            color: #4a058c !important;
         }
 
-            /* Reset style tombol pills agar jadi teks biasa yang berubah warna */
-            .nav-pills .nav-link {
-                background-color: transparent !important;
-                color: #999; /* Warna abu-abu saat tidak aktif */
-                border: none !important;
-                border-radius: 0;
-                font-size: 1.1rem;
-                padding-left: 0;
-                transition: color 0.3s;
-            }
-            /* Saat aktif, teks jadi ungu dan tebal */
-            .nav-pills .nav-link.active {
-                color: #270349 !important;
-                font-weight: 800 !important;
-                border-left: 3px solid #270349 !important; /* Garis kecil di kiri */
-                padding-left: 10px !important;
-            }
-            .nav-pills .nav-link:hover {
-                color: #270349;
-            }
-    
-        /* Container Utama */
+        /* Container Utama Galeri */
         .marquee-container {
             width: 100%;
             overflow: hidden;
@@ -63,7 +33,7 @@
             padding: 20px 0;
         }
 
-        /* Jalur/Track */
+        /* Jalur/Track Galeri */
         .marquee-track {
             display: flex;
             width: max-content; 
@@ -81,13 +51,12 @@
             border-radius: 0 !important; /* Kotak lancip */
             box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
             
-            /* REVISI: Ubah kursor jadi jari telunjuk saat disorot */
+            /* Ubah kursor jadi jari telunjuk saat disorot */
             cursor: pointer; 
             transition: opacity 0.3s;
         }
 
         .slide-item img:hover {
-            /* Opsional: Sedikit transparan saat disorot agar user tahu ini bisa diklik */
             opacity: 0.8; 
         }
 
@@ -95,6 +64,41 @@
         @keyframes scrollGallery {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); } 
+        }
+
+        /* 1. Style Default (Desktop) */
+        .nav-pills .nav-link {
+            background-color: transparent !important;
+            color: #999; /* Default: Abu-abu muda */
+            border: none !important;
+            border-radius: 0;
+            font-size: 1.1rem;
+            padding-left: 0;
+            transition: color 0.3s;
+        }
+        
+        /* Saat aktif (Dipilih) */
+        .nav-pills .nav-link.active {
+            color: #270349 !important;
+            font-weight: 800 !important;
+            border-left: 3px solid #270349 !important; /* Garis kecil di kiri */
+            padding-left: 10px !important;
+        }
+
+        .nav-pills .nav-link:hover {
+            color: #270349;
+        }
+
+        /* 2. Style Khusus Layar Kecil (Mobile) */
+        @media (max-width: 768px) {
+            .nav-pills .nav-link {
+                color: #555 !important; /* Abu-abu tua */
+                margin-bottom: 5px;
+            }
+            
+            .nav-pills .nav-link.active {
+                color: #270349 !important;
+            }
         }
 
     </style>
@@ -312,20 +316,18 @@
                         <div class="tab-pane fade" id="v-pills-youth" role="tabpanel">                            
                             <div class="row g-5"> <div class="col-md-6">
                                     <div class="d-flex align-items-center mb-2">
-                                        <i class="fas fa-fire text-danger me-2"></i>
                                         <h4 class="fw-bold mb-0 text-dark">BYC (Youth Service)</h4>
                                     </div>
-                                    <p class="h5 fw-bold text-primary mb-1">Sabtu</p>
+                                    <p class="h5 fw-bold text-purple mb-1">Sabtu</p>
                                     <p class="fs-5 text-secondary">17.00 WIB</p>
                                     <small class="text-muted"><i class="fas fa-map-marker-alt me-1"></i>Ruang Serna Lt. 1</small>
                                 </div>
 
                                 <div class="col-md-6">
                                     <div class="d-flex align-items-center mb-2">
-                                        <i class="fas fa-music text-info me-2"></i>
                                         <h4 class="fw-bold mb-0 text-dark">ReBeth (Teens Service)</h4>
                                     </div>
-                                    <p class="h5 fw-bold text-primary mb-1">Minggu</p>
+                                    <p class="h5 fw-bold text-purple mb-1">Minggu</p>
                                     <p class="fs-5 text-secondary">10.30 WIB</p>
                                     <small class="text-muted"><i class="fas fa-map-marker-alt me-1"></i>Ruang Kubah Lt. 3</small>
                                 </div>
@@ -338,7 +340,7 @@
                                 <div class="col-md-6">
                                     <h4 class="fw-bold text-dark mb-2">BCC (Ibadah Pasutri)</h4>
                                     <p class="text-muted mb-1">Jumat Minggu 1 & 3</p>
-                                    <p class="fs-5 fw-bold text-primary">19.00 WIB</p>
+                                    <p class="fs-5 fw-bold text-purple">19.00 WIB</p>
                                     <small class="text-muted"><i class="fas fa-map-marker-alt me-1"></i>Ruang Serna Lt. 1</small>
 
                                 </div>
@@ -346,14 +348,14 @@
                                 <div class="col-md-6">
                                     <h4 class="fw-bold text-dark mb-2">PELPRIP (Ibadah Pria)</h4>
                                     <p class="text-muted mb-1">Jumat Minggu ke-2</p>
-                                    <p class="fs-5 fw-bold text-primary">19.00 WIB</p>
+                                    <p class="fs-5 fw-bold text-purple">19.00 WIB</p>
                                     <small class="text-muted"><i class="fas fa-map-marker-alt me-1"></i>Ruang Serna Lt. 1</small>
                                 </div>
 
                                 <div class="col-md-6">
                                     <h4 class="fw-bold text-dark mb-2">PELWAP (Ibadah Wanita)</h4>
                                     <p class="text-muted mb-1">Selasa</p>
-                                    <p class="fs-5 fw-bold text-primary">19.00 WIB</p>
+                                    <p class="fs-5 fw-bold text-purple">19.00 WIB</p>
                                     <small class="text-muted"><i class="fas fa-map-marker-alt me-1"></i>Ruang Serna Lt. 1</small>
                                 </div>
                             </div>
