@@ -53,8 +53,8 @@ async function loadAdminMerchandise(initialLoad = false) {
                         <td class="align-middle">Rp ${price}</td>
                         <td class="align-middle text-center">${item.stock}</td>
                         <td class="align-middle text-center">
-                            <button class="btn btn-sm btn-edit-yellow edit-btn me-1" data-id="${item.id}">Edit</button>
-                            <button class="btn btn-sm btn-delete-lilac delete-btn" data-id="${item.id}">Hapus</button>
+                            <button class="btn btn-sm btn-warning edit-btn me-1" data-id="${item.id}">Edit</button>
+                            <button class="btn btn-sm btn-danger delete-btn" data-id="${item.id}">Hapus</button>
                         </td>
                     </tr>
                 `;
@@ -91,11 +91,11 @@ function setupEventListeners() {
         const id = e.target.dataset.id;
         if (!id) return;
 
-        if (e.target.classList.contains('delete-btn')) {
+        if (e.target.classList.contains('btn-danger')) {
             if (confirm(`Yakin ingin menghapus produk ID ${id}?`)) {
                 await deleteProduct(id);
             }
-        } else if (e.target.classList.contains('edit-btn')) {
+        } else if (e.target.classList.contains('btn-warning')) {
             await openEditModal(id); 
         }
     });
