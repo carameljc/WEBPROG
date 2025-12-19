@@ -21,7 +21,6 @@
         /* --- STYLE KHUSUS SPLIT LAYOUT KRITIK --- */
         body {
             background-color: #ffffff;
-            font-family: 'Poppins', sans-serif;
             overflow-x: hidden;
             display: flex;
             flex-direction: column;
@@ -193,48 +192,9 @@
         }
     </style>
 </head>
-<body>
+<body style=":not(header)font-family: 'Poppins', sans-serif;">
 
-    <header>
-        <nav class="navbar navbar-expand-xl navbar-dark container-fluid px-4" style="position: fixed; width: 100%; top: 0; z-index: 1000; background: rgba(39, 12, 65, 0.95); backdrop-filter: blur(5px);">
-            <a class="navbar-brand" href="index.html">
-                <img src="/Foto/logo/logo_putih.png" alt="Logo Gereja" style="width: 70px;">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar">
-                <div class="offcanvas-header">
-                    <h5 class="offcanvas-title">MENU</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
-                </div>
-                <div class="offcanvas-body">
-                    <div class="navbar-nav justify-content-end flex-grow-1 pe-3 align-items-xl-center">
-                        <a href="/tentang.html" class="nav-link public-only">Tentang Kami</a>
-                        <a href="/jadwal.html" class="nav-link public-only">Jadwal Ibadah</a>
-                        <a href="/merchandise.html" class="nav-link public-only jemaat-only">Merchandise</a>
-                        <a href="/galeri.html" class="nav-link public-only">Galeri</a>
-                        <a href="/persembahan.html" class="nav-link public-only">Persembahan</a>
-                        
-                        <a href="/transaction_form.html" class="nav-link admin-only">Input Transaksi</a>
-                        <a href="/merchAdmin.html" class="nav-link admin-only">Stok</a>
-                        <a href="/eventAdmin.html" class="nav-link admin-only">Event Admin</a>
-                        <a href="/jemaat.html" class="nav-link admin-only">Jemaat Admin</a>
-                        <a href="/galleryAdmin.html" class="nav-link admin-only">Galeri Admin</a>
-
-                        <a href="/event.html" class="nav-link jemaat-only">Event</a>
-                        <a href="/kritik.html" class="nav-link auth-only active">Kritik & Saran</a>
-                        <a href="/profil.html" class="nav-link jemaat-only">Profil Saya</a>
-                    </div>
-                    <div class="nav-user ms-xl-3 d-flex align-items-center">
-                        <div id="user-info" style="display: none; width: 100%;">
-                            <button id="logout-btn" class="btn rounded-pill px-4" style="width: 100%;">Logout</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </header>
+    <header></header>
 
     <div class="split-container">
         
@@ -295,35 +255,7 @@
 
     </div>
 
-    <footer class="pt-5 pb-4" style="background-color: #270c41; color: white;">
-        <div class="container-fluid text-center text-md-start px-5"> 
-            <div class="row text-center text-md-start">
-                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
-                    <img src="/Foto/logo/logo_putih.png" alt="Logo GPdI Bethlehem" class="mb-4" style="width: 200px; height: auto;">
-                </div>
-                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
-                    <h5 class="text-uppercase mb-4">Hubungi Kami</h5>
-                    <p><i class="fas fa-home me-3"></i> Kelapa Gading, Jakarta Utara</p>
-                    <p><i class="fas fa-envelope me-3"></i> info@gpdibethlehem.com</p>
-                    <p><i class="fas fa-phone me-3"></i> +62 812 3456 7890</p>
-                </div>
-                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
-                    <h5 class="text-uppercase mb-4">Sosial Media</h5>
-                    <div>
-                        <a href="https://www.facebook.com/gpdibethlehem.kg" class="social-icon text-white me-2"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://www.instagram.com/gpdibethlehem.kg" class="social-icon text-white me-2"><i class="fab fa-instagram"></i></a>
-                        <a href="https://www.youtube.com/c/GPdIBethlehem" class="social-icon text-white"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-            </div>
-            <hr class="mb-4" style="border-color: rgba(255,255,255,0.2);">
-            <div class="row align-items-center">
-                <div class="col-md-12 text-center text-md-start">
-                    <p class="mb-0">© 2025 <strong>GPdI Bethlehem Kelapa Gading</strong>. All Rights Reserved.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <footer></footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/js/main.js"></script>
